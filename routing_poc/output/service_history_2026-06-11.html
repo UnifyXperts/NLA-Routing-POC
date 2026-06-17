@@ -1,0 +1,3191 @@
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -> Trust Notebook</span><iframe srcdoc="&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.7.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/&gt;
+    
+            &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; /&gt;
+            &lt;style&gt;
+                #map_d446162aa16cbd72ff5a24f75d8a1ef6 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            &lt;/style&gt;
+
+            &lt;style&gt;html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            &lt;/style&gt;
+
+            &lt;style&gt;#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            &lt;/style&gt;
+
+            &lt;script&gt;
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            &lt;/script&gt;
+
+        
+&lt;/head&gt;
+&lt;body&gt;
+    
+    &lt;div style=&quot;position:fixed;bottom:30px;left:30px;z-index:9999;background:white;padding:12px 14px;border-radius:7px;border:1px solid #ccc;font-size:12px;max-height:320px;overflow-y:auto;box-shadow:0 2px 6px rgba(0,0,0,.15);&quot;&gt;&lt;b&gt;📅 2026-06-11&lt;/b&gt;&lt;br&gt;&lt;div style=&quot;margin:3px 0&quot;&gt;&lt;span style=&quot;display:inline-block;width:13px;height:13px;border-radius:50%;background:#e6194b;margin-right:6px;vertical-align:middle;&quot;&gt;&lt;/span&gt;Bragg Russell &lt;span style=&quot;color:#666&quot;&gt;(13 stops)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;margin:3px 0&quot;&gt;&lt;span style=&quot;display:inline-block;width:13px;height:13px;border-radius:50%;background:#3cb44b;margin-right:6px;vertical-align:middle;&quot;&gt;&lt;/span&gt;Jason Franklin Jr &lt;span style=&quot;color:#666&quot;&gt;(12 stops)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;margin:3px 0&quot;&gt;&lt;span style=&quot;display:inline-block;width:13px;height:13px;border-radius:50%;background:#4363d8;margin-right:6px;vertical-align:middle;&quot;&gt;&lt;/span&gt;Jeremey Smith &lt;span style=&quot;color:#666&quot;&gt;(14 stops)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;margin:3px 0&quot;&gt;&lt;span style=&quot;display:inline-block;width:13px;height:13px;border-radius:50%;background:#f58231;margin-right:6px;vertical-align:middle;&quot;&gt;&lt;/span&gt;Kyle Robinson &lt;span style=&quot;color:#666&quot;&gt;(10 stops)&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;margin:3px 0&quot;&gt;&lt;span style=&quot;display:inline-block;width:13px;height:13px;border-radius:50%;background:#911eb4;margin-right:6px;vertical-align:middle;&quot;&gt;&lt;/span&gt;Zane Lundgren &lt;span style=&quot;color:#666&quot;&gt;(10 stops)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+    
+            &lt;div class=&quot;folium-map&quot; id=&quot;map_d446162aa16cbd72ff5a24f75d8a1ef6&quot; &gt;&lt;/div&gt;
+        
+&lt;/body&gt;
+&lt;script&gt;
+    
+    
+            var map_d446162aa16cbd72ff5a24f75d8a1ef6 = L.map(
+                &quot;map_d446162aa16cbd72ff5a24f75d8a1ef6&quot;,
+                {
+                    center: [37.55888525423728, -77.41280254237287],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  &quot;zoom&quot;: 11,
+  &quot;zoomControl&quot;: true,
+  &quot;preferCanvas&quot;: false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_94032969bde4d163c9ebb0f68eb546c6 = L.tileLayer(
+                &quot;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&quot;,
+                {
+  &quot;minZoom&quot;: 0,
+  &quot;maxZoom&quot;: 20,
+  &quot;maxNativeZoom&quot;: 20,
+  &quot;noWrap&quot;: false,
+  &quot;attribution&quot;: &quot;\u0026copy; \u003ca href=\&quot;https://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\&quot;https://carto.com/attributions\&quot;\u003eCARTO\u003c/a\u003e&quot;,
+  &quot;subdomains&quot;: &quot;abcd&quot;,
+  &quot;detectRetina&quot;: false,
+  &quot;tms&quot;: false,
+  &quot;opacity&quot;: 1,
+}
+
+            );
+        
+    
+            tile_layer_94032969bde4d163c9ebb0f68eb546c6.addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var poly_line_f7a884eaa1da9d8b3bafe420403c70f7 = L.polyline(
+                [[37.66618, -77.37797], [37.668, -77.4421], [37.67199, -77.42738], [37.65954, -77.39815], [37.69667, -77.41871], [37.65816, -77.39626], [37.69268, -77.41178], [37.62218, -77.41627], [37.64762, -77.39536], [37.65692, -77.39921], [37.65579, -77.4173], [37.65825, -77.41485], [37.65782, -77.42317]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.75, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            poly_line_f7a884eaa1da9d8b3bafe420403c70f7.bindTooltip(
+                `&lt;div&gt;
+                     Bragg Russell
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_be544a3c88cd7af8b8c4e97f9c0d09ab = L.circleMarker(
+                [37.66618, -77.37797],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_64ecabe032ab7815474a13df3b40bbd1 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_2df80b2191631973840cf7b8d3a229a1 = $(`&lt;div id=&quot;html_2df80b2191631973840cf7b8d3a229a1&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Josie Voorhies&lt;/b&gt;&lt;br&gt;#18406&lt;br&gt;9421 Kenna Way, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$87.55&lt;/b&gt;&lt;br&gt;Size: 12.11 k sqft&lt;/div&gt;`)[0];
+                popup_64ecabe032ab7815474a13df3b40bbd1.setContent(html_2df80b2191631973840cf7b8d3a229a1);
+            
+        
+
+        circle_marker_be544a3c88cd7af8b8c4e97f9c0d09ab.bindPopup(popup_64ecabe032ab7815474a13df3b40bbd1)
+        ;
+
+        
+    
+    
+            circle_marker_be544a3c88cd7af8b8c4e97f9c0d09ab.bindTooltip(
+                `&lt;div&gt;
+                     #1 · Josie Voorhies
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_1cd8fd84519566a8d500067f80d4c672 = L.marker(
+                [37.66618, -77.37797],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_e8d3ae92aa4c472dbb8aa0e86ef6312d = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e1\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_1cd8fd84519566a8d500067f80d4c672.setIcon(div_icon_e8d3ae92aa4c472dbb8aa0e86ef6312d);
+            
+    
+            var circle_marker_d03b3c2c20e875b1c9edd2c5e616294d = L.circleMarker(
+                [37.668, -77.4421],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_886bebc1cc9217f489be3bec1edc4d39 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_c3834a72ea9c8a9211cb0e69b544c0fe = $(`&lt;div id=&quot;html_c3834a72ea9c8a9211cb0e69b544c0fe&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Henry C Van Brackle&lt;/b&gt;&lt;br&gt;#41324&lt;br&gt;3833 Village Views Pl, Glen Allen&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$70.00&lt;/b&gt;&lt;br&gt;Size: 1.5 k sqft&lt;/div&gt;`)[0];
+                popup_886bebc1cc9217f489be3bec1edc4d39.setContent(html_c3834a72ea9c8a9211cb0e69b544c0fe);
+            
+        
+
+        circle_marker_d03b3c2c20e875b1c9edd2c5e616294d.bindPopup(popup_886bebc1cc9217f489be3bec1edc4d39)
+        ;
+
+        
+    
+    
+            circle_marker_d03b3c2c20e875b1c9edd2c5e616294d.bindTooltip(
+                `&lt;div&gt;
+                     #2 · Henry C Van Brackle
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_d8bf3de503cd18d699c274b02c3b9ca1 = L.marker(
+                [37.668, -77.4421],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_9a4f375db1b24d9136a45e30facd932a = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e2\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_d8bf3de503cd18d699c274b02c3b9ca1.setIcon(div_icon_9a4f375db1b24d9136a45e30facd932a);
+            
+    
+            var circle_marker_2511f2edb4841a5b1d40ed15cb34c58c = L.circleMarker(
+                [37.67199, -77.42738],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_fcebb466cd76c489eb66e0c4cbc9cfc0 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_70d118ab6ddd4435d51df73105358173 = $(`&lt;div id=&quot;html_70d118ab6ddd4435d51df73105358173&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #3&lt;/b&gt;&lt;br&gt;&lt;b&gt;Jack Burns&lt;/b&gt;&lt;br&gt;#114066&lt;br&gt;9563 Fawn Park Ln, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$75.00&lt;/b&gt;&lt;br&gt;Size: 5.9 k sqft&lt;/div&gt;`)[0];
+                popup_fcebb466cd76c489eb66e0c4cbc9cfc0.setContent(html_70d118ab6ddd4435d51df73105358173);
+            
+        
+
+        circle_marker_2511f2edb4841a5b1d40ed15cb34c58c.bindPopup(popup_fcebb466cd76c489eb66e0c4cbc9cfc0)
+        ;
+
+        
+    
+    
+            circle_marker_2511f2edb4841a5b1d40ed15cb34c58c.bindTooltip(
+                `&lt;div&gt;
+                     #3 · Jack Burns
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_423d974315703238a5df16aec5681417 = L.marker(
+                [37.67199, -77.42738],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_14febe5d4015436b6c68a6e0d35a8f3e = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e3\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_423d974315703238a5df16aec5681417.setIcon(div_icon_14febe5d4015436b6c68a6e0d35a8f3e);
+            
+    
+            var circle_marker_749c689a0b5677c7980f530ff6d006b7 = L.circleMarker(
+                [37.65954, -77.39815],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_15a6d44625e6496e88712839aef3c7ae = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_ec41744b5501e1492d4f684740b9d4b9 = $(`&lt;div id=&quot;html_ec41744b5501e1492d4f684740b9d4b9&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #4&lt;/b&gt;&lt;br&gt;&lt;b&gt;Matt Akins&lt;/b&gt;&lt;br&gt;#114200&lt;br&gt;8666 Oakham Dr, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$71.00&lt;/b&gt;&lt;br&gt;Size: 3.9 k sqft&lt;/div&gt;`)[0];
+                popup_15a6d44625e6496e88712839aef3c7ae.setContent(html_ec41744b5501e1492d4f684740b9d4b9);
+            
+        
+
+        circle_marker_749c689a0b5677c7980f530ff6d006b7.bindPopup(popup_15a6d44625e6496e88712839aef3c7ae)
+        ;
+
+        
+    
+    
+            circle_marker_749c689a0b5677c7980f530ff6d006b7.bindTooltip(
+                `&lt;div&gt;
+                     #4 · Matt Akins
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_7deca4641bb83e158317d0fa66b1b523 = L.marker(
+                [37.65954, -77.39815],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_736ca254ec66230bfbe2f86b70a8114f = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e4\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_7deca4641bb83e158317d0fa66b1b523.setIcon(div_icon_736ca254ec66230bfbe2f86b70a8114f);
+            
+    
+            var circle_marker_ba5a1c027d86904dc88cae6894f3efd2 = L.circleMarker(
+                [37.69667, -77.41871],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_5e56cea833b16225ecd9dfd99618ba2d = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_9118c137f581f8134528e82a0f2c5159 = $(`&lt;div id=&quot;html_9118c137f581f8134528e82a0f2c5159&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #5&lt;/b&gt;&lt;br&gt;&lt;b&gt;F. Scott Spencer&lt;/b&gt;&lt;br&gt;#654943&lt;br&gt;9403 Indianfield Dr, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$101.50&lt;/b&gt;&lt;br&gt;Size: 9.7 k sqft&lt;/div&gt;`)[0];
+                popup_5e56cea833b16225ecd9dfd99618ba2d.setContent(html_9118c137f581f8134528e82a0f2c5159);
+            
+        
+
+        circle_marker_ba5a1c027d86904dc88cae6894f3efd2.bindPopup(popup_5e56cea833b16225ecd9dfd99618ba2d)
+        ;
+
+        
+    
+    
+            circle_marker_ba5a1c027d86904dc88cae6894f3efd2.bindTooltip(
+                `&lt;div&gt;
+                     #5 · F. Scott Spencer
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_ec35dd00b5c342eaaaaa8598f1a87493 = L.marker(
+                [37.69667, -77.41871],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_e117029c350103999524853e72461546 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e5\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_ec35dd00b5c342eaaaaa8598f1a87493.setIcon(div_icon_e117029c350103999524853e72461546);
+            
+    
+            var circle_marker_3aaf78afda81ef014806ae5020bdf31a = L.circleMarker(
+                [37.65816, -77.39626],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_f22070c2480f9a4568cf0badde95d038 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_49dc665706684f90529ea1aee7b5855b = $(`&lt;div id=&quot;html_49dc665706684f90529ea1aee7b5855b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Mary Slater&lt;/b&gt;&lt;br&gt;#656382&lt;br&gt;9550 Fox Hill Farm Rd, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$65.00&lt;/b&gt;&lt;br&gt;Size: 3.8 k sqft&lt;/div&gt;`)[0];
+                popup_f22070c2480f9a4568cf0badde95d038.setContent(html_49dc665706684f90529ea1aee7b5855b);
+            
+        
+
+        circle_marker_3aaf78afda81ef014806ae5020bdf31a.bindPopup(popup_f22070c2480f9a4568cf0badde95d038)
+        ;
+
+        
+    
+    
+            circle_marker_3aaf78afda81ef014806ae5020bdf31a.bindTooltip(
+                `&lt;div&gt;
+                     #6 · Mary Slater
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_48d7ac53486d4d9d306d1a2628e8c47a = L.marker(
+                [37.65816, -77.39626],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_5c963464f943f25919d5b0d4f280a8f4 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e6\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_48d7ac53486d4d9d306d1a2628e8c47a.setIcon(div_icon_5c963464f943f25919d5b0d4f280a8f4);
+            
+    
+            var circle_marker_db8a57dbf22b616f3e9644b9614eb6c0 = L.circleMarker(
+                [37.69268, -77.41178],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_c5b1e1a0f4ef5046c4cdbd9f4ea04602 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_567a84333f61b0e5b39d7fbd5577dce7 = $(`&lt;div id=&quot;html_567a84333f61b0e5b39d7fbd5577dce7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #7&lt;/b&gt;&lt;br&gt;&lt;b&gt;Brooke Collawn&lt;/b&gt;&lt;br&gt;#660039&lt;br&gt;10379 Avenel Pl, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$81.00&lt;/b&gt;&lt;br&gt;Size: 7.0 k sqft&lt;/div&gt;`)[0];
+                popup_c5b1e1a0f4ef5046c4cdbd9f4ea04602.setContent(html_567a84333f61b0e5b39d7fbd5577dce7);
+            
+        
+
+        circle_marker_db8a57dbf22b616f3e9644b9614eb6c0.bindPopup(popup_c5b1e1a0f4ef5046c4cdbd9f4ea04602)
+        ;
+
+        
+    
+    
+            circle_marker_db8a57dbf22b616f3e9644b9614eb6c0.bindTooltip(
+                `&lt;div&gt;
+                     #7 · Brooke Collawn
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_fbf2fc2bbd5aff6924153d504d380782 = L.marker(
+                [37.69268, -77.41178],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_85f2d2ab86e9671fa98894638d8b5f09 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e7\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_fbf2fc2bbd5aff6924153d504d380782.setIcon(div_icon_85f2d2ab86e9671fa98894638d8b5f09);
+            
+    
+            var circle_marker_bf1f90c6b232fa01f15396b2bc1a2c24 = L.circleMarker(
+                [37.62218, -77.41627],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_f17636701bc730de9e6d94091e94f587 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_c35df27268f5e30a00781e3e326d0351 = $(`&lt;div id=&quot;html_c35df27268f5e30a00781e3e326d0351&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #8&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tammy Wattie&lt;/b&gt;&lt;br&gt;#671113&lt;br&gt;14 Old Sellers Way, Richmond&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$108.25&lt;/b&gt;&lt;br&gt;Size: 11.8 k sqft&lt;/div&gt;`)[0];
+                popup_f17636701bc730de9e6d94091e94f587.setContent(html_c35df27268f5e30a00781e3e326d0351);
+            
+        
+
+        circle_marker_bf1f90c6b232fa01f15396b2bc1a2c24.bindPopup(popup_f17636701bc730de9e6d94091e94f587)
+        ;
+
+        
+    
+    
+            circle_marker_bf1f90c6b232fa01f15396b2bc1a2c24.bindTooltip(
+                `&lt;div&gt;
+                     #8 · Tammy Wattie
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_630b52277bbea23ba85a7bc74f4c1aed = L.marker(
+                [37.62218, -77.41627],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_6df3b4b580ed4ed3877c1387868c75a7 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e8\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_630b52277bbea23ba85a7bc74f4c1aed.setIcon(div_icon_6df3b4b580ed4ed3877c1387868c75a7);
+            
+    
+            var circle_marker_78aebbd82d61e7c44512d198bb49f456 = L.circleMarker(
+                [37.64762, -77.39536],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_9312370448c0f71c5fcb0538c6f646c6 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_f54881432bb919ce6eaaaa60d767b61d = $(`&lt;div id=&quot;html_f54881432bb919ce6eaaaa60d767b61d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #9&lt;/b&gt;&lt;br&gt;&lt;b&gt;John C. Clarke&lt;/b&gt;&lt;br&gt;#714108&lt;br&gt;9079 Rutland Rd, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$92.50&lt;/b&gt;&lt;br&gt;Size: 9.5 k sqft&lt;/div&gt;`)[0];
+                popup_9312370448c0f71c5fcb0538c6f646c6.setContent(html_f54881432bb919ce6eaaaa60d767b61d);
+            
+        
+
+        circle_marker_78aebbd82d61e7c44512d198bb49f456.bindPopup(popup_9312370448c0f71c5fcb0538c6f646c6)
+        ;
+
+        
+    
+    
+            circle_marker_78aebbd82d61e7c44512d198bb49f456.bindTooltip(
+                `&lt;div&gt;
+                     #9 · John C. Clarke
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_0bed0e147a37d69ee0a839352cbd8085 = L.marker(
+                [37.64762, -77.39536],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_08a3fadf2434d57ca3711cf9384f1a55 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e9\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_0bed0e147a37d69ee0a839352cbd8085.setIcon(div_icon_08a3fadf2434d57ca3711cf9384f1a55);
+            
+    
+            var circle_marker_827c11e6b60273edd14e7b88285a18f5 = L.circleMarker(
+                [37.65692, -77.39921],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_8ba14b2ceee64a3516731534a335b8f2 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_44483984ed4a2189d3ffe20aeefa3833 = $(`&lt;div id=&quot;html_44483984ed4a2189d3ffe20aeefa3833&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #10&lt;/b&gt;&lt;br&gt;&lt;b&gt;Taylor Kelly&lt;/b&gt;&lt;br&gt;#714184&lt;br&gt;8823 Rushbrooke Ln, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$63.00&lt;/b&gt;&lt;br&gt;Size: 2.7 k sqft&lt;/div&gt;`)[0];
+                popup_8ba14b2ceee64a3516731534a335b8f2.setContent(html_44483984ed4a2189d3ffe20aeefa3833);
+            
+        
+
+        circle_marker_827c11e6b60273edd14e7b88285a18f5.bindPopup(popup_8ba14b2ceee64a3516731534a335b8f2)
+        ;
+
+        
+    
+    
+            circle_marker_827c11e6b60273edd14e7b88285a18f5.bindTooltip(
+                `&lt;div&gt;
+                     #10 · Taylor Kelly
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_7ef4433342908243ef65b3f66b847d80 = L.marker(
+                [37.65692, -77.39921],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_1255ef980f918032597cb3b98dc33a0f = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e10\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_7ef4433342908243ef65b3f66b847d80.setIcon(div_icon_1255ef980f918032597cb3b98dc33a0f);
+            
+    
+            var circle_marker_d270107f202db9c1527a5bf02ca9ca59 = L.circleMarker(
+                [37.65579, -77.4173],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_f32108d4f20428a591291265dc6473af = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_4580f1aea7a4864158f39db576a5b40e = $(`&lt;div id=&quot;html_4580f1aea7a4864158f39db576a5b40e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #11&lt;/b&gt;&lt;br&gt;&lt;b&gt;Thom Bailes&lt;/b&gt;&lt;br&gt;#790537&lt;br&gt;9125 Hunters Crest Ln, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$70.00&lt;/b&gt;&lt;br&gt;Size: 4.4 k sqft&lt;/div&gt;`)[0];
+                popup_f32108d4f20428a591291265dc6473af.setContent(html_4580f1aea7a4864158f39db576a5b40e);
+            
+        
+
+        circle_marker_d270107f202db9c1527a5bf02ca9ca59.bindPopup(popup_f32108d4f20428a591291265dc6473af)
+        ;
+
+        
+    
+    
+            circle_marker_d270107f202db9c1527a5bf02ca9ca59.bindTooltip(
+                `&lt;div&gt;
+                     #11 · Thom Bailes
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_896ae79f20961be4c62e7c7948628874 = L.marker(
+                [37.65579, -77.4173],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_e4e2ed690359ee4cdc4ef5ead2cb53de = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e11\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_896ae79f20961be4c62e7c7948628874.setIcon(div_icon_e4e2ed690359ee4cdc4ef5ead2cb53de);
+            
+    
+            var circle_marker_18fee96db2d146fd7595d6299a8d4935 = L.circleMarker(
+                [37.65825, -77.41485],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_362f47185c28e3ca6910392e627f1e57 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_ceb9e1750aa9a22e731e9beeadbeaf59 = $(`&lt;div id=&quot;html_ceb9e1750aa9a22e731e9beeadbeaf59&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #12&lt;/b&gt;&lt;br&gt;&lt;b&gt;Glen Stinson&lt;/b&gt;&lt;br&gt;#804105&lt;br&gt;9353 Willies Way Trl, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$71.00&lt;/b&gt;&lt;br&gt;Size: 7.5 k sqft&lt;/div&gt;`)[0];
+                popup_362f47185c28e3ca6910392e627f1e57.setContent(html_ceb9e1750aa9a22e731e9beeadbeaf59);
+            
+        
+
+        circle_marker_18fee96db2d146fd7595d6299a8d4935.bindPopup(popup_362f47185c28e3ca6910392e627f1e57)
+        ;
+
+        
+    
+    
+            circle_marker_18fee96db2d146fd7595d6299a8d4935.bindTooltip(
+                `&lt;div&gt;
+                     #12 · Glen Stinson
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_6c4eddfbadf752866e27aa92b5e4ba55 = L.marker(
+                [37.65825, -77.41485],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_9bcf5803768788894e4158f2143e8de1 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e12\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_6c4eddfbadf752866e27aa92b5e4ba55.setIcon(div_icon_9bcf5803768788894e4158f2143e8de1);
+            
+    
+            var circle_marker_7a0087ddbf549d1194cd7ff4420ded54 = L.circleMarker(
+                [37.65782, -77.42317],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#e6194b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#e6194b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_c6a6eea36874b53faa6df2c620138126 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_6947fd4b7dd3723edea400a2e9a7760f = $(`&lt;div id=&quot;html_6947fd4b7dd3723edea400a2e9a7760f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #13&lt;/b&gt;&lt;br&gt;&lt;b&gt;ABHIJIT KOLLAMBALATH&lt;/b&gt;&lt;br&gt;#880383&lt;br&gt;9523 Halifax Green Dr, Mechanicsville&lt;br&gt;Tech: &lt;b&gt;Bragg Russell&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$88.00&lt;/b&gt;&lt;br&gt;Size: 10.5 k sqft&lt;/div&gt;`)[0];
+                popup_c6a6eea36874b53faa6df2c620138126.setContent(html_6947fd4b7dd3723edea400a2e9a7760f);
+            
+        
+
+        circle_marker_7a0087ddbf549d1194cd7ff4420ded54.bindPopup(popup_c6a6eea36874b53faa6df2c620138126)
+        ;
+
+        
+    
+    
+            circle_marker_7a0087ddbf549d1194cd7ff4420ded54.bindTooltip(
+                `&lt;div&gt;
+                     #13 · ABHIJIT KOLLAMBALATH
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_78f4dff9e1cac120c261f5ec80d85797 = L.marker(
+                [37.65782, -77.42317],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_06ee7e7ab57d7074812f887b67e4fbf1 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#e6194b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e13\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_78f4dff9e1cac120c261f5ec80d85797.setIcon(div_icon_06ee7e7ab57d7074812f887b67e4fbf1);
+            
+    
+            var poly_line_15b36c76bce20abe5606a91699b53f7d = L.polyline(
+                [[37.5598, -77.51396], [37.55615, -77.53338], [37.54997, -77.53124], [37.60979, -77.5025], [37.55598, -77.53531], [37.56492, -77.52525], [37.55666, -77.53407], [37.5643, -77.51216], [37.55006, -77.52098], [37.57009, -77.5152], [37.60478, -77.50198], [37.564, -77.51669]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.75, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            poly_line_15b36c76bce20abe5606a91699b53f7d.bindTooltip(
+                `&lt;div&gt;
+                     Jason Franklin Jr
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_e02e621c6254db31ec30b59c9d825ffd = L.circleMarker(
+                [37.5598, -77.51396],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_f092cf411d31c65a718cffaf68364bfb = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_e4f6b95e3c0f53b6c736e0b7dced0f5b = $(`&lt;div id=&quot;html_e4f6b95e3c0f53b6c736e0b7dced0f5b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #1&lt;/b&gt;&lt;br&gt;&lt;b&gt;John Wood&lt;/b&gt;&lt;br&gt;#16751&lt;br&gt;311 Charmian Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$77.00&lt;/b&gt;&lt;br&gt;Size: 5.0 k sqft&lt;/div&gt;`)[0];
+                popup_f092cf411d31c65a718cffaf68364bfb.setContent(html_e4f6b95e3c0f53b6c736e0b7dced0f5b);
+            
+        
+
+        circle_marker_e02e621c6254db31ec30b59c9d825ffd.bindPopup(popup_f092cf411d31c65a718cffaf68364bfb)
+        ;
+
+        
+    
+    
+            circle_marker_e02e621c6254db31ec30b59c9d825ffd.bindTooltip(
+                `&lt;div&gt;
+                     #1 · John Wood
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_d92c128e0aaffb47ab04aa92fdc9af69 = L.marker(
+                [37.5598, -77.51396],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_3bf0912a411c5d7acaf0a991358aa715 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e1\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_d92c128e0aaffb47ab04aa92fdc9af69.setIcon(div_icon_3bf0912a411c5d7acaf0a991358aa715);
+            
+    
+            var circle_marker_7558ffba11403f538c89eb92563ba3dd = L.circleMarker(
+                [37.55615, -77.53338],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_00477effea3685057448d5bc8b95ae12 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_379792a769d5729fcb71afa586f94488 = $(`&lt;div id=&quot;html_379792a769d5729fcb71afa586f94488&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Roger Flora&lt;/b&gt;&lt;br&gt;#71599&lt;br&gt;4505 Shirley Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$97.00&lt;/b&gt;&lt;br&gt;Size: 7.8 k sqft&lt;/div&gt;`)[0];
+                popup_00477effea3685057448d5bc8b95ae12.setContent(html_379792a769d5729fcb71afa586f94488);
+            
+        
+
+        circle_marker_7558ffba11403f538c89eb92563ba3dd.bindPopup(popup_00477effea3685057448d5bc8b95ae12)
+        ;
+
+        
+    
+    
+            circle_marker_7558ffba11403f538c89eb92563ba3dd.bindTooltip(
+                `&lt;div&gt;
+                     #2 · Roger Flora
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_70365c83f097c1f673227430257838a3 = L.marker(
+                [37.55615, -77.53338],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_28d348d23370017a0a051a560f05b667 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e2\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_70365c83f097c1f673227430257838a3.setIcon(div_icon_28d348d23370017a0a051a560f05b667);
+            
+    
+            var circle_marker_1d41c2d3ef34de4a2e73c10e57483d1d = L.circleMarker(
+                [37.54997, -77.53124],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_b1386abb306819c802c51a20267c789f = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_5832c3e4c5140858771e36597800a8c2 = $(`&lt;div id=&quot;html_5832c3e4c5140858771e36597800a8c2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #3&lt;/b&gt;&lt;br&gt;&lt;b&gt;Stuart Samuel&lt;/b&gt;&lt;br&gt;#113966&lt;br&gt;7644 Comanche Dr, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$84.00&lt;/b&gt;&lt;br&gt;Size: 6.8 k sqft&lt;/div&gt;`)[0];
+                popup_b1386abb306819c802c51a20267c789f.setContent(html_5832c3e4c5140858771e36597800a8c2);
+            
+        
+
+        circle_marker_1d41c2d3ef34de4a2e73c10e57483d1d.bindPopup(popup_b1386abb306819c802c51a20267c789f)
+        ;
+
+        
+    
+    
+            circle_marker_1d41c2d3ef34de4a2e73c10e57483d1d.bindTooltip(
+                `&lt;div&gt;
+                     #3 · Stuart Samuel
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_30498e0ae385bc753139de124c41d655 = L.marker(
+                [37.54997, -77.53124],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_55efb4cd30c75422849178f776b5c596 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e3\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_30498e0ae385bc753139de124c41d655.setIcon(div_icon_55efb4cd30c75422849178f776b5c596);
+            
+    
+            var circle_marker_88ea9b40e57d7a59e614c8dc22bf2040 = L.circleMarker(
+                [37.60979, -77.5025],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_bf5ce185c9a9017e4981f1404a6f73d8 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_7edbd4f7d958831d5b0eb8da21db1531 = $(`&lt;div id=&quot;html_7edbd4f7d958831d5b0eb8da21db1531&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #4&lt;/b&gt;&lt;br&gt;&lt;b&gt;Bobby Jorgenson&lt;/b&gt;&lt;br&gt;#114023&lt;br&gt;6715 Dellwood St, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$57.00&lt;/b&gt;&lt;br&gt;Size: 2.0 k sqft&lt;/div&gt;`)[0];
+                popup_bf5ce185c9a9017e4981f1404a6f73d8.setContent(html_7edbd4f7d958831d5b0eb8da21db1531);
+            
+        
+
+        circle_marker_88ea9b40e57d7a59e614c8dc22bf2040.bindPopup(popup_bf5ce185c9a9017e4981f1404a6f73d8)
+        ;
+
+        
+    
+    
+            circle_marker_88ea9b40e57d7a59e614c8dc22bf2040.bindTooltip(
+                `&lt;div&gt;
+                     #4 · Bobby Jorgenson
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_ec78da277ae64d7399d0ab9d48b0a382 = L.marker(
+                [37.60979, -77.5025],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_035a4a9e35f759e312852641aacc3b4a = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e4\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_ec78da277ae64d7399d0ab9d48b0a382.setIcon(div_icon_035a4a9e35f759e312852641aacc3b4a);
+            
+    
+            var circle_marker_599536bdb803f39a51fac6b3cbd9806e = L.circleMarker(
+                [37.55598, -77.53531],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_190643e629cd2033f353b9c485314107 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_09253e443e8e1028bf883f32eec741e4 = $(`&lt;div id=&quot;html_09253e443e8e1028bf883f32eec741e4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #5&lt;/b&gt;&lt;br&gt;&lt;b&gt;Jason McQuaid&lt;/b&gt;&lt;br&gt;#114060&lt;br&gt;4500 Menokin Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$90.00&lt;/b&gt;&lt;br&gt;Size: 6.6 k sqft&lt;/div&gt;`)[0];
+                popup_190643e629cd2033f353b9c485314107.setContent(html_09253e443e8e1028bf883f32eec741e4);
+            
+        
+
+        circle_marker_599536bdb803f39a51fac6b3cbd9806e.bindPopup(popup_190643e629cd2033f353b9c485314107)
+        ;
+
+        
+    
+    
+            circle_marker_599536bdb803f39a51fac6b3cbd9806e.bindTooltip(
+                `&lt;div&gt;
+                     #5 · Jason McQuaid
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_feb972cc2cf9109bae4592060d719a53 = L.marker(
+                [37.55598, -77.53531],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_d5112fcb91701573fdbbc137191214c9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e5\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_feb972cc2cf9109bae4592060d719a53.setIcon(div_icon_d5112fcb91701573fdbbc137191214c9);
+            
+    
+            var circle_marker_f6d88ec456b9c3cfa14728c51e9a215b = L.circleMarker(
+                [37.56492, -77.52525],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_4d23e0cc1c473ca69d745b49b2517354 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_141d5cb3960e89f36c65e0316a3c8537 = $(`&lt;div id=&quot;html_141d5cb3960e89f36c65e0316a3c8537&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Scott And Holly Graham&lt;/b&gt;&lt;br&gt;#128801&lt;br&gt;30 Rio Vista Ln, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$71.00&lt;/b&gt;&lt;br&gt;Size: 4.5 k sqft&lt;/div&gt;`)[0];
+                popup_4d23e0cc1c473ca69d745b49b2517354.setContent(html_141d5cb3960e89f36c65e0316a3c8537);
+            
+        
+
+        circle_marker_f6d88ec456b9c3cfa14728c51e9a215b.bindPopup(popup_4d23e0cc1c473ca69d745b49b2517354)
+        ;
+
+        
+    
+    
+            circle_marker_f6d88ec456b9c3cfa14728c51e9a215b.bindTooltip(
+                `&lt;div&gt;
+                     #6 · Scott And Holly Graham
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_573931cb12ab19224971d43608c3e00f = L.marker(
+                [37.56492, -77.52525],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_2a471d47696dd23566806ecd62f107d9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e6\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_573931cb12ab19224971d43608c3e00f.setIcon(div_icon_2a471d47696dd23566806ecd62f107d9);
+            
+    
+            var circle_marker_a0b405d48bfc49414a7903c5c4674500 = L.circleMarker(
+                [37.55666, -77.53407],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_91ea59af34d4cee67dac964c1ae92a6a = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_faecfc86468758d688ea06fa1fe44f83 = $(`&lt;div id=&quot;html_faecfc86468758d688ea06fa1fe44f83&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #7&lt;/b&gt;&lt;br&gt;&lt;b&gt;Marie Gould&lt;/b&gt;&lt;br&gt;#656519&lt;br&gt;4516 Shirley Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$107.00&lt;/b&gt;&lt;br&gt;Size: 8.1 k sqft&lt;/div&gt;`)[0];
+                popup_91ea59af34d4cee67dac964c1ae92a6a.setContent(html_faecfc86468758d688ea06fa1fe44f83);
+            
+        
+
+        circle_marker_a0b405d48bfc49414a7903c5c4674500.bindPopup(popup_91ea59af34d4cee67dac964c1ae92a6a)
+        ;
+
+        
+    
+    
+            circle_marker_a0b405d48bfc49414a7903c5c4674500.bindTooltip(
+                `&lt;div&gt;
+                     #7 · Marie Gould
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_efc12e4a8213ed0cfd1516830c017384 = L.marker(
+                [37.55666, -77.53407],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_37c33d2ba37a3af834a5c130938df5cf = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e7\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_efc12e4a8213ed0cfd1516830c017384.setIcon(div_icon_37c33d2ba37a3af834a5c130938df5cf);
+            
+    
+            var circle_marker_862ffc289b85cdd43f16d7b4c00e7250 = L.circleMarker(
+                [37.5643, -77.51216],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_90d8cfc14035214b11ec158fe05e4030 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_534b3249f95f01e6af5097b60cf33f30 = $(`&lt;div id=&quot;html_534b3249f95f01e6af5097b60cf33f30&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #8&lt;/b&gt;&lt;br&gt;&lt;b&gt;Catherine Chapman&lt;/b&gt;&lt;br&gt;#660563&lt;br&gt;201 W Hillcrest Ave, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$77.00&lt;/b&gt;&lt;br&gt;Size: 5.6 k sqft&lt;/div&gt;`)[0];
+                popup_90d8cfc14035214b11ec158fe05e4030.setContent(html_534b3249f95f01e6af5097b60cf33f30);
+            
+        
+
+        circle_marker_862ffc289b85cdd43f16d7b4c00e7250.bindPopup(popup_90d8cfc14035214b11ec158fe05e4030)
+        ;
+
+        
+    
+    
+            circle_marker_862ffc289b85cdd43f16d7b4c00e7250.bindTooltip(
+                `&lt;div&gt;
+                     #8 · Catherine Chapman
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_94d31abebb12f715262ee8eea477c036 = L.marker(
+                [37.5643, -77.51216],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_80dfd9abed546acff9697ed7c2b7b0b1 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e8\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_94d31abebb12f715262ee8eea477c036.setIcon(div_icon_80dfd9abed546acff9697ed7c2b7b0b1);
+            
+    
+            var circle_marker_84dbff901cbe623a548682d4a5e289f5 = L.circleMarker(
+                [37.55006, -77.52098],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_9423926571afb7ed20c15085e5bfd822 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_32f4c75c60568dda407e08abfd849993 = $(`&lt;div id=&quot;html_32f4c75c60568dda407e08abfd849993&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #9&lt;/b&gt;&lt;br&gt;&lt;b&gt;Brian S Burns&lt;/b&gt;&lt;br&gt;#681316&lt;br&gt;7241 Lookout Drive Dr, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$63.00&lt;/b&gt;&lt;br&gt;Size: 1.0 k sqft&lt;/div&gt;`)[0];
+                popup_9423926571afb7ed20c15085e5bfd822.setContent(html_32f4c75c60568dda407e08abfd849993);
+            
+        
+
+        circle_marker_84dbff901cbe623a548682d4a5e289f5.bindPopup(popup_9423926571afb7ed20c15085e5bfd822)
+        ;
+
+        
+    
+    
+            circle_marker_84dbff901cbe623a548682d4a5e289f5.bindTooltip(
+                `&lt;div&gt;
+                     #9 · Brian S Burns
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_884c1854cf5786fc889c09e767651ae0 = L.marker(
+                [37.55006, -77.52098],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_117e3845b1a5199fbad15f363283650b = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e9\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_884c1854cf5786fc889c09e767651ae0.setIcon(div_icon_117e3845b1a5199fbad15f363283650b);
+            
+    
+            var circle_marker_f54c40ee594572b2c22679f915d89509 = L.circleMarker(
+                [37.57009, -77.5152],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_85164d07a87314cd1b9f3e2a62a7607a = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_3e7e047adcca4cfea3d441d79e73a253 = $(`&lt;div id=&quot;html_3e7e047adcca4cfea3d441d79e73a253&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #10&lt;/b&gt;&lt;br&gt;&lt;b&gt;Catherine Benevento&lt;/b&gt;&lt;br&gt;#702333&lt;br&gt;123 Matoaka Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$80.00&lt;/b&gt;&lt;br&gt;Size: 5.5 k sqft&lt;/div&gt;`)[0];
+                popup_85164d07a87314cd1b9f3e2a62a7607a.setContent(html_3e7e047adcca4cfea3d441d79e73a253);
+            
+        
+
+        circle_marker_f54c40ee594572b2c22679f915d89509.bindPopup(popup_85164d07a87314cd1b9f3e2a62a7607a)
+        ;
+
+        
+    
+    
+            circle_marker_f54c40ee594572b2c22679f915d89509.bindTooltip(
+                `&lt;div&gt;
+                     #10 · Catherine Benevento
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_1b227c33cf76300681c8a4d99c7d9823 = L.marker(
+                [37.57009, -77.5152],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_d5b4383d60b2fd50ee19b1f908a7dc14 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e10\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_1b227c33cf76300681c8a4d99c7d9823.setIcon(div_icon_d5b4383d60b2fd50ee19b1f908a7dc14);
+            
+    
+            var circle_marker_12a06dc94e92cb73f137c0465f06c354 = L.circleMarker(
+                [37.60478, -77.50198],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_3ba9bdd2f683b3aa10ab0e2092fa5915 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_d2e4467a04cd94613bdba14b359df102 = $(`&lt;div id=&quot;html_d2e4467a04cd94613bdba14b359df102&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #11&lt;/b&gt;&lt;br&gt;&lt;b&gt;Jason Hunt&lt;/b&gt;&lt;br&gt;#790760&lt;br&gt;5613 Hardrock Pl, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$61.00&lt;/b&gt;&lt;br&gt;Size: 4.15 k sqft&lt;/div&gt;`)[0];
+                popup_3ba9bdd2f683b3aa10ab0e2092fa5915.setContent(html_d2e4467a04cd94613bdba14b359df102);
+            
+        
+
+        circle_marker_12a06dc94e92cb73f137c0465f06c354.bindPopup(popup_3ba9bdd2f683b3aa10ab0e2092fa5915)
+        ;
+
+        
+    
+    
+            circle_marker_12a06dc94e92cb73f137c0465f06c354.bindTooltip(
+                `&lt;div&gt;
+                     #11 · Jason Hunt
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_2028192b9c3f2c3666b6d756269884fb = L.marker(
+                [37.60478, -77.50198],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_ffa4a6baee1ee0686ca4cef93bfb2ce7 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e11\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_2028192b9c3f2c3666b6d756269884fb.setIcon(div_icon_ffa4a6baee1ee0686ca4cef93bfb2ce7);
+            
+    
+            var circle_marker_e0d0d737d23b9d44fa2609065749f227 = L.circleMarker(
+                [37.564, -77.51669],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3cb44b&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3cb44b&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_a71c1f12364c645a3981accf5299663b = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_147a18ba920dff8b15f9afd340cdb728 = $(`&lt;div id=&quot;html_147a18ba920dff8b15f9afd340cdb728&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #12&lt;/b&gt;&lt;br&gt;&lt;b&gt;Kevin Georgerian&lt;/b&gt;&lt;br&gt;#866892&lt;br&gt;5203 Kenmore Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Jason Franklin Jr&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$70.00&lt;/b&gt;&lt;br&gt;Size: 5.0 k sqft&lt;/div&gt;`)[0];
+                popup_a71c1f12364c645a3981accf5299663b.setContent(html_147a18ba920dff8b15f9afd340cdb728);
+            
+        
+
+        circle_marker_e0d0d737d23b9d44fa2609065749f227.bindPopup(popup_a71c1f12364c645a3981accf5299663b)
+        ;
+
+        
+    
+    
+            circle_marker_e0d0d737d23b9d44fa2609065749f227.bindTooltip(
+                `&lt;div&gt;
+                     #12 · Kevin Georgerian
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_0067ca3f5257ee98831b4c5a7e65bdd2 = L.marker(
+                [37.564, -77.51669],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_46d58e34c4c480e1c3250d1d033d0b50 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#3cb44b;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e12\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_0067ca3f5257ee98831b4c5a7e65bdd2.setIcon(div_icon_46d58e34c4c480e1c3250d1d033d0b50);
+            
+    
+            var poly_line_67d56e643740e2a223ed775abd7239e9 = L.polyline(
+                [[37.45938, -76.98843], [37.45938, -76.98843], [37.45938, -76.98843], [37.45982, -76.98819], [37.45982, -76.98819], [37.4592, -76.98861], [37.51568, -77.08292], [37.46643, -76.99082], [37.47038, -77.00025], [37.51106, -77.08471], [37.46443, -76.98843], [37.45881, -76.98667], [37.47332, -76.99733], [37.51484, -77.08405]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.75, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            poly_line_67d56e643740e2a223ed775abd7239e9.bindTooltip(
+                `&lt;div&gt;
+                     Jeremey Smith
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_669266615f0e87af18600177a564ac8b = L.circleMarker(
+                [37.45938, -76.98843],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_58a7a10dadae15148bd6a4c97efee7d7 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_e7e1c7c3aa7213a3fc7b22c84b467dde = $(`&lt;div id=&quot;html_e7e1c7c3aa7213a3fc7b22c84b467dde&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Robert Baillie&lt;/b&gt;&lt;br&gt;#790664&lt;br&gt;3603 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$106.00&lt;/b&gt;&lt;br&gt;Size: 8.0 k sqft&lt;/div&gt;`)[0];
+                popup_58a7a10dadae15148bd6a4c97efee7d7.setContent(html_e7e1c7c3aa7213a3fc7b22c84b467dde);
+            
+        
+
+        circle_marker_669266615f0e87af18600177a564ac8b.bindPopup(popup_58a7a10dadae15148bd6a4c97efee7d7)
+        ;
+
+        
+    
+    
+            circle_marker_669266615f0e87af18600177a564ac8b.bindTooltip(
+                `&lt;div&gt;
+                     #1 · Robert Baillie
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_8eec95f80f2c2384e23de6e94ed91d11 = L.marker(
+                [37.45938, -76.98843],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_3042169bcbaddcfb7ba62f48319ff224 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e1\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_8eec95f80f2c2384e23de6e94ed91d11.setIcon(div_icon_3042169bcbaddcfb7ba62f48319ff224);
+            
+    
+            var circle_marker_d3a9e8d5c09fcc1e7623f79d60156634 = L.circleMarker(
+                [37.45938, -76.98843],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_e3b3a1b4bca50554eda6932776bdb132 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_cb9fa8d53af868bcb235a1b7683a646e = $(`&lt;div id=&quot;html_cb9fa8d53af868bcb235a1b7683a646e&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Robert Baillie&lt;/b&gt;&lt;br&gt;#790664&lt;br&gt;3603 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$84.00&lt;/b&gt;&lt;br&gt;Size: 8.0 k sqft&lt;/div&gt;`)[0];
+                popup_e3b3a1b4bca50554eda6932776bdb132.setContent(html_cb9fa8d53af868bcb235a1b7683a646e);
+            
+        
+
+        circle_marker_d3a9e8d5c09fcc1e7623f79d60156634.bindPopup(popup_e3b3a1b4bca50554eda6932776bdb132)
+        ;
+
+        
+    
+    
+            circle_marker_d3a9e8d5c09fcc1e7623f79d60156634.bindTooltip(
+                `&lt;div&gt;
+                     #2 · Robert Baillie
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_3115ad998f6cf509543e0237d1daa226 = L.marker(
+                [37.45938, -76.98843],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_fac4b12e75c09876f988b94bf1e66a65 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e2\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_3115ad998f6cf509543e0237d1daa226.setIcon(div_icon_fac4b12e75c09876f988b94bf1e66a65);
+            
+    
+            var circle_marker_28d7cc2415681d20b8aacbb5471493db = L.circleMarker(
+                [37.45938, -76.98843],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_96a6476f89e1a19995275ea4c77a46a3 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_5044efb8bcdc4b96d82239de48f8be0d = $(`&lt;div id=&quot;html_5044efb8bcdc4b96d82239de48f8be0d&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #3&lt;/b&gt;&lt;br&gt;&lt;b&gt;Robert Baillie&lt;/b&gt;&lt;br&gt;#790664&lt;br&gt;3603 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;NAM&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$84.00&lt;/b&gt;&lt;br&gt;Size: 8.0 k sqft&lt;/div&gt;`)[0];
+                popup_96a6476f89e1a19995275ea4c77a46a3.setContent(html_5044efb8bcdc4b96d82239de48f8be0d);
+            
+        
+
+        circle_marker_28d7cc2415681d20b8aacbb5471493db.bindPopup(popup_96a6476f89e1a19995275ea4c77a46a3)
+        ;
+
+        
+    
+    
+            circle_marker_28d7cc2415681d20b8aacbb5471493db.bindTooltip(
+                `&lt;div&gt;
+                     #3 · Robert Baillie
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_5cac3b6fb5ca935e82b3cef68a1f13cf = L.marker(
+                [37.45938, -76.98843],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_072467fe758c9df7f78b45be8bf06e1a = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e3\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_5cac3b6fb5ca935e82b3cef68a1f13cf.setIcon(div_icon_072467fe758c9df7f78b45be8bf06e1a);
+            
+    
+            var circle_marker_f3e0b836e2257190e2a8bff12e026969 = L.circleMarker(
+                [37.45982, -76.98819],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_4f515598595064c894474be69a284e8e = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_1d405806a42e20288c99d75802fe19ee = $(`&lt;div id=&quot;html_1d405806a42e20288c99d75802fe19ee&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #4&lt;/b&gt;&lt;br&gt;&lt;b&gt;John Payne&lt;/b&gt;&lt;br&gt;#790666&lt;br&gt;3668 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$77.00&lt;/b&gt;&lt;br&gt;Size: 7.0 k sqft&lt;/div&gt;`)[0];
+                popup_4f515598595064c894474be69a284e8e.setContent(html_1d405806a42e20288c99d75802fe19ee);
+            
+        
+
+        circle_marker_f3e0b836e2257190e2a8bff12e026969.bindPopup(popup_4f515598595064c894474be69a284e8e)
+        ;
+
+        
+    
+    
+            circle_marker_f3e0b836e2257190e2a8bff12e026969.bindTooltip(
+                `&lt;div&gt;
+                     #4 · John Payne
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_c5af91945210551c22a1cbd20d9bbcc2 = L.marker(
+                [37.45982, -76.98819],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_ce4f70ed1e764ed61209b46f57332d6b = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e4\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_c5af91945210551c22a1cbd20d9bbcc2.setIcon(div_icon_ce4f70ed1e764ed61209b46f57332d6b);
+            
+    
+            var circle_marker_d751d1da66dfd5701ffdf43c0dd2ccde = L.circleMarker(
+                [37.45982, -76.98819],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_6048c9de221c805b7895a08cbf13abb2 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_335e35c8a84d98b3f6671b300848fb2f = $(`&lt;div id=&quot;html_335e35c8a84d98b3f6671b300848fb2f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #5&lt;/b&gt;&lt;br&gt;&lt;b&gt;John Payne&lt;/b&gt;&lt;br&gt;#790666&lt;br&gt;3668 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$92.00&lt;/b&gt;&lt;br&gt;Size: 7.0 k sqft&lt;/div&gt;`)[0];
+                popup_6048c9de221c805b7895a08cbf13abb2.setContent(html_335e35c8a84d98b3f6671b300848fb2f);
+            
+        
+
+        circle_marker_d751d1da66dfd5701ffdf43c0dd2ccde.bindPopup(popup_6048c9de221c805b7895a08cbf13abb2)
+        ;
+
+        
+    
+    
+            circle_marker_d751d1da66dfd5701ffdf43c0dd2ccde.bindTooltip(
+                `&lt;div&gt;
+                     #5 · John Payne
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_c767ba5f19f3a6816e45c4fa22e6c43c = L.marker(
+                [37.45982, -76.98819],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_15cb7fe76fc154989d6e8425f1334a3f = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e5\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_c767ba5f19f3a6816e45c4fa22e6c43c.setIcon(div_icon_15cb7fe76fc154989d6e8425f1334a3f);
+            
+    
+            var circle_marker_362574695d9aa993b2001d634c4dfb0d = L.circleMarker(
+                [37.4592, -76.98861],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_282a0123b44af02368b9641ea1af1317 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_88d91dd1a6e044e1dbb32df8aa7912dd = $(`&lt;div id=&quot;html_88d91dd1a6e044e1dbb32df8aa7912dd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Trevor &amp; Susie Phillips&lt;/b&gt;&lt;br&gt;#790671&lt;br&gt;3612 Virginia Rail Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$75.00&lt;/b&gt;&lt;br&gt;Size: 5.0 k sqft&lt;/div&gt;`)[0];
+                popup_282a0123b44af02368b9641ea1af1317.setContent(html_88d91dd1a6e044e1dbb32df8aa7912dd);
+            
+        
+
+        circle_marker_362574695d9aa993b2001d634c4dfb0d.bindPopup(popup_282a0123b44af02368b9641ea1af1317)
+        ;
+
+        
+    
+    
+            circle_marker_362574695d9aa993b2001d634c4dfb0d.bindTooltip(
+                `&lt;div&gt;
+                     #6 · Trevor &amp; Susie Phillips
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_1f0c6f4b5fdfa4f388539081711a7c32 = L.marker(
+                [37.4592, -76.98861],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_1e1a7ef0eaf439649fc30fee744194b6 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e6\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_1f0c6f4b5fdfa4f388539081711a7c32.setIcon(div_icon_1e1a7ef0eaf439649fc30fee744194b6);
+            
+    
+            var circle_marker_872dd3b8dd121bae724ae58b0347114f = L.circleMarker(
+                [37.51568, -77.08292],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_45445f48f14fe918c0d38ca5499d228c = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_4bb7674e8c1654ec4b120c01e3d34729 = $(`&lt;div id=&quot;html_4bb7674e8c1654ec4b120c01e3d34729&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #7&lt;/b&gt;&lt;br&gt;&lt;b&gt;Carolyn Ryan&lt;/b&gt;&lt;br&gt;#804326&lt;br&gt;7831 Sedge Dr, New Kent&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$108.00&lt;/b&gt;&lt;br&gt;Size: 9.0 k sqft&lt;/div&gt;`)[0];
+                popup_45445f48f14fe918c0d38ca5499d228c.setContent(html_4bb7674e8c1654ec4b120c01e3d34729);
+            
+        
+
+        circle_marker_872dd3b8dd121bae724ae58b0347114f.bindPopup(popup_45445f48f14fe918c0d38ca5499d228c)
+        ;
+
+        
+    
+    
+            circle_marker_872dd3b8dd121bae724ae58b0347114f.bindTooltip(
+                `&lt;div&gt;
+                     #7 · Carolyn Ryan
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_fd2a18b7c1c2412bafe72ede999ec0c5 = L.marker(
+                [37.51568, -77.08292],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_4cc73c00f44540e5c42ccab98b2709f9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e7\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_fd2a18b7c1c2412bafe72ede999ec0c5.setIcon(div_icon_4cc73c00f44540e5c42ccab98b2709f9);
+            
+    
+            var circle_marker_1672b001b23c57291fe310d96c441d6c = L.circleMarker(
+                [37.46643, -76.99082],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_70d5a330b0009a7702adfac3e34a08cd = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_6409d1950431b2c901d71a613ff168bd = $(`&lt;div id=&quot;html_6409d1950431b2c901d71a613ff168bd&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #8&lt;/b&gt;&lt;br&gt;&lt;b&gt;Will Brennan&lt;/b&gt;&lt;br&gt;#804359&lt;br&gt;4801 Kings Pond Pl, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$108.00&lt;/b&gt;&lt;br&gt;Size: 8.9 k sqft&lt;/div&gt;`)[0];
+                popup_70d5a330b0009a7702adfac3e34a08cd.setContent(html_6409d1950431b2c901d71a613ff168bd);
+            
+        
+
+        circle_marker_1672b001b23c57291fe310d96c441d6c.bindPopup(popup_70d5a330b0009a7702adfac3e34a08cd)
+        ;
+
+        
+    
+    
+            circle_marker_1672b001b23c57291fe310d96c441d6c.bindTooltip(
+                `&lt;div&gt;
+                     #8 · Will Brennan
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_da08c312995a2cc3bef4982f1478a252 = L.marker(
+                [37.46643, -76.99082],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_2d4fbb7226adbb549f1cff654968fd80 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e8\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_da08c312995a2cc3bef4982f1478a252.setIcon(div_icon_2d4fbb7226adbb549f1cff654968fd80);
+            
+    
+            var circle_marker_b4917ee3919a08bb001cf5766056161e = L.circleMarker(
+                [37.47038, -77.00025],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_30cc992f912311992e2283765cbc0ba1 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_38072b760342d3a0e7342e47872e8b54 = $(`&lt;div id=&quot;html_38072b760342d3a0e7342e47872e8b54&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #9&lt;/b&gt;&lt;br&gt;&lt;b&gt;David Huber&lt;/b&gt;&lt;br&gt;#867053&lt;br&gt;5329 Pine Needles Ct, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$72.00&lt;/b&gt;&lt;br&gt;Size: 4.7 k sqft&lt;/div&gt;`)[0];
+                popup_30cc992f912311992e2283765cbc0ba1.setContent(html_38072b760342d3a0e7342e47872e8b54);
+            
+        
+
+        circle_marker_b4917ee3919a08bb001cf5766056161e.bindPopup(popup_30cc992f912311992e2283765cbc0ba1)
+        ;
+
+        
+    
+    
+            circle_marker_b4917ee3919a08bb001cf5766056161e.bindTooltip(
+                `&lt;div&gt;
+                     #9 · David Huber
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_78bcacfd4e8011630577684eeef6988f = L.marker(
+                [37.47038, -77.00025],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_db5070f58d9d2afd9ef99fddf1ca5e57 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e9\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_78bcacfd4e8011630577684eeef6988f.setIcon(div_icon_db5070f58d9d2afd9ef99fddf1ca5e57);
+            
+    
+            var circle_marker_e35c9ee86b82a5607a5d32b242474644 = L.circleMarker(
+                [37.51106, -77.08471],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_b15579f8099669ddcc8df5d87ec379c8 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_907d590ae13e673960ffafe3576fb1d0 = $(`&lt;div id=&quot;html_907d590ae13e673960ffafe3576fb1d0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #10&lt;/b&gt;&lt;br&gt;&lt;b&gt;Scott Tenney&lt;/b&gt;&lt;br&gt;#867180&lt;br&gt;7155 Cress Ct, New Kent&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$84.00&lt;/b&gt;&lt;br&gt;Size: 8.7 k sqft&lt;/div&gt;`)[0];
+                popup_b15579f8099669ddcc8df5d87ec379c8.setContent(html_907d590ae13e673960ffafe3576fb1d0);
+            
+        
+
+        circle_marker_e35c9ee86b82a5607a5d32b242474644.bindPopup(popup_b15579f8099669ddcc8df5d87ec379c8)
+        ;
+
+        
+    
+    
+            circle_marker_e35c9ee86b82a5607a5d32b242474644.bindTooltip(
+                `&lt;div&gt;
+                     #10 · Scott Tenney
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_82f5f9c19e7a5935113da56572aadd58 = L.marker(
+                [37.51106, -77.08471],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_30c74b8cf73d02378b4220ac9ed58421 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e10\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_82f5f9c19e7a5935113da56572aadd58.setIcon(div_icon_30c74b8cf73d02378b4220ac9ed58421);
+            
+    
+            var circle_marker_45c5b57576a61592519832e76171ed03 = L.circleMarker(
+                [37.46443, -76.98843],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_b58a995eaf0dcdfbfb3be9474041c822 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_e3b2fa69e523b9018e54290ca127505c = $(`&lt;div id=&quot;html_e3b2fa69e523b9018e54290ca127505c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #11&lt;/b&gt;&lt;br&gt;&lt;b&gt;Linda L. Winger&lt;/b&gt;&lt;br&gt;#877453&lt;br&gt;11503 Winding River Rd, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$109.00&lt;/b&gt;&lt;br&gt;Size: 9.7 k sqft&lt;/div&gt;`)[0];
+                popup_b58a995eaf0dcdfbfb3be9474041c822.setContent(html_e3b2fa69e523b9018e54290ca127505c);
+            
+        
+
+        circle_marker_45c5b57576a61592519832e76171ed03.bindPopup(popup_b58a995eaf0dcdfbfb3be9474041c822)
+        ;
+
+        
+    
+    
+            circle_marker_45c5b57576a61592519832e76171ed03.bindTooltip(
+                `&lt;div&gt;
+                     #11 · Linda L. Winger
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_d94b7fd008a25c1be37ec5a4598d4da9 = L.marker(
+                [37.46443, -76.98843],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_cac8b9a5b5f2705dcf44ce41e384f063 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e11\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_d94b7fd008a25c1be37ec5a4598d4da9.setIcon(div_icon_cac8b9a5b5f2705dcf44ce41e384f063);
+            
+    
+            var circle_marker_e3f26898d554f12907c16a6992b3b753 = L.circleMarker(
+                [37.45881, -76.98667],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_3460363e47db5e08b52958e718b5177e = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_b5b4a102cf7aec239861ae3442544c73 = $(`&lt;div id=&quot;html_b5b4a102cf7aec239861ae3442544c73&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #12&lt;/b&gt;&lt;br&gt;&lt;b&gt;Kyle Altman&lt;/b&gt;&lt;br&gt;#877505&lt;br&gt;10478 Pine Warbler Dr, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$65.00&lt;/b&gt;&lt;br&gt;Size: 5.8 k sqft&lt;/div&gt;`)[0];
+                popup_3460363e47db5e08b52958e718b5177e.setContent(html_b5b4a102cf7aec239861ae3442544c73);
+            
+        
+
+        circle_marker_e3f26898d554f12907c16a6992b3b753.bindPopup(popup_3460363e47db5e08b52958e718b5177e)
+        ;
+
+        
+    
+    
+            circle_marker_e3f26898d554f12907c16a6992b3b753.bindTooltip(
+                `&lt;div&gt;
+                     #12 · Kyle Altman
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_67077463ef769c225690ded7de5fe554 = L.marker(
+                [37.45881, -76.98667],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_928ae58ff31197d8fdb21b4a28338a65 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e12\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_67077463ef769c225690ded7de5fe554.setIcon(div_icon_928ae58ff31197d8fdb21b4a28338a65);
+            
+    
+            var circle_marker_9893d28ab588283ce79e1d0bcc7064ab = L.circleMarker(
+                [37.47332, -76.99733],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_a393e2971d97800e34ff289239f8adac = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_09d1041470d61c11d3d9edeec9298aec = $(`&lt;div id=&quot;html_09d1041470d61c11d3d9edeec9298aec&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #13&lt;/b&gt;&lt;br&gt;&lt;b&gt;Christopher Myers&lt;/b&gt;&lt;br&gt;#880224&lt;br&gt;5203 Linkshire Ln, Providence Forge&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$72.00&lt;/b&gt;&lt;br&gt;Size: 5.2 k sqft&lt;/div&gt;`)[0];
+                popup_a393e2971d97800e34ff289239f8adac.setContent(html_09d1041470d61c11d3d9edeec9298aec);
+            
+        
+
+        circle_marker_9893d28ab588283ce79e1d0bcc7064ab.bindPopup(popup_a393e2971d97800e34ff289239f8adac)
+        ;
+
+        
+    
+    
+            circle_marker_9893d28ab588283ce79e1d0bcc7064ab.bindTooltip(
+                `&lt;div&gt;
+                     #13 · Christopher Myers
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_b2600f59657af56148e13d794d3ff163 = L.marker(
+                [37.47332, -76.99733],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_98ee255e7d5b238114137b7ab34a5fb9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e13\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_b2600f59657af56148e13d794d3ff163.setIcon(div_icon_98ee255e7d5b238114137b7ab34a5fb9);
+            
+    
+            var circle_marker_67fad5794b78c33b8c5f13f772c17a68 = L.circleMarker(
+                [37.51484, -77.08405],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#4363d8&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#4363d8&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_df91b5f69719db1bd20a55cb7bfea2b8 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_de278ea03e24196abef6676e19b1c287 = $(`&lt;div id=&quot;html_de278ea03e24196abef6676e19b1c287&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #14&lt;/b&gt;&lt;br&gt;&lt;b&gt;Amber L. Hayes&lt;/b&gt;&lt;br&gt;#880364&lt;br&gt;7291 Sedge Ct, New Kent&lt;br&gt;Tech: &lt;b&gt;Jeremey Smith&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$72.01&lt;/b&gt;&lt;br&gt;Size: 8.8 k sqft&lt;/div&gt;`)[0];
+                popup_df91b5f69719db1bd20a55cb7bfea2b8.setContent(html_de278ea03e24196abef6676e19b1c287);
+            
+        
+
+        circle_marker_67fad5794b78c33b8c5f13f772c17a68.bindPopup(popup_df91b5f69719db1bd20a55cb7bfea2b8)
+        ;
+
+        
+    
+    
+            circle_marker_67fad5794b78c33b8c5f13f772c17a68.bindTooltip(
+                `&lt;div&gt;
+                     #14 · Amber L. Hayes
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_fbf91b086bfe523e8e6d3fc438e8beaf = L.marker(
+                [37.51484, -77.08405],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_988ad820bda719ff637819fa3f6908b9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#4363d8;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e14\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_fbf91b086bfe523e8e6d3fc438e8beaf.setIcon(div_icon_988ad820bda719ff637819fa3f6908b9);
+            
+    
+            var poly_line_3c21aa54006eec762fea0a32b2ff359e = L.polyline(
+                [[37.5864, -77.56784], [37.58978, -77.56047], [37.59299, -77.548], [37.58593, -77.56919], [37.58362, -77.58766], [37.57773, -77.57991], [37.58536, -77.54687], [37.5901, -77.55825], [37.60795, -77.88148], [37.72162, -77.90868]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.75, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            poly_line_3c21aa54006eec762fea0a32b2ff359e.bindTooltip(
+                `&lt;div&gt;
+                     Kyle Robinson
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_1d4d38129c8d39143268365751d7ddd8 = L.circleMarker(
+                [37.5864, -77.56784],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_7e17f052225cffc04fddb07a58cfee64 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_7d738835d846556f86ed9007739cab34 = $(`&lt;div id=&quot;html_7d738835d846556f86ed9007739cab34&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Gary Jakubowicz&lt;/b&gt;&lt;br&gt;#11628&lt;br&gt;508 Cedarbrooke Ln, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$72.00&lt;/b&gt;&lt;br&gt;Size: 6.3 k sqft&lt;/div&gt;`)[0];
+                popup_7e17f052225cffc04fddb07a58cfee64.setContent(html_7d738835d846556f86ed9007739cab34);
+            
+        
+
+        circle_marker_1d4d38129c8d39143268365751d7ddd8.bindPopup(popup_7e17f052225cffc04fddb07a58cfee64)
+        ;
+
+        
+    
+    
+            circle_marker_1d4d38129c8d39143268365751d7ddd8.bindTooltip(
+                `&lt;div&gt;
+                     #1 · Gary Jakubowicz
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_bfed75ec96a25f407faecf63cd9701ab = L.marker(
+                [37.5864, -77.56784],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_59bc27fc7a59b3d998637e163e346518 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e1\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_bfed75ec96a25f407faecf63cd9701ab.setIcon(div_icon_59bc27fc7a59b3d998637e163e346518);
+            
+    
+            var circle_marker_21580d4ffbbc9efeff9861dd24678a33 = L.circleMarker(
+                [37.58978, -77.56047],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_5e30f7824cea5535dd1bc40d44c715d9 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_47ec6200011b3e234d2a6f6ffebe38a8 = $(`&lt;div id=&quot;html_47ec6200011b3e234d2a6f6ffebe38a8&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Janet J &amp; Richard S Andrews Jr.&lt;/b&gt;&lt;br&gt;#14214&lt;br&gt;806 Keats Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$60.00&lt;/b&gt;&lt;br&gt;Size: 2.6 k sqft&lt;/div&gt;`)[0];
+                popup_5e30f7824cea5535dd1bc40d44c715d9.setContent(html_47ec6200011b3e234d2a6f6ffebe38a8);
+            
+        
+
+        circle_marker_21580d4ffbbc9efeff9861dd24678a33.bindPopup(popup_5e30f7824cea5535dd1bc40d44c715d9)
+        ;
+
+        
+    
+    
+            circle_marker_21580d4ffbbc9efeff9861dd24678a33.bindTooltip(
+                `&lt;div&gt;
+                     #2 · Janet J &amp; Richard S Andrews Jr.
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_3a6279fad6cc6c4f7884d4ad039394ea = L.marker(
+                [37.58978, -77.56047],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_bb25efdacdd581ea208d698b1dfad126 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e2\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_3a6279fad6cc6c4f7884d4ad039394ea.setIcon(div_icon_bb25efdacdd581ea208d698b1dfad126);
+            
+    
+            var circle_marker_8b52b8e6a0d8a002b8871e6de25955b6 = L.circleMarker(
+                [37.59299, -77.548],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_74e9ef7ed8964bdbaf728540f5c2946a = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_0f94648964c0e3144d015ee3567354e4 = $(`&lt;div id=&quot;html_0f94648964c0e3144d015ee3567354e4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #3&lt;/b&gt;&lt;br&gt;&lt;b&gt;Sue Varner&lt;/b&gt;&lt;br&gt;#14726&lt;br&gt;7905 Blueberry Hill Ct, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$103.00&lt;/b&gt;&lt;br&gt;Size: 8.6 k sqft&lt;/div&gt;`)[0];
+                popup_74e9ef7ed8964bdbaf728540f5c2946a.setContent(html_0f94648964c0e3144d015ee3567354e4);
+            
+        
+
+        circle_marker_8b52b8e6a0d8a002b8871e6de25955b6.bindPopup(popup_74e9ef7ed8964bdbaf728540f5c2946a)
+        ;
+
+        
+    
+    
+            circle_marker_8b52b8e6a0d8a002b8871e6de25955b6.bindTooltip(
+                `&lt;div&gt;
+                     #3 · Sue Varner
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_19140fb81dddc17ad7a30849af1158ce = L.marker(
+                [37.59299, -77.548],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_be340e3067df7d3e7113f8711ac49d24 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e3\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_19140fb81dddc17ad7a30849af1158ce.setIcon(div_icon_be340e3067df7d3e7113f8711ac49d24);
+            
+    
+            var circle_marker_c44586896b7ff1cacca917fe513f58de = L.circleMarker(
+                [37.58593, -77.56919],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_33a2f29f40a0a917a6cedbe601ef429f = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_0f0993800c89c79f3f0b6061a7f0e47b = $(`&lt;div id=&quot;html_0f0993800c89c79f3f0b6061a7f0e47b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #4&lt;/b&gt;&lt;br&gt;&lt;b&gt;Robin Woods&lt;/b&gt;&lt;br&gt;#20456&lt;br&gt;509 Ridgeley Ln, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$90.00&lt;/b&gt;&lt;br&gt;Size: 7.0 k sqft&lt;/div&gt;`)[0];
+                popup_33a2f29f40a0a917a6cedbe601ef429f.setContent(html_0f0993800c89c79f3f0b6061a7f0e47b);
+            
+        
+
+        circle_marker_c44586896b7ff1cacca917fe513f58de.bindPopup(popup_33a2f29f40a0a917a6cedbe601ef429f)
+        ;
+
+        
+    
+    
+            circle_marker_c44586896b7ff1cacca917fe513f58de.bindTooltip(
+                `&lt;div&gt;
+                     #4 · Robin Woods
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_153b94d0f2449920537cfb2535d2cc0f = L.marker(
+                [37.58593, -77.56919],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_eb079734b3636d87a420b752dc89ac3e = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e4\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_153b94d0f2449920537cfb2535d2cc0f.setIcon(div_icon_eb079734b3636d87a420b752dc89ac3e);
+            
+    
+            var circle_marker_30df337ad1cc951bc185959ae8a40b6e = L.circleMarker(
+                [37.58362, -77.58766],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_633e6e536a1a9e27b04673cfcf206aa5 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_249851f1381a5489c76712a7ce97926f = $(`&lt;div id=&quot;html_249851f1381a5489c76712a7ce97926f&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #5&lt;/b&gt;&lt;br&gt;&lt;b&gt;Daniel Whitlock&lt;/b&gt;&lt;br&gt;#24234&lt;br&gt;304 Grande Ct, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$91.00&lt;/b&gt;&lt;br&gt;Size: 6.8 k sqft&lt;/div&gt;`)[0];
+                popup_633e6e536a1a9e27b04673cfcf206aa5.setContent(html_249851f1381a5489c76712a7ce97926f);
+            
+        
+
+        circle_marker_30df337ad1cc951bc185959ae8a40b6e.bindPopup(popup_633e6e536a1a9e27b04673cfcf206aa5)
+        ;
+
+        
+    
+    
+            circle_marker_30df337ad1cc951bc185959ae8a40b6e.bindTooltip(
+                `&lt;div&gt;
+                     #5 · Daniel Whitlock
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_690b689b4e0aecf662c7525c2b6f8161 = L.marker(
+                [37.58362, -77.58766],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_cc9747454a7e23221b0bad561d9a76be = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e5\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_690b689b4e0aecf662c7525c2b6f8161.setIcon(div_icon_cc9747454a7e23221b0bad561d9a76be);
+            
+    
+            var circle_marker_3201c6354de45203f4f9537a07ffb251 = L.circleMarker(
+                [37.57773, -77.57991],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_61b4dea4e70c5597b1c2f3d10bcd1dce = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_22311b4237f0af0ab43b39f501cf5041 = $(`&lt;div id=&quot;html_22311b4237f0af0ab43b39f501cf5041&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Donald E. Sledd&lt;/b&gt;&lt;br&gt;#26269&lt;br&gt;8656 Irving Ln, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$137.00&lt;/b&gt;&lt;br&gt;Size: 18.3 k sqft&lt;/div&gt;`)[0];
+                popup_61b4dea4e70c5597b1c2f3d10bcd1dce.setContent(html_22311b4237f0af0ab43b39f501cf5041);
+            
+        
+
+        circle_marker_3201c6354de45203f4f9537a07ffb251.bindPopup(popup_61b4dea4e70c5597b1c2f3d10bcd1dce)
+        ;
+
+        
+    
+    
+            circle_marker_3201c6354de45203f4f9537a07ffb251.bindTooltip(
+                `&lt;div&gt;
+                     #6 · Donald E. Sledd
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_5ae46f95702cc710265d4c616a6598a1 = L.marker(
+                [37.57773, -77.57991],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_3088fbb8bed424f1deb42a8d8e96f78b = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e6\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_5ae46f95702cc710265d4c616a6598a1.setIcon(div_icon_3088fbb8bed424f1deb42a8d8e96f78b);
+            
+    
+            var circle_marker_7b27ee2ce034190d8230ad30e215d162 = L.circleMarker(
+                [37.58536, -77.54687],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_cbc81edd9f645feb08d49abbbd91fdb5 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_bfd7bfb1d04bd620521f6b0372382833 = $(`&lt;div id=&quot;html_bfd7bfb1d04bd620521f6b0372382833&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #7&lt;/b&gt;&lt;br&gt;&lt;b&gt;James Plotkin&lt;/b&gt;&lt;br&gt;#31169&lt;br&gt;801 Westham Pkwy, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$155.00&lt;/b&gt;&lt;br&gt;Size: 16.1 k sqft&lt;/div&gt;`)[0];
+                popup_cbc81edd9f645feb08d49abbbd91fdb5.setContent(html_bfd7bfb1d04bd620521f6b0372382833);
+            
+        
+
+        circle_marker_7b27ee2ce034190d8230ad30e215d162.bindPopup(popup_cbc81edd9f645feb08d49abbbd91fdb5)
+        ;
+
+        
+    
+    
+            circle_marker_7b27ee2ce034190d8230ad30e215d162.bindTooltip(
+                `&lt;div&gt;
+                     #7 · James Plotkin
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_228de174264de0095c62cbe1e52e9d90 = L.marker(
+                [37.58536, -77.54687],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_b2536cb6a6f3dd7ee6d31b64e2e857e2 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e7\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_228de174264de0095c62cbe1e52e9d90.setIcon(div_icon_b2536cb6a6f3dd7ee6d31b64e2e857e2);
+            
+    
+            var circle_marker_de5f4d545d022a1c34ef05c886199534 = L.circleMarker(
+                [37.5901, -77.55825],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_99673587b2ceb64ccdcc68644072b9c9 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_a1697e5753c6535e6e52714aefa37cd2 = $(`&lt;div id=&quot;html_a1697e5753c6535e6e52714aefa37cd2&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #8&lt;/b&gt;&lt;br&gt;&lt;b&gt;Richard Tate&lt;/b&gt;&lt;br&gt;#34054&lt;br&gt;8136 Sawmill Rd, Richmond&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$181.00&lt;/b&gt;&lt;br&gt;Size: 23.5 k sqft&lt;/div&gt;`)[0];
+                popup_99673587b2ceb64ccdcc68644072b9c9.setContent(html_a1697e5753c6535e6e52714aefa37cd2);
+            
+        
+
+        circle_marker_de5f4d545d022a1c34ef05c886199534.bindPopup(popup_99673587b2ceb64ccdcc68644072b9c9)
+        ;
+
+        
+    
+    
+            circle_marker_de5f4d545d022a1c34ef05c886199534.bindTooltip(
+                `&lt;div&gt;
+                     #8 · Richard Tate
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_5ba6d457ff062309dae5ac5d65f0f3ae = L.marker(
+                [37.5901, -77.55825],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_4e64841438e90d6debf007f8cef77939 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e8\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_5ba6d457ff062309dae5ac5d65f0f3ae.setIcon(div_icon_4e64841438e90d6debf007f8cef77939);
+            
+    
+            var circle_marker_56f64995d9919c6a92551923c854104a = L.circleMarker(
+                [37.60795, -77.88148],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_6a8e439f5983f62030ad6d5c1aae1e03 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_ee08fb7374f7eef4091269ae904e6f75 = $(`&lt;div id=&quot;html_ee08fb7374f7eef4091269ae904e6f75&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #9&lt;/b&gt;&lt;br&gt;&lt;b&gt;Joshua Elliott&lt;/b&gt;&lt;br&gt;#880398&lt;br&gt;3386 Manor Oaks Dr, Powhatan&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$349.00&lt;/b&gt;&lt;br&gt;Size: 75.9 k sqft&lt;/div&gt;`)[0];
+                popup_6a8e439f5983f62030ad6d5c1aae1e03.setContent(html_ee08fb7374f7eef4091269ae904e6f75);
+            
+        
+
+        circle_marker_56f64995d9919c6a92551923c854104a.bindPopup(popup_6a8e439f5983f62030ad6d5c1aae1e03)
+        ;
+
+        
+    
+    
+            circle_marker_56f64995d9919c6a92551923c854104a.bindTooltip(
+                `&lt;div&gt;
+                     #9 · Joshua Elliott
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_5ffe206a3ebf48b648d5e3afa578eb30 = L.marker(
+                [37.60795, -77.88148],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_643e3a4aac4a1be142d20509df37a5fc = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e9\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_5ffe206a3ebf48b648d5e3afa578eb30.setIcon(div_icon_643e3a4aac4a1be142d20509df37a5fc);
+            
+    
+            var circle_marker_16fd8781565ebdb42ec654ede83cb56a = L.circleMarker(
+                [37.72162, -77.90868],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#f58231&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#f58231&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_d33a2dda224d38f9f1a137f5ac7ddf59 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_c7810034ede6e9788af44422c7476f11 = $(`&lt;div id=&quot;html_c7810034ede6e9788af44422c7476f11&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #10&lt;/b&gt;&lt;br&gt;&lt;b&gt;Beverly F. Payette&lt;/b&gt;&lt;br&gt;#880422&lt;br&gt;3213 Little Creek Rd, Goochland&lt;br&gt;Tech: &lt;b&gt;Kyle Robinson&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;PB&lt;/b&gt; (Lawn)&lt;br&gt;Revenue: &lt;b&gt;$137.50&lt;/b&gt;&lt;br&gt;Size: 25.7 k sqft&lt;/div&gt;`)[0];
+                popup_d33a2dda224d38f9f1a137f5ac7ddf59.setContent(html_c7810034ede6e9788af44422c7476f11);
+            
+        
+
+        circle_marker_16fd8781565ebdb42ec654ede83cb56a.bindPopup(popup_d33a2dda224d38f9f1a137f5ac7ddf59)
+        ;
+
+        
+    
+    
+            circle_marker_16fd8781565ebdb42ec654ede83cb56a.bindTooltip(
+                `&lt;div&gt;
+                     #10 · Beverly F. Payette
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_03d3f3ad1bf372fbc6d1a8b6a7858d6f = L.marker(
+                [37.72162, -77.90868],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_de76b3a06335eb936386130121b8c90c = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#f58231;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e10\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_03d3f3ad1bf372fbc6d1a8b6a7858d6f.setIcon(div_icon_de76b3a06335eb936386130121b8c90c);
+            
+    
+            var poly_line_39a60bb314668e856969ca51766d2973 = L.polyline(
+                [[37.54899, -77.60665], [37.43914, -77.63839], [37.52136, -77.64201], [37.51977, -77.59106], [37.38876, -77.66812], [37.54657, -77.63277], [37.53733, -77.62136], [37.45538, -77.61098], [37.3958, -77.70177], [37.54942, -77.6072]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: false, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 0.75, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            poly_line_39a60bb314668e856969ca51766d2973.bindTooltip(
+                `&lt;div&gt;
+                     Zane Lundgren
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var circle_marker_21c3a476fc810f329f8172952030d001 = L.circleMarker(
+                [37.54899, -77.60665],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_326affae3f6d24c25d4f10e5de4a8e21 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_45813be5fecea8cb4768ea2612f527d7 = $(`&lt;div id=&quot;html_45813be5fecea8cb4768ea2612f527d7&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Robert E Snidow&lt;/b&gt;&lt;br&gt;#67655&lt;br&gt;3760 Reeds Landing Cir, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$219.00&lt;/b&gt;&lt;br&gt;Size: 17.6 k sqft&lt;/div&gt;`)[0];
+                popup_326affae3f6d24c25d4f10e5de4a8e21.setContent(html_45813be5fecea8cb4768ea2612f527d7);
+            
+        
+
+        circle_marker_21c3a476fc810f329f8172952030d001.bindPopup(popup_326affae3f6d24c25d4f10e5de4a8e21)
+        ;
+
+        
+    
+    
+            circle_marker_21c3a476fc810f329f8172952030d001.bindTooltip(
+                `&lt;div&gt;
+                     #1 · Robert E Snidow
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_2e18ddcdf20665b474315f32d54bc669 = L.marker(
+                [37.54899, -77.60665],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_2de079e125ddf06a043490a34e037d85 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e1\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_2e18ddcdf20665b474315f32d54bc669.setIcon(div_icon_2de079e125ddf06a043490a34e037d85);
+            
+    
+            var circle_marker_6763c89eeede2ec2366f5babbd366d14 = L.circleMarker(
+                [37.43914, -77.63839],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_c56f57a1ab0be1820cd2a144a786471f = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_7b388018e4ee226296df4cb33ea7c0e0 = $(`&lt;div id=&quot;html_7b388018e4ee226296df4cb33ea7c0e0&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Matt Shevalier&lt;/b&gt;&lt;br&gt;#72195&lt;br&gt;12800 Mill Shed Dr, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;MRP&lt;/b&gt; (Mosquito)&lt;br&gt;Revenue: &lt;b&gt;$65.00&lt;/b&gt;&lt;br&gt;Size: 2.6 k sqft&lt;/div&gt;`)[0];
+                popup_c56f57a1ab0be1820cd2a144a786471f.setContent(html_7b388018e4ee226296df4cb33ea7c0e0);
+            
+        
+
+        circle_marker_6763c89eeede2ec2366f5babbd366d14.bindPopup(popup_c56f57a1ab0be1820cd2a144a786471f)
+        ;
+
+        
+    
+    
+            circle_marker_6763c89eeede2ec2366f5babbd366d14.bindTooltip(
+                `&lt;div&gt;
+                     #2 · Matt Shevalier
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_641dadd7d2b5bf584552e329923831f3 = L.marker(
+                [37.43914, -77.63839],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_7dc91bbd8612ce73c799dcf73c73cb01 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e2\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_641dadd7d2b5bf584552e329923831f3.setIcon(div_icon_7dc91bbd8612ce73c799dcf73c73cb01);
+            
+    
+            var circle_marker_0d677988c2f8465d2b573821555bf0d4 = L.circleMarker(
+                [37.52136, -77.64201],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_df74b5a744d804231dcbb2a22e109c0b = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_496dff84ab80930947c368b4e8c33efb = $(`&lt;div id=&quot;html_496dff84ab80930947c368b4e8c33efb&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #3&lt;/b&gt;&lt;br&gt;&lt;b&gt;Lindsay Lewis&lt;/b&gt;&lt;br&gt;#72348&lt;br&gt;2220 Kings Lynn Rd, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$163.00&lt;/b&gt;&lt;br&gt;Size: 12.5 k sqft&lt;/div&gt;`)[0];
+                popup_df74b5a744d804231dcbb2a22e109c0b.setContent(html_496dff84ab80930947c368b4e8c33efb);
+            
+        
+
+        circle_marker_0d677988c2f8465d2b573821555bf0d4.bindPopup(popup_df74b5a744d804231dcbb2a22e109c0b)
+        ;
+
+        
+    
+    
+            circle_marker_0d677988c2f8465d2b573821555bf0d4.bindTooltip(
+                `&lt;div&gt;
+                     #3 · Lindsay Lewis
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_257e7a02962348b89f33f2a00ed80831 = L.marker(
+                [37.52136, -77.64201],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_cc240ca61879444d585c7f8bced0cc75 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e3\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_257e7a02962348b89f33f2a00ed80831.setIcon(div_icon_cc240ca61879444d585c7f8bced0cc75);
+            
+    
+            var circle_marker_f90eb7793dd77be9f9ddf70188964823 = L.circleMarker(
+                [37.51977, -77.59106],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_2aacbc3bb383334b6009d1d9df120697 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_2265b4fea8ffdc0ef6fbefe1dcf3245b = $(`&lt;div id=&quot;html_2265b4fea8ffdc0ef6fbefe1dcf3245b&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #4&lt;/b&gt;&lt;br&gt;&lt;b&gt;R. J. McCall&lt;/b&gt;&lt;br&gt;#73199&lt;br&gt;10748 Savoy Rd, North Chesterfield&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$62.00&lt;/b&gt;&lt;br&gt;Size: 4.4 k sqft&lt;/div&gt;`)[0];
+                popup_2aacbc3bb383334b6009d1d9df120697.setContent(html_2265b4fea8ffdc0ef6fbefe1dcf3245b);
+            
+        
+
+        circle_marker_f90eb7793dd77be9f9ddf70188964823.bindPopup(popup_2aacbc3bb383334b6009d1d9df120697)
+        ;
+
+        
+    
+    
+            circle_marker_f90eb7793dd77be9f9ddf70188964823.bindTooltip(
+                `&lt;div&gt;
+                     #4 · R. J. McCall
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_b8a476dfa36abe9c79609f782d24f920 = L.marker(
+                [37.51977, -77.59106],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_ead60e46c1ef917f3d407a7ad5f4aa5d = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e4\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_b8a476dfa36abe9c79609f782d24f920.setIcon(div_icon_ead60e46c1ef917f3d407a7ad5f4aa5d);
+            
+    
+            var circle_marker_9a85bd1749d3a8a6a60ec721e2bb54ec = L.circleMarker(
+                [37.38876, -77.66812],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_276cf3f5aed04128d0d501bda689ef64 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_c61ce0cda706459136fa1393f5ba44ac = $(`&lt;div id=&quot;html_c61ce0cda706459136fa1393f5ba44ac&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #5&lt;/b&gt;&lt;br&gt;&lt;b&gt;Janet Coover&lt;/b&gt;&lt;br&gt;#76210&lt;br&gt;14300 Ashdale Way, Chesterfield&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;MRP&lt;/b&gt; (Mosquito)&lt;br&gt;Revenue: &lt;b&gt;$65.00&lt;/b&gt;&lt;br&gt;Size: 5.2 k sqft&lt;/div&gt;`)[0];
+                popup_276cf3f5aed04128d0d501bda689ef64.setContent(html_c61ce0cda706459136fa1393f5ba44ac);
+            
+        
+
+        circle_marker_9a85bd1749d3a8a6a60ec721e2bb54ec.bindPopup(popup_276cf3f5aed04128d0d501bda689ef64)
+        ;
+
+        
+    
+    
+            circle_marker_9a85bd1749d3a8a6a60ec721e2bb54ec.bindTooltip(
+                `&lt;div&gt;
+                     #5 · Janet Coover
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_4416c91e7a0cd51ba33ae605be8d7259 = L.marker(
+                [37.38876, -77.66812],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_049a0edaeaf6e46a73daaa1f0c68c8f7 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e5\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_4416c91e7a0cd51ba33ae605be8d7259.setIcon(div_icon_049a0edaeaf6e46a73daaa1f0c68c8f7);
+            
+    
+            var circle_marker_d1f2e55e6de372603dca589dedcff6f0 = L.circleMarker(
+                [37.54657, -77.63277],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_fa81c745a1333e7072071c30413fa91c = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_9b0a32dcd6c1d2e171d3d8aa9a23536c = $(`&lt;div id=&quot;html_9b0a32dcd6c1d2e171d3d8aa9a23536c&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #6&lt;/b&gt;&lt;br&gt;&lt;b&gt;Will Cosby&lt;/b&gt;&lt;br&gt;#83447&lt;br&gt;3224 Fulbrook Dr, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$185.00&lt;/b&gt;&lt;br&gt;Size: 15.0 k sqft&lt;/div&gt;`)[0];
+                popup_fa81c745a1333e7072071c30413fa91c.setContent(html_9b0a32dcd6c1d2e171d3d8aa9a23536c);
+            
+        
+
+        circle_marker_d1f2e55e6de372603dca589dedcff6f0.bindPopup(popup_fa81c745a1333e7072071c30413fa91c)
+        ;
+
+        
+    
+    
+            circle_marker_d1f2e55e6de372603dca589dedcff6f0.bindTooltip(
+                `&lt;div&gt;
+                     #6 · Will Cosby
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_2ea57fd2f11d82ba43a09134b26964cc = L.marker(
+                [37.54657, -77.63277],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_a6c197613299bd9e213b8c64962235e9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e6\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_2ea57fd2f11d82ba43a09134b26964cc.setIcon(div_icon_a6c197613299bd9e213b8c64962235e9);
+            
+    
+            var circle_marker_d11a50d8a906e352765c9ecad73ea3ce = L.circleMarker(
+                [37.53733, -77.62136],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_aa8c5594b8b81015ad11cb4791e65c1e = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_a1628853b026280f51c1cffbbf5293a4 = $(`&lt;div id=&quot;html_a1628853b026280f51c1cffbbf5293a4&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #7&lt;/b&gt;&lt;br&gt;&lt;b&gt;Paul Hughes&lt;/b&gt;&lt;br&gt;#84260&lt;br&gt;3200 Middlewood Pl, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$99.00&lt;/b&gt;&lt;br&gt;Size: 7.5 k sqft&lt;/div&gt;`)[0];
+                popup_aa8c5594b8b81015ad11cb4791e65c1e.setContent(html_a1628853b026280f51c1cffbbf5293a4);
+            
+        
+
+        circle_marker_d11a50d8a906e352765c9ecad73ea3ce.bindPopup(popup_aa8c5594b8b81015ad11cb4791e65c1e)
+        ;
+
+        
+    
+    
+            circle_marker_d11a50d8a906e352765c9ecad73ea3ce.bindTooltip(
+                `&lt;div&gt;
+                     #7 · Paul Hughes
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_b2e580c2997d201af9628e3f6ce9f135 = L.marker(
+                [37.53733, -77.62136],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_b459d47d6b7dd9ec1dc45b4fc3f034b8 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e7\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_b2e580c2997d201af9628e3f6ce9f135.setIcon(div_icon_b459d47d6b7dd9ec1dc45b4fc3f034b8);
+            
+    
+            var circle_marker_f41bdddeb5a3e675af3b3c1445d54ded = L.circleMarker(
+                [37.45538, -77.61098],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_9da977b93b9acf0101faf6e3b1b84a14 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_f87d4ee22c2bbd4555fc74dd30f89385 = $(`&lt;div id=&quot;html_f87d4ee22c2bbd4555fc74dd30f89385&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #8&lt;/b&gt;&lt;br&gt;&lt;b&gt;Lisa Gater&lt;/b&gt;&lt;br&gt;#100834&lt;br&gt;2606 Brookforest Ter, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$99.00&lt;/b&gt;&lt;br&gt;Size: 7.4 k sqft&lt;/div&gt;`)[0];
+                popup_9da977b93b9acf0101faf6e3b1b84a14.setContent(html_f87d4ee22c2bbd4555fc74dd30f89385);
+            
+        
+
+        circle_marker_f41bdddeb5a3e675af3b3c1445d54ded.bindPopup(popup_9da977b93b9acf0101faf6e3b1b84a14)
+        ;
+
+        
+    
+    
+            circle_marker_f41bdddeb5a3e675af3b3c1445d54ded.bindTooltip(
+                `&lt;div&gt;
+                     #8 · Lisa Gater
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_ec502dd65042b926c6eba8537d2ec18c = L.marker(
+                [37.45538, -77.61098],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_480b7be01b15d18963acf12ae5dbaf42 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e8\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_ec502dd65042b926c6eba8537d2ec18c.setIcon(div_icon_480b7be01b15d18963acf12ae5dbaf42);
+            
+    
+            var circle_marker_04f9ccf6e0cf00901fcb71d5af3c2207 = L.circleMarker(
+                [37.3958, -77.70177],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_ee34c9637050b66a4a642fed8374607d = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_2ebc7dbf81607efb6bb2e6e95cb972af = $(`&lt;div id=&quot;html_2ebc7dbf81607efb6bb2e6e95cb972af&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #9&lt;/b&gt;&lt;br&gt;&lt;b&gt;Teresa Isquith&lt;/b&gt;&lt;br&gt;#710780&lt;br&gt;8600 Hampton Crest Cir, Chesterfield&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;MRP&lt;/b&gt; (Mosquito)&lt;br&gt;Revenue: &lt;b&gt;$60.00&lt;/b&gt;&lt;br&gt;Size: 3.8 k sqft&lt;/div&gt;`)[0];
+                popup_ee34c9637050b66a4a642fed8374607d.setContent(html_2ebc7dbf81607efb6bb2e6e95cb972af);
+            
+        
+
+        circle_marker_04f9ccf6e0cf00901fcb71d5af3c2207.bindPopup(popup_ee34c9637050b66a4a642fed8374607d)
+        ;
+
+        
+    
+    
+            circle_marker_04f9ccf6e0cf00901fcb71d5af3c2207.bindTooltip(
+                `&lt;div&gt;
+                     #9 · Teresa Isquith
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_c30523d8b371013cfe1576aa8514409b = L.marker(
+                [37.3958, -77.70177],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_f9231c7bcdc5f3d03d2143d10533d5d9 = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e9\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_c30523d8b371013cfe1576aa8514409b.setIcon(div_icon_f9231c7bcdc5f3d03d2143d10533d5d9);
+            
+    
+            var circle_marker_9e041dec2eee11016ec29059b554bf44 = L.circleMarker(
+                [37.54942, -77.6072],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#911eb4&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#911eb4&quot;, &quot;fillOpacity&quot;: 0.85, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7, &quot;stroke&quot;: true, &quot;weight&quot;: 3}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+        var popup_b8999f888f27025bccb283af0528a266 = L.popup({
+  &quot;maxWidth&quot;: 230,
+});
+
+        
+            
+                var html_8c20f9eb409804bb8dcb04dd8aac1898 = $(`&lt;div id=&quot;html_8c20f9eb409804bb8dcb04dd8aac1898&quot; style=&quot;width: 100.0%; height: 100.0%;&quot;&gt;&lt;b&gt;Stop #10&lt;/b&gt;&lt;br&gt;&lt;b&gt;David Comfort&lt;/b&gt;&lt;br&gt;#880297&lt;br&gt;3761 Reeds Landing Cir, Midlothian&lt;br&gt;Tech: &lt;b&gt;Zane Lundgren&lt;/b&gt;&lt;br&gt;Program: &lt;b&gt;DC&lt;/b&gt; (Miscellaneous)&lt;br&gt;Revenue: &lt;b&gt;$129.00&lt;/b&gt;&lt;br&gt;Size: 9.6 k sqft&lt;/div&gt;`)[0];
+                popup_b8999f888f27025bccb283af0528a266.setContent(html_8c20f9eb409804bb8dcb04dd8aac1898);
+            
+        
+
+        circle_marker_9e041dec2eee11016ec29059b554bf44.bindPopup(popup_b8999f888f27025bccb283af0528a266)
+        ;
+
+        
+    
+    
+            circle_marker_9e041dec2eee11016ec29059b554bf44.bindTooltip(
+                `&lt;div&gt;
+                     #10 · David Comfort
+                 &lt;/div&gt;`,
+                {
+  &quot;sticky&quot;: true,
+}
+            );
+        
+    
+            var marker_314b5dd8a88ec69a4859a9d8c9c24ef9 = L.marker(
+                [37.54942, -77.6072],
+                {
+}
+            ).addTo(map_d446162aa16cbd72ff5a24f75d8a1ef6);
+        
+    
+            var div_icon_bb23d9a2598da72dcf14810f7ec34e3f = L.divIcon({
+  &quot;html&quot;: &quot;\u003cdiv style=\&quot;font-size:9px;color:white;background:#911eb4;border-radius:50%;width:16px;height:16px;text-align:center;line-height:16px;font-weight:bold;margin-left:-8px;margin-top:-8px;\&quot;\u003e10\u003c/div\u003e&quot;,
+  &quot;iconSize&quot;: [16, 16],
+  &quot;iconAnchor&quot;: [8, 8],
+  &quot;className&quot;: &quot;empty&quot;,
+});
+        
+    
+                marker_314b5dd8a88ec69a4859a9d8c9c24ef9.setIcon(div_icon_bb23d9a2598da72dcf14810f7ec34e3f);
+            
+&lt;/script&gt;
+&lt;/html&gt;" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></div>

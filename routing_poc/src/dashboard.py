@@ -191,14 +191,7 @@ def build_optimization_summary(
         t_idx     = tech_index[tid]
         stops     = [s for s in route if s not in ("Depot", "BREAK")]
         has_break = "BREAK" in route
-        total_min = info["total_minutes"]
-
-        # Prefer calendar shift_minutes from route output over flat max_hours
-        shift_min  = info.get("shift_minutes") or tech_max_map.get(tid, 8) * 60
-        target_min = info.get("target_minutes") or shift_min * 0.9
-        util_pct   = min(100.0, round(total_min / shift_min * 100, 1)) if shift_min else 0
-        all_util_pct.append(util_pct)
-        total_assigned += len(stops)
+        lunch_min  = info.get("lunch_minutes", 0)
 
         # Drive time for this tech
         prev_i  = t_idx
@@ -217,6 +210,18 @@ def build_optimization_summary(
 
         svc_min = sum(job_dur_map.get(s, 0) for s in stops)
         total_svc_min_all += svc_min
+
+        # Recompute actual route time from components so the displayed total
+        # always equals the breakdown. info["total_minutes"] accumulates per-batch
+        # optimizer totals which double-count depot legs when batches are merged.
+        total_min = round(drive_s / 60 + svc_min + lunch_min, 1)
+
+        # Prefer calendar shift_minutes from route output over flat max_hours
+        shift_min  = info.get("shift_minutes") or tech_max_map.get(tid, 8) * 60
+        target_min = info.get("target_minutes") or shift_min * 0.9
+        util_pct   = min(100.0, round(total_min / shift_min * 100, 1)) if shift_min else 0
+        all_util_pct.append(util_pct)
+        total_assigned += len(stops)
         rev = sum(job_rev_map.get(s, 0) for s in stops)
         total_revenue += rev
 
@@ -240,9 +245,10 @@ def build_optimization_summary(
         lines.append(f"  {tid} - {name}")
         brk_note = "  (+ lunch break)" if has_break else ""
         lines.append(f"    Stops          : {len(stops)}{brk_note}")
+        lunch_note = f" + {lunch_min:.0f} min lunch" if lunch_min else ""
         lines.append(
             f"    Route time     : {total_min:.0f} / {shift_min:.0f} min"
-            f"  ({drive_s/60:.0f} min drive + {svc_min} min service)"
+            f"  ({drive_s/60:.0f} min drive + {svc_min} min service{lunch_note})"
         )
         lines.append(
             f"    Utilization    : {util_pct}%  {band_note}"
@@ -394,6 +400,7 @@ def build_kpi(jobs: pd.DataFrame, technicians: pd.DataFrame,
 
     job_rev_map    = dict(zip(jobs["job_id"], jobs["revenue"]))
     job_pref_tech  = dict(zip(jobs["job_id"], jobs["preferred_tech_id"].fillna("")))
+    job_dur_map    = dict(zip(jobs["job_id"], jobs["duration_minutes"]))
     tech_max_hours = dict(zip(technicians["tech_id"], technicians["max_hours"]))
 
     total_jobs        = len(jobs)
@@ -412,7 +419,8 @@ def build_kpi(jobs: pd.DataFrame, technicians: pd.DataFrame,
         tech_stop_counts.append(len(t_stops))
         assigned_ids.update(t_stops)
 
-        prev_idx = t_idx
+        prev_idx     = t_idx
+        tech_drive_s = 0.0
         for stop in route:
             if stop == "Depot":
                 cur_idx = t_idx
@@ -424,6 +432,7 @@ def build_kpi(jobs: pd.DataFrame, technicians: pd.DataFrame,
             if prev_idx != cur_idx:
                 total_distance_m += distance_m[prev_idx][cur_idx]
                 total_drive_s    += duration_s[prev_idx][cur_idx]
+                tech_drive_s     += duration_s[prev_idx][cur_idx]
             prev_idx = cur_idx
 
         # Preference violations
@@ -432,13 +441,15 @@ def build_kpi(jobs: pd.DataFrame, technicians: pd.DataFrame,
             if pref and pref != tid:
                 pref_violations += 1
 
-        # Utilisation (using calendar shift_minutes when available)
-        route_s   = info["total_minutes"] * 60
+        # Utilisation: recompute from actual route components so the figure is
+        # consistent with the per-tech breakdown and reflects the true shift length.
+        lunch_min = info.get("lunch_minutes", 0)
+        svc_min   = sum(job_dur_map.get(s, 0) for s in t_stops)
+        route_min = tech_drive_s / 60 + svc_min + lunch_min
         shift_min = info.get("shift_minutes") or tech_max_hours.get(tid, 8) * 60
-        shift_s   = shift_min * 60
-        idle_s    = max(0.0, shift_s - route_s)
+        idle_s    = max(0.0, shift_min - route_min) * 60
         total_idle_s += idle_s
-        total_util_pct.append(round(route_s / shift_s * 100, 1) if shift_s else 0)
+        total_util_pct.append(round(route_min / shift_min * 100, 1) if shift_min else 0)
 
     assigned_jobs   = len(assigned_ids)
     unassigned_jobs = total_jobs - assigned_jobs

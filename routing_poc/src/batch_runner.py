@@ -90,12 +90,21 @@ def optimize_batched(
     """
     all_routes:     dict = {}
     all_unassigned: list = []
-    tech_remaining_s: dict = {}   # tid -> seconds remaining in today's shift
 
-    # Full-shift seconds per tech (used as starting budget for batch 1)
+    # Full-shift seconds per tech derived from shift_start/shift_end.
+    # _shift_seconds falls back to max_hours (default 8 h) when those columns
+    # are absent or cannot be parsed, so any shift length is supported.
     full_shift: dict = {
         row["tech_id"]: _shift_seconds(row)
         for _, row in technicians.iterrows()
+    }
+
+    # Budget pool = target_pct × actual shift, not 100% of shift.
+    # Initialising here (not lazily) ensures batch 1 is also capped correctly.
+    target_pct_val = float(cfg.get("utilization", {}).get("target_pct", 90)) / 100.0
+    tech_remaining_s: dict = {
+        tid: int(target_pct_val * s)
+        for tid, s in full_shift.items()
     }
 
     jobs_list = priority_queue.reset_index(drop=True)
@@ -128,13 +137,14 @@ def optimize_batched(
             .reset_index(drop=True)
         )
 
-        # ── Inject remaining capacity (batch 2+) ──────────────────────────────
+        # ── Inject remaining capacity into every batch (including batch 1) ──────
+        # optimizer.py derives shift_s_list from this override, so the hard
+        # time-dimension cap is always target_pct × actual_shift − time_used_so_far.
         batch_cfg = copy.deepcopy(cfg)
-        if b_idx > 0 and tech_remaining_s:
-            batch_cfg["_tech_remaining_s"] = {
-                tid: max(0, tech_remaining_s.get(tid, full_shift.get(tid, 28800)))
-                for tid in full_shift
-            }
+        batch_cfg["_tech_remaining_s"] = {
+            tid: max(0, tech_remaining_s.get(tid, int(target_pct_val * full_shift.get(tid, 28800))))
+            for tid in full_shift
+        }
 
         # ── OR-Tools optimisation ─────────────────────────────────────────────
         routes_b, unassigned_b = _optimize(

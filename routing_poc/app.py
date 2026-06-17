@@ -15,25 +15,38 @@ OUT_DIR  = os.path.join(BASE_DIR, "output")
 os.makedirs(OUT_DIR, exist_ok=True)
 sys.path.insert(0, SRC_DIR)
 
-from data_loader     import load_all
-from phase1_priority import compute_priority
-from phase2_matching import match_resources
-from geo_clustering  import cluster_jobs_to_techs
-from distance_matrix import build_distance_matrix
-from batch_runner    import optimize_batched
-from visualization   import build_route_map, build_jobs_map
-from dashboard       import build_kpi, build_optimization_summary
-from llm_summary     import generate_narrative
+from data_loader          import load_all
+from phase1_priority      import compute_priority
+from phase2_matching      import match_resources
+from geo_clustering       import cluster_jobs_to_techs
+from distance_matrix      import build_distance_matrix
+from batch_runner         import optimize_batched
+from visualization        import build_route_map, build_jobs_map
+from dashboard            import build_kpi, build_optimization_summary
+from llm_summary          import generate_narrative
+from service_history_map  import load_service_data, available_dates, build_sh_map
+from chatbot              import build_context, stream_response
+
+# ── Pre-load service history files (cached so they don't reload on every rerun) ─
+_SH_PATH     = os.path.join(DATA_DIR, "service_history.xlsx")
+_LAT_PATH    = os.path.join(DATA_DIR, "customer_lat_long.xlsx")
+_BRANCH_PATH = os.path.join(DATA_DIR, "branch.csv")
+
+@st.cache_data(show_spinner=False)
+def _load_sh_data():
+    if os.path.exists(_SH_PATH) and os.path.exists(_LAT_PATH) and os.path.exists(_BRANCH_PATH):
+        return load_service_data(_SH_PATH, _LAT_PATH, _BRANCH_PATH)
+    return None, None, None
 
 # ── Page config ─────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="TouchTurf Routing Engine",
-    page_icon="🚛",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-st.title("🚛 TouchTurf Routing Engine")
+st.title("TouchTurf Routing Engine")
 st.caption("POC · Richmond VA · OR-Tools + OSRM")
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
@@ -41,7 +54,7 @@ with st.sidebar:
     st.header("Configuration")
 
     # ── Data Files ────────────────────────────────────────────────────────────
-    st.subheader("📂 Data Files")
+    st.subheader("Data Files")
     st.caption("Leave blank to use built-in sample data")
     up_jobs   = st.file_uploader("jobs.csv",        type="csv", key="up_jobs")
     up_techs  = st.file_uploader("technicians.csv", type="csv", key="up_techs")
@@ -51,23 +64,39 @@ with st.sidebar:
     st.divider()
 
     # ── Schedule ──────────────────────────────────────────────────────────────
-    st.subheader("📅 Schedule")
-    route_date = st.date_input("Route Date", value=date(2026, 6, 12))
+    st.subheader("Schedule")
+    filter_by_date = st.toggle("Filter by scheduled date", value=True,
+                               help="OFF = run all jobs regardless of scheduled_date column.")
+    route_date = st.date_input("Route Date", value=date(2026, 6, 12),
+                               disabled=not filter_by_date)
 
     st.divider()
 
     # ── Objective Weights ─────────────────────────────────────────────────────
-    st.subheader("🎯 Objective Weights")
+    st.subheader("Objective Weights")
     st.caption("Set to 0 to disable an objective entirely.")
     w_revenue = st.slider("Maximize Revenue",    0.0, 5.0, 2.0, 0.5)
     w_drive   = st.slider("Minimize Drive Time", 0.0, 5.0, 1.0, 0.5)
     w_pref    = st.slider("Customer Preference", 0.0, 5.0, 1.0, 0.5)
     w_util    = st.slider("Tech Utilization",    0.0, 5.0, 1.0, 0.5)
 
+    st.caption("**Service Call Priority**")
+    service_call_penalty = st.number_input(
+        "Service call minimum value ($-equivalent)",
+        min_value=0, max_value=10000, value=500, step=50,
+        help=(
+            "Service calls typically have $0 revenue, so the optimizer would otherwise "
+            "drop them freely. This sets a minimum dollar value the optimizer treats "
+            "every service call as worth — e.g. $500 means the solver will accept a "
+            "detour up to the same cost it would pay to include a $500 regular job. "
+            "Raise to force service calls into routes even if far out of the way."
+        ),
+    )
+
     st.divider()
 
     # ── Utilization Settings ──────────────────────────────────────────────────
-    st.subheader("📊 Utilization Settings")
+    st.subheader("Utilization Settings")
     use_calendar = st.toggle(
         "Use shift calendar (shift_start/shift_end)",
         value=True,
@@ -103,7 +132,7 @@ with st.sidebar:
     st.divider()
 
     # ── Priority Weights ──────────────────────────────────────────────────────
-    st.subheader("🏆 Priority Weights")
+    st.subheader("Priority Weights")
     pw_new  = st.number_input("New Customer",      value=1000, step=100, min_value=0)
     pw_asap = st.number_input("ASAP",              value=100,  step=10,  min_value=0)
     pw_days = st.number_input("Last Service Days", value=1,    step=1,   min_value=0)
@@ -111,7 +140,7 @@ with st.sidebar:
     st.divider()
 
     # ── Phase II Constraint Flags ─────────────────────────────────────────────
-    st.subheader("🔒 Phase II Constraints")
+    st.subheader("Phase II Constraints")
     st.caption("Toggle checks applied during technician eligibility matching.")
     with st.expander("Eligibility checks (all ON by default)", expanded=False):
         en_location    = st.toggle("Location threshold",  value=True,
@@ -128,7 +157,7 @@ with st.sidebar:
         en_capacity    = st.toggle("Truck capacity check", value=True)
 
     # ── Optimizer Constraint Flags ────────────────────────────────────────────
-    st.subheader("⚙️ Optimizer Constraints")
+    st.subheader("Optimizer Constraints")
     st.caption("Toggle hard constraints in the OR-Tools VRP model.")
     with st.expander("Route constraints (all ON by default)", expanded=False):
         en_work_hours = st.toggle(
@@ -153,13 +182,13 @@ with st.sidebar:
     st.divider()
 
     # ── Geo Clustering ────────────────────────────────────────────────────────
-    st.subheader("🗺️ Geo Clustering")
+    st.subheader("Geo Clustering")
     geo_enabled = st.toggle("k-means clustering (1 zone per tech)", value=True)
 
     st.divider()
 
     # ── Batch Settings ────────────────────────────────────────────────────────
-    st.subheader("📦 Batch Processing")
+    st.subheader("Batch Processing")
     st.caption(
         "Jobs are processed in priority-ordered batches. "
         "Keeps OSRM requests and OR-Tools problem size small regardless of job count."
@@ -177,7 +206,7 @@ with st.sidebar:
     st.divider()
 
     # ── LLM Settings ─────────────────────────────────────────────────────────
-    st.subheader("🤖 LLM Narrative")
+    st.subheader("LLM Narrative")
     st.caption("Generate an AI executive summary after optimization.")
     llm_provider = st.selectbox(
         "Provider",
@@ -194,7 +223,7 @@ with st.sidebar:
 
     st.divider()
 
-    run_btn = st.button("▶️  Run Optimizer", type="primary", use_container_width=True)
+    run_btn = st.button("Run Optimizer", type="primary", use_container_width=True)
 
 
 # ── Config dict (built from sidebar values) ──────────────────────────────────
@@ -209,6 +238,7 @@ cfg = {
         "minimize_drive_time":       w_drive,
         "meet_customer_preference":  w_pref,
         "maximize_tech_utilization": w_util,
+        "service_call_penalty":      int(service_call_penalty),
     },
     "utilization": {
         "target_pct":                   int(target_util_pct),
@@ -224,7 +254,8 @@ cfg = {
         "lunch_after_minutes":        int(lunch_after),
         "lunch_break_minutes":        int(lunch_dur),
         "location_threshold_minutes": int(loc_thresh),
-        "route_date":                 str(route_date),
+        "route_date":                 str(route_date) if filter_by_date else "all",
+        "filter_by_date":             filter_by_date,
         "solver_time_limit":          60,
     },
     "constraint_flags": {
@@ -279,14 +310,14 @@ if run_btn:
 
     try:
         with st.status("Running optimization pipeline…", expanded=True) as status:
-            st.write("📂 Loading data…")
+            st.write("Loading data…")
             data    = _load_data()
             n_techs = len(data["technicians"])
             st.write(f"   {len(data['jobs'])} jobs · {n_techs} technicians loaded")
 
             # ── Date filter ───────────────────────────────────────────────────
             DATE_COL = "scheduled_date"
-            if DATE_COL in data["jobs"].columns:
+            if filter_by_date and DATE_COL in data["jobs"].columns:
                 all_job_count = len(data["jobs"])
                 parsed_dates  = pd.to_datetime(
                     data["jobs"][DATE_COL], errors="coerce"
@@ -298,43 +329,43 @@ if run_btn:
                 n_filtered = len(data["jobs"])
                 if n_filtered == 0:
                     st.warning(
-                        f"⚠️ No jobs have `scheduled_date = {route_date}`. "
+                        f"No jobs have `scheduled_date = {route_date}`. "
                         f"({all_job_count} jobs exist in the file for other dates.) "
-                        "Change the Route Date in the sidebar or check the CSV."
+                        "Change the Route Date in the sidebar or toggle off date filtering."
                     )
-                    status.update(label="⚠️ No jobs for selected date", state="error")
+                    status.update(label="No jobs for selected date", state="error")
                     st.stop()
                 st.write(
-                    f"   📅 Date filter: **{n_filtered}** of {all_job_count} jobs "
+                    f"   Date filter: **{n_filtered}** of {all_job_count} jobs "
                     f"scheduled on {route_date}"
                 )
-                # Re-compute duration/material after filtering (programs unchanged)
                 from data_loader import _compute_job_fields
                 data["jobs"] = _compute_job_fields(data["jobs"], data["programs"])
             else:
-                st.write(
-                    f"   ℹ️ No `{DATE_COL}` column in jobs.csv — "
-                    f"running all {len(data['jobs'])} jobs. "
-                    "Add a `scheduled_date` column (YYYY-MM-DD) to enable date filtering."
+                reason = (
+                    "date filter disabled — running all jobs"
+                    if not filter_by_date
+                    else f"no `{DATE_COL}` column in jobs.csv — running all jobs"
                 )
+                st.write(f"   {len(data['jobs'])} jobs loaded ({reason})")
             # ── End date filter ───────────────────────────────────────────────
 
             n_jobs = len(data["jobs"])
-            st.write("🌐 Calling OSRM for distance matrix…")
+            st.write("Calling OSRM for distance matrix…")
             dist_data = build_distance_matrix(data["technicians"], data["jobs"])
             st.write(f"   {n_techs + n_jobs} × {n_techs + n_jobs} matrix ready")
 
-            st.write("📋 Phase I — computing priority queue…")
+            st.write("Phase I — computing priority queue…")
             priority_queue = compute_priority(data["jobs"], cfg)
 
             job_cluster_map = None
             if geo_enabled:
-                st.write("🗺️  Geo clustering (k-means)…")
+                st.write("Geo clustering (k-means)…")
                 job_cluster_map = cluster_jobs_to_techs(
                     priority_queue, data["technicians"], random_state=42,
                 )
 
-            st.write("✅ Phase II — capacity matching…")
+            st.write("Phase II — capacity matching…")
             eligibility_df = match_resources(
                 priority_queue, data["technicians"], data["trucks"],
                 data["programs"], dist_data, cfg, route_date,
@@ -343,7 +374,7 @@ if run_btn:
 
             n_batches = max(1, -(-len(priority_queue) // int(batch_size)))  # ceil div
             st.write(
-                f"🔧 Phase III — OR-Tools VRP optimizer "
+                f"Phase III — OR-Tools VRP optimizer "
                 f"({len(priority_queue)} jobs → {n_batches} batch{'es' if n_batches > 1 else ''} of {int(batch_size)})…"
             )
             routes, unassigned = optimize_batched(
@@ -353,7 +384,7 @@ if run_btn:
                 status_cb=lambda msg: st.write(msg),
             )
 
-            st.write("🗺️  Building Folium route map…")
+            st.write("Building Folium route map…")
             map_path = os.path.join(OUT_DIR, "route_map.html")
             if routes:
                 build_route_map(routes, data["jobs"], data["technicians"], output_path=map_path)
@@ -378,7 +409,7 @@ if run_btn:
                     eligibility_df=eligibility_df,
                 )
 
-            status.update(label="✅ Optimization complete!", state="complete")
+            status.update(label="Optimization complete!", state="complete")
 
         st.session_state["results"] = {
             "data":            data,
@@ -418,13 +449,13 @@ if "results" in st.session_state:
         st.divider()
 
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "📋 Priority Queue",
-        "✅ Eligibility",
-        "🗺️ Route Map",
-        "📊 KPI Dashboard",
-        "🌿 Service History",
-        "📝 Summary",
-        "🤖 AI Narrative",
+        "Priority Queue",
+        "Eligibility",
+        "Route Map",
+        "KPI Dashboard",
+        "Service History",
+        "Summary",
+        "AI Narrative",
     ])
 
     # ── Tab 1: Priority Queue ─────────────────────────────────────────────────
@@ -452,7 +483,7 @@ if "results" in st.session_state:
         ]
         if disabled:
             st.warning(
-                f"⚠️ The following constraints are **disabled**: {', '.join(disabled)}. "
+                f"The following constraints are **disabled**: {', '.join(disabled)}. "
                 "All technicians are eligible for those checks."
             )
 
@@ -462,7 +493,7 @@ if "results" in st.session_state:
             for jid, tid in r["job_cluster_map"].items():
                 zones[tid].append(jid)
             st.info(
-                f"🗺️  Geo clustering active — {len(r['data']['technicians'])} zones "
+                f"Geo clustering active — {len(r['data']['technicians'])} zones "
                 f"({', '.join(f'{t}: {len(j)} jobs' for t, j in sorted(zones.items()))})"
             )
             with st.expander("View cluster assignments"):
@@ -505,7 +536,7 @@ if "results" in st.session_state:
 
         with open(os.path.join(OUT_DIR, "route_map.html"), "rb") as f:
             st.download_button(
-                label="⬇️ Download Route Map (HTML)",
+                label="Download Route Map (HTML)",
                 data=f,
                 file_name="route_map.html",
                 mime="text/html",
@@ -532,8 +563,8 @@ if "results" in st.session_state:
                     band_low   = r["cfg"].get("utilization", {}).get("band_low_pct", 85)
                     band_high  = r["cfg"].get("utilization", {}).get("band_high_pct", 95)
                     status_badge = (
-                        "✅ In band" if band_low <= util_pct <= band_high
-                        else ("⬇️ Under" if util_pct < band_low else "⬆️ Over")
+                        "In band" if band_low <= util_pct <= band_high
+                        else ("Under" if util_pct < band_low else "Over")
                     )
                     util_rows.append({
                         "Tech": tid,
@@ -552,7 +583,7 @@ if "results" in st.session_state:
 
     # ── Tab 5: Service History ────────────────────────────────────────────────
     with tab5:
-        st.subheader("🌿 Service History — Area-Based Duration")
+        st.subheader("Service History — Area-Based Duration")
 
         jobs_df    = r["data"]["jobs"]
         programs_df = r["data"]["programs"]
@@ -646,7 +677,7 @@ if "results" in st.session_state:
 
     # ── Tab 7: AI Narrative ───────────────────────────────────────────────────
     with tab7:
-        st.subheader("🤖 AI Executive Narrative")
+        st.subheader("AI Executive Narrative")
         run_cfg = r["cfg"]
         provider_name = run_cfg.get("llm", {}).get("provider", "none")
 
@@ -667,7 +698,7 @@ if "results" in st.session_state:
             if "llm_narrative" not in st.session_state:
                 st.session_state["llm_narrative"] = None
 
-            gen_btn = st.button("✨ Generate AI Summary", type="primary")
+            gen_btn = st.button("Generate AI Summary", type="primary")
 
             if gen_btn:
                 with st.spinner(f"Calling {provider_name}…"):
@@ -694,11 +725,11 @@ if "results" in st.session_state:
 
 else:
     # ── Landing state ─────────────────────────────────────────────────────────
-    st.info("👈  Configure settings in the sidebar and click **Run Optimizer** to begin.")
+    st.info("Configure settings in the sidebar and click **Run Optimizer** to begin.")
 
     try:
         sample = _load_data()
-        with st.expander("📂 Preview built-in sample data", expanded=False):
+        with st.expander("Preview built-in sample data", expanded=False):
             c1, c2 = st.columns(2)
             with c1:
                 st.caption("**Jobs**")
@@ -708,10 +739,301 @@ else:
             with c2:
                 st.caption("**Technicians**")
                 st.dataframe(
-                    sample["technicians"][["tech_id", "name", "skills", "available_days"]].head(5),
+                    sample["technicians"][["tech_id", "name", "shift_start", "shift_end", "skills", "available_days"]].head(5),
                     use_container_width=True, hide_index=True,
                 )
                 st.caption("**Programs**")
                 st.dataframe(sample["programs"], use_container_width=True, hide_index=True)
     except Exception:
         pass
+
+
+# ── Service History & Map Comparison (always visible) ────────────────────────
+st.divider()
+st.header("Service History & Map Comparison")
+
+_sh_df, _ll_df, _br_df = _load_sh_data()
+
+if _sh_df is None:
+    st.warning(
+        "Service history files not found. "
+        "Ensure `service_history.xlsx` and `customer_lat_long.xlsx` are in "
+        f"`{DATA_DIR}`."
+    )
+else:
+    sh_tab1, sh_tab2 = st.tabs(["Service History Map", "Side-by-Side Comparison"])
+
+    # ── Tab: Service History Map ──────────────────────────────────────────────
+    with sh_tab1:
+        st.subheader("Service History Routes by Technician")
+
+        _dates = available_dates(_sh_df)
+        _default_sh = _dates[0] if _dates else date(2026, 6, 11)
+
+        c_date, c_btn = st.columns([3, 1])
+        with c_date:
+            sh_date = st.date_input(
+                "Service Date",
+                value=_default_sh,
+                min_value=_dates[-1] if _dates else date(2025, 1, 1),
+                max_value=_dates[0]  if _dates else date(2026, 12, 31),
+                key="sh_date_tab1",
+                help=f"Available dates: {_dates[-1]} → {_dates[0]}"
+            )
+        with c_btn:
+            st.markdown("<br>", unsafe_allow_html=True)
+            sh_load = st.button("Load Map", key="sh_load_tab1", use_container_width=True)
+
+        if sh_load or st.session_state.get("sh_map_html_tab1") is not None:
+            if sh_load:
+                with st.spinner("Building service history map…"):
+                    _html, _mdf, _summ = build_sh_map(_sh_df, _ll_df, _br_df, sh_date)
+                if _html is None:
+                    st.warning(f"No service records found for {sh_date}.")
+                    st.session_state.pop("sh_map_html_tab1", None)
+                    st.session_state.pop("sh_merged_tab1", None)
+                    st.session_state.pop("sh_summ_tab1", None)
+                else:
+                    st.session_state["sh_map_html_tab1"] = _html
+                    st.session_state["sh_merged_tab1"]   = _mdf
+                    st.session_state["sh_summ_tab1"]     = _summ
+
+            if st.session_state.get("sh_map_html_tab1"):
+                summ  = st.session_state["sh_summ_tab1"]
+                mdf   = st.session_state["sh_merged_tab1"]
+                html  = st.session_state["sh_map_html_tab1"]
+
+                # Metrics strip
+                mc1, mc2, mc3, mc4 = st.columns(4)
+                mc1.metric("Date",         str(summ["date"]))
+                mc2.metric("Technicians",  summ["technicians"])
+                mc3.metric("Total Stops",  summ["stops"])
+                mc4.metric("Revenue",      f"${summ['revenue']:,.2f}")
+
+                st.components.v1.html(html, height=580, scrolling=False)
+
+                # Download service history map
+                st.download_button(
+                    "Download Service History Map (HTML)",
+                    data=html,
+                    file_name=f"service_history_{summ['date']}.html",
+                    mime="text/html",
+                )
+
+                st.divider()
+                st.subheader("Stop Detail")
+
+                # Filters
+                fc1, fc2 = st.columns(2)
+                with fc1:
+                    tech_filter = st.multiselect(
+                        "Filter by Technician",
+                        options=summ["techs"],
+                        default=summ["techs"],
+                        key="sh_tech_filter",
+                    )
+                with fc2:
+                    prog_filter = st.multiselect(
+                        "Filter by Program",
+                        options=sorted(mdf["PROGRAM_CODE"].unique()),
+                        default=sorted(mdf["PROGRAM_CODE"].unique()),
+                        key="sh_prog_filter",
+                    )
+
+                display_df = mdf[
+                    mdf["TECHNICIAN"].isin(tech_filter) &
+                    mdf["PROGRAM_CODE"].isin(prog_filter)
+                ].copy()
+
+                disp_cols = [
+                    c for c in [
+                        "CUSTOMER_NUMBER", "CUST_NAME", "STREET_ADDRESS", "CITY",
+                        "TECHNICIAN", "PROGRAM_CODE", "CATEGORY",
+                        "REVENUE", "SERVICE_SIZE",
+                    ] if c in display_df.columns
+                ]
+                st.dataframe(
+                    display_df[disp_cols].rename(columns={
+                        "CUSTOMER_NUMBER": "Customer #",
+                        "CUST_NAME":       "Name",
+                        "STREET_ADDRESS":  "Address",
+                        "CITY":            "City",
+                        "TECHNICIAN":      "Technician",
+                        "PROGRAM_CODE":    "Program",
+                        "CATEGORY":        "Category",
+                        "REVENUE":         "Revenue ($)",
+                        "SERVICE_SIZE":    "Size (k sqft)",
+                    }),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+                # Per-tech summary
+                st.subheader("Per-Technician Summary")
+                tech_summ = (
+                    display_df.groupby("TECHNICIAN")
+                    .agg(
+                        Stops=("CUSTOMER_NUMBER", "count"),
+                        Revenue=("REVENUE", "sum"),
+                        Programs=("PROGRAM_CODE", lambda x: ", ".join(sorted(x.unique()))),
+                    )
+                    .reset_index()
+                    .rename(columns={"TECHNICIAN": "Technician"})
+                )
+                tech_summ["Revenue"] = tech_summ["Revenue"].map("${:,.2f}".format)
+                st.dataframe(tech_summ, use_container_width=True, hide_index=True)
+
+    # ── Tab: Side-by-Side Comparison ─────────────────────────────────────────
+    with sh_tab2:
+        st.subheader("Optimizer Routes vs. Service History Routes")
+        st.caption(
+            "Left — OR-Tools optimized routes (last run). "
+            "Right — Actual service history for the selected date."
+        )
+
+        _dates2 = available_dates(_sh_df)
+        _default2 = _dates2[0] if _dates2 else date(2026, 6, 11)
+
+        cc_date, cc_btn = st.columns([3, 1])
+        with cc_date:
+            sh_date2 = st.date_input(
+                "Service Date",
+                value=_default2,
+                min_value=_dates2[-1] if _dates2 else date(2025, 1, 1),
+                max_value=_dates2[0]  if _dates2 else date(2026, 12, 31),
+                key="sh_date_tab2",
+            )
+        with cc_btn:
+            st.markdown("<br>", unsafe_allow_html=True)
+            cmp_load = st.button("Load Comparison", key="cmp_load", use_container_width=True)
+
+        if cmp_load:
+            with st.spinner("Building service history map for comparison…"):
+                _chtml, _cmdf, _csumm = build_sh_map(_sh_df, _ll_df, _br_df, sh_date2)
+            if _chtml is None:
+                st.warning(f"No service records for {sh_date2}.")
+                st.session_state.pop("cmp_sh_html", None)
+            else:
+                st.session_state["cmp_sh_html"]  = _chtml
+                st.session_state["cmp_sh_summ"]  = _csumm
+
+        # Left map: optimizer route_map.html
+        opt_map_path = os.path.join(OUT_DIR, "route_map.html")
+        opt_html = None
+        if os.path.exists(opt_map_path):
+            with open(opt_map_path, "r", encoding="utf-8") as _f:
+                opt_html = _f.read()
+
+        cmp_sh_html = st.session_state.get("cmp_sh_html")
+
+        if opt_html or cmp_sh_html:
+            ml, mr = st.columns(2)
+
+            with ml:
+                st.markdown("### Optimizer Routes")
+                if opt_html:
+                    st.components.v1.html(opt_html, height=520, scrolling=False)
+                    with open(opt_map_path, "rb") as _f:
+                        st.download_button(
+                            "Download Optimizer Map",
+                            data=_f,
+                            file_name="route_map.html",
+                            mime="text/html",
+                            key="dl_opt_cmp",
+                        )
+                else:
+                    st.info("Run the optimizer first to see the route map here.")
+
+            with mr:
+                st.markdown(f"### Service History — {sh_date2}")
+                if cmp_sh_html:
+                    summ2 = st.session_state.get("cmp_sh_summ", {})
+                    sc1, sc2, sc3 = st.columns(3)
+                    sc1.metric("Technicians", summ2.get("technicians", "—"))
+                    sc2.metric("Stops",       summ2.get("stops", "—"))
+                    sc3.metric("Revenue",     f"${summ2.get('revenue', 0):,.2f}")
+                    st.components.v1.html(cmp_sh_html, height=520, scrolling=False)
+                    st.download_button(
+                        "Download Service History Map",
+                        data=cmp_sh_html,
+                        file_name=f"service_history_{sh_date2}.html",
+                        mime="text/html",
+                        key="dl_sh_cmp",
+                    )
+                else:
+                    st.info("Click **Load Comparison** to render the service history map.")
+        else:
+            st.info(
+                "Click **Load Comparison** above. "
+                "Also run the Optimizer (sidebar) to populate the left-hand route map."
+            )
+
+
+# ── Route Assistant Chatbot (always visible) ──────────────────────────────────
+# st.divider()
+# st.header("Route Assistant")
+# st.caption(
+#     "Ask anything about the optimizer output, trade-off decisions, or routing logic. "
+#     "Run the optimizer first for context-aware answers."
+# )
+
+# # API key input (reads from .env; user can override inline)
+# _env_groq_key = os.environ.get("GROQ_API_KEY", "")
+# with st.expander("Groq API Key", expanded=not bool(_env_groq_key)):
+#     _chat_api_key = st.text_input(
+#         "Groq API Key",
+#         value=_env_groq_key,
+#         type="password",
+#         placeholder="gsk_...",
+#         help="Set GROQ_API_KEY in routing_poc/.env to avoid entering it here.",
+#         key="chat_api_key_input",
+#     )
+#     _chat_model = st.selectbox(
+#         "Model",
+#         ["llama-3.3-70b-versatile", "llama-3.1-70b-versatile",
+#          "llama-3.1-8b-instant", "mixtral-8x7b-32768"],
+#         index=0,
+#         key="chat_model_select",
+#     )
+
+# # Initialise chat history
+# if "chat_messages" not in st.session_state:
+#     st.session_state["chat_messages"] = []
+
+# # Clear chat button
+# if st.button("Clear chat", key="clear_chat"):
+#     st.session_state["chat_messages"] = []
+#     st.rerun()
+
+# # Render existing messages
+# for msg in st.session_state["chat_messages"]:
+#     with st.chat_message(msg["role"]):
+#         st.markdown(msg["content"])
+
+# # Chat input
+# if prompt := st.chat_input(
+#     "Ask about routes, unassigned jobs, trade-offs, technician utilization…"
+# ):
+#     # Show and store user message
+#     with st.chat_message("user"):
+#         st.markdown(prompt)
+#     st.session_state["chat_messages"].append({"role": "user", "content": prompt})
+
+#     # Build context from latest optimizer results (if any)
+#     _ctx = build_context(st.session_state.get("results"))
+
+#     # Stream assistant reply
+#     with st.chat_message("assistant"):
+#         response_text = st.write_stream(
+#             stream_response(
+#                 messages=st.session_state["chat_messages"][:-1]
+#                 + [{"role": "user", "content": prompt}],
+#                 context=_ctx,
+#                 api_key=_chat_api_key or _env_groq_key,
+#                 model=_chat_model,
+#             )
+#         )
+
+#     st.session_state["chat_messages"].append(
+#         {"role": "assistant", "content": response_text}
+#     )

@@ -86,9 +86,10 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
     cflags = cfg.get("constraint_flags", {})
     ucfg   = cfg.get("utilization", {})
 
-    w_revenue = float(ow["maximize_revenue"])
-    w_drive   = float(ow["minimize_drive_time"])
-    w_util    = float(ow["maximize_tech_utilization"])
+    w_revenue            = float(ow["maximize_revenue"])
+    w_drive              = float(ow["minimize_drive_time"])
+    w_util               = float(ow["maximize_tech_utilization"])
+    service_call_penalty = float(ow.get("service_call_penalty", 500))
 
     use_calendar      = bool(ucfg.get("use_shift_calendar", True))
     target_pct        = float(ucfg.get("target_pct", 90)) / 100.0
@@ -119,30 +120,43 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
         [int(jobs_list.iloc[j]["duration_minutes"]) * 60 for j in range(n_jobs)]
     )
 
-    # Per-tech available seconds.
-    # Batch runner injects "_tech_remaining_s" to override with remaining capacity
-    # after earlier batches have already consumed part of the shift.
+    # Per-tech shift seconds — two separate lists:
+    #   full_shift_display_s : actual shift duration (shift_start→shift_end or max_hours fallback)
+    #                          used only for display fields (shift_minutes, target_minutes).
+    #   shift_s_list         : remaining time budget injected by batch_runner
+    #                          (= target_pct × full_shift for batch 1, less for batch 2+)
+    #                          used for the OR-Tools hard cap.
     _remaining_override: dict = cfg.get("_tech_remaining_s", {})
     shift_s_list: list[int] = []
+    full_shift_display_s: list[int] = []
     for _, tech in techs_list.iterrows():
         tid = tech["tech_id"]
+        full_s = (
+            _shift_seconds(tech)
+            if use_calendar
+            else int(float(tech.get("max_hours", 8)) * 3600)
+        )
+        full_shift_display_s.append(full_s)
         if _remaining_override and tid in _remaining_override:
             shift_s_list.append(max(int(_remaining_override[tid]), 0))
-        elif use_calendar:
-            shift_s_list.append(_shift_seconds(tech))
         else:
-            shift_s_list.append(int(float(tech.get("max_hours", 8)) * 3600))
+            shift_s_list.append(full_s)
 
     demands      = _build_demands(jobs_list, programs)
     vehicle_caps = _build_capacities(techs_list, trucks)
-    revenue_map  = dict(zip(jobs_list["job_id"], jobs_list["revenue"]))
+    revenue_map   = dict(zip(jobs_list["job_id"], jobs_list["revenue"]))
+    job_type_map  = dict(zip(jobs_list["job_id"],
+                             jobs_list["job_type"] if "job_type" in jobs_list.columns else ["regular"] * len(jobs_list)))
 
     # Effective shift seconds: subtract lunch when it would apply to that shift.
     # This ensures OR-Tools never schedules more job+drive time than what is
     # actually available after the mandatory break.
     lunch_s_fixed = lunch_dur * 60 if enable_lunch else 0
+    # eff_shift_s is shift minus lunch, used only for the utilisation soft lower bound.
+    # Minimum 300 s (5 min) so OR-Tools always gets a valid positive bound even when
+    # the remaining budget from a previous batch is nearly exhausted.
     eff_shift_s: list[int] = [
-        max(s - (lunch_s_fixed if enable_lunch and s > lunch_thr * 60 else 0), 3600)
+        max(s - (lunch_s_fixed if enable_lunch and s > lunch_thr * 60 else 0), 300)
         for s in shift_s_list
     ]
 
@@ -169,8 +183,18 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
     time_id = routing.RegisterTransitCallback(time_cb)
 
     if enable_hours:
-        # Hard upper cap uses effective shift (already lunch-deducted).
-        max_times_s = [int(min(band_high_pct, 1.0) * s) for s in eff_shift_s]
+        # Hard cap = budget passed in (target_pct × full_shift, injected by batch_runner
+        # for every batch) minus a lunch reservation when the shift is long enough.
+        # After adding lunch back in post-processing: drive+service+lunch
+        # ≤ target_pct × actual_shift_seconds for that technician.
+        max_times_s = [
+            max(
+                shift_s_list[v]
+                - (lunch_s_fixed if enable_lunch and shift_s_list[v] > lunch_thr * 60 else 0),
+                300,
+            )
+            for v in range(n_techs)
+        ]
     else:
         max_times_s = [int(24 * 3600)] * n_techs  # effectively no limit
 
@@ -228,12 +252,14 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
         job_id        = jobs_list.iloc[j_idx]["job_id"]
         node          = n_techs + j_idx
         index         = manager.NodeToIndex(node)
-        revenue      = revenue_map.get(job_id, 0)
-        base_penalty = int(round(w_revenue * revenue * REVENUE_SCALE))
-        # Always use min_disjunction_penalty floor — even for $0 jobs — so the solver
-        # tries to schedule them rather than dropping them for free.  A zero-revenue job
-        # still consumes real drive time that benefits from the utilisation soft bound.
-        penalty      = max(base_penalty, min_disjunction_penalty)
+        revenue   = revenue_map.get(job_id, 0)
+        job_type  = job_type_map.get(job_id, "regular")
+        # Service calls have $0 billing revenue but must not be dropped freely.
+        # Treat them as worth at least service_call_penalty dollars so the solver
+        # accepts detours up to the same cost it would pay for a high-value regular job.
+        effective_revenue = max(revenue, service_call_penalty) if job_type == "service_call" else revenue
+        base_penalty      = int(round(w_revenue * effective_revenue * REVENUE_SCALE))
+        penalty           = max(base_penalty, min_disjunction_penalty)
         eligible_tids = elig_map.get(job_id, [])
         allowed_v     = [tech_id_to_vidx[t] for t in eligible_tids if t in tech_id_to_vidx]
 
@@ -292,9 +318,9 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
         routes[tid] = {
             "route":              ["Depot"] + stops_final + ["Depot"],
             "total_minutes":      round(total_min + extra_min, 1),
-            "shift_minutes":      round(shift_s_list[v] / 60.0, 1),   # full shift for display
-            "eff_shift_minutes":  round(eff_shift_s[v] / 60.0, 1),    # shift − lunch (OR-Tools budget)
-            "target_minutes":     round(target_pct * eff_shift_s[v] / 60.0, 1),
+            "shift_minutes":      round(full_shift_display_s[v] / 60.0, 1),  # actual full shift
+            "eff_shift_minutes":  round(eff_shift_s[v] / 60.0, 1),           # remaining budget − lunch
+            "target_minutes":     round(target_pct * full_shift_display_s[v] / 60.0, 1),  # 90% of full shift
             "lunch_minutes":      round(extra_min, 1),
         }
 
