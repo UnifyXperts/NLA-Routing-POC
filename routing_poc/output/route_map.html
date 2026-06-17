@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1b356260cd30d0a64bb432b9c3938b67 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+<div id="filter-panel" style="
+    position:fixed;top:80px;left:12px;z-index:9999;
+    background:#fff;padding:16px 18px;border-radius:10px;
+    box-shadow:0 4px 16px rgba(0,0,0,.25);width:220px;
+    font-family:Arial,sans-serif;font-size:13px;">
+
+  <div style="font-weight:700;font-size:15px;margin-bottom:10px;color:#1e3a5f;">
+    Filter by Technician
+  </div>
+
+  <select id="filter-select" onchange="filterByTech(this.value)"
+      style="width:100%;padding:6px;border-radius:5px;
+             border:1px solid #ccc;font-size:13px;margin-bottom:8px;">
+    <option value="">Show All</option>
+<option value="2KR" style="color:#2563EB">2KR - Kyle Robinson</option>
+<option value="2JZB" style="color:#16A34A">2JZB - Julian Brown</option>
+<option value="2DV" style="color:#7C3AED">2DV - Daniel Vaughan</option>
+<option value="2ZL" style="color:#EA580C">2ZL - Zane Lundgren</option>
+<option value="2DHR" style="color:#DC2626">2DHR - Durrand Harris</option>
+<option value="3JS" style="color:#0891B2">3JS - Jeremey Smith</option>
+<option value="2PS" style="color:#CA8A04">2PS - Paul Schick</option>
+<option value="2EWM" style="color:#BE185D">2EWM - Eric Marshall</option>
+<option value="2BL" style="color:#2563EB">2BL - Brandon Light</option>
+
+  </select>
+
+  <div id="filter-info" style="font-size:11px;color:#6b7280;min-height:16px;"></div>
+</div>
+
+<script>
+(function(){
+  var FG_NAMES = {"2KR": "feature_group_a03217a67d0e37909218e725145aee13", "2JZB": "feature_group_809f32f0998b03e29344f3a7d07f36e7", "2DV": "feature_group_b94ebd66374d6c12bdd49f02e38ef0ae", "2ZL": "feature_group_b0c9f139cc84056834f76d77e32d6fcc", "2DHR": "feature_group_18eaa0f1927dd9aba99aad2dea5ddc16", "3JS": "feature_group_bbd562d37e718f5e87a90fe314227deb", "2PS": "feature_group_c25a95af76d81d86d557c70e914728f6", "2EWM": "feature_group_9ea39d33f709770294d045f202844b85", "2BL": "feature_group_22bbd62c023c326aa4f2d4754fd51e73"};
+  var DEPOTS   = {"2KR": {"lat": 37.62403, "lng": -77.50362, "color": "#2563EB", "name": "Kyle Robinson"}, "2JZB": {"lat": 37.62403, "lng": -77.50362, "color": "#16A34A", "name": "Julian Brown"}, "2DV": {"lat": 37.62403, "lng": -77.50362, "color": "#7C3AED", "name": "Daniel Vaughan"}, "2ZL": {"lat": 37.62403, "lng": -77.50362, "color": "#EA580C", "name": "Zane Lundgren"}, "2DHR": {"lat": 37.62403, "lng": -77.50362, "color": "#DC2626", "name": "Durrand Harris"}, "3JS": {"lat": 37.62403, "lng": -77.50362, "color": "#0891B2", "name": "Jeremey Smith"}, "2PS": {"lat": 37.62403, "lng": -77.50362, "color": "#CA8A04", "name": "Paul Schick"}, "2EWM": {"lat": 37.62403, "lng": -77.50362, "color": "#BE185D", "name": "Eric Marshall"}, "2BL": {"lat": 37.62403, "lng": -77.50362, "color": "#2563EB", "name": "Brandon Light"}};
+  var MAP_VAR  = "map_1b356260cd30d0a64bb432b9c3938b67";
+  var theMap   = null;
+  var depotMkrs = {};
+
+  var PERSON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+
+  function getMap(){
+    if(!theMap) theMap = window[MAP_VAR];
+    return theMap;
+  }
+
+  function makeDepotIcon(color, isSelected){
+    var size = isSelected ? 38 : 26;
+    var half = size/2;
+    var svgSize = isSelected ? 20 : 14;
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" '
+            + 'fill="white" width="'+svgSize+'" height="'+svgSize+'">'
+            + '<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 '
+            + '1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>'
+            + '</svg>';
+    var bg  = isSelected ? color : '#6b7280';
+    var bdr = isSelected ? '3px solid white' : '2px solid white';
+    var shd = isSelected ? '0 2px 10px rgba(0,0,0,.55)' : '0 1px 4px rgba(0,0,0,.35)';
+    return L.divIcon({
+      html: '<div style="background:'+bg+';border-radius:50%;width:'+size+'px;height:'+size+'px;'
+          + 'display:flex;align-items:center;justify-content:center;'
+          + 'border:'+bdr+';box-shadow:'+shd+';">'+svg+'</div>',
+      iconSize:   [size, size],
+      iconAnchor: [half, half],
+      className:  ''
+    });
+  }
+
+  window.addEventListener('load', function(){
+    var map = getMap();
+
+    // Create one depot marker per tech (managed by JS, not Folium)
+    Object.keys(DEPOTS).forEach(function(tid){
+      var d   = DEPOTS[tid];
+      var mkr = L.marker([d.lat, d.lng], {
+        icon: makeDepotIcon(d.color, false),
+        zIndexOffset: 500
+      });
+      mkr.bindTooltip('<b>'+tid+'</b> - '+d.name+' depot');
+      mkr.bindPopup('<b>'+tid+' - '+d.name+'</b><br>Start / End location');
+      mkr.addTo(map);
+      depotMkrs[tid] = mkr;
+    });
+  });
+
+  window.filterByTech = function(techId){
+    var map  = getMap();
+    var info = document.getElementById('filter-info');
+
+    Object.keys(FG_NAMES).forEach(function(tid){
+      var fg   = window[FG_NAMES[tid]];
+      var mkr  = depotMkrs[tid];
+      var show = (techId === '' || tid === techId);
+
+      // Feature group (polyline + stop markers)
+      if(fg){
+        if(show && !map.hasLayer(fg)) fg.addTo(map);
+        if(!show && map.hasLayer(fg)) map.removeLayer(fg);
+      }
+
+      // Depot marker — human icon only for the selected tech
+      if(mkr){
+        if(show){
+          if(!map.hasLayer(mkr)) mkr.addTo(map);
+          mkr.setIcon(makeDepotIcon(DEPOTS[tid].color, techId !== '' && tid === techId));
+          mkr.setZIndexOffset(tid === techId ? 1000 : 500);
+        } else {
+          if(map.hasLayer(mkr)) map.removeLayer(mkr);
+        }
+      }
+    });
+
+    // Fit map to selected tech's route
+    if(techId !== ''){
+      var fg = window[FG_NAMES[techId]];
+      if(fg){
+        try{
+          var b = fg.getBounds();
+          if(b.isValid()) map.fitBounds(b, {padding:[60,60]});
+        }catch(e){}
+      }
+      var d = DEPOTS[techId];
+      info.innerHTML = '<span style="color:'+d.color+';font-weight:bold;">&#9632;</span>'
+                     + ' Showing '+techId+' - '+d.name;
+
+      // Sync animation dropdown if present
+      var animSel = document.getElementById('tech-select');
+      if(animSel) animSel.value = techId;
+    } else {
+      info.innerText = 'Showing all technicians';
+      var animSel = document.getElementById('tech-select');
+      if(animSel) animSel.value = '';
+    }
+  };
+})();
+</script>
+    
+<div id="anim-panel" style="
+    position:fixed;top:80px;right:12px;z-index:9999;
+    background:#fff;padding:16px 18px;border-radius:10px;
+    box-shadow:0 4px 16px rgba(0,0,0,.25);width:240px;
+    font-family:Arial,sans-serif;font-size:13px;">
+
+  <div style="font-weight:700;font-size:15px;margin-bottom:10px;color:#1e3a5f;">
+    Route Animation
+  </div>
+
+  <label style="font-size:11px;color:#555;display:block;margin-bottom:3px;">Select Technician</label>
+  <select id="tech-select"
+      style="width:100%;padding:5px;border-radius:5px;border:1px solid #ccc;
+             margin-bottom:10px;font-size:13px;">
+    <option value="">-- choose tech --</option>
+  </select>
+
+  <div style="display:flex;gap:6px;margin-bottom:10px;">
+    <button id="play-btn" onclick="animPlay()"
+        style="flex:1;padding:6px;background:#2563eb;color:#fff;
+               border:none;border-radius:5px;cursor:pointer;font-size:12px;">
+      &#9654; Play
+    </button>
+    <button onclick="animReset()"
+        style="flex:1;padding:6px;background:#6b7280;color:#fff;
+               border:none;border-radius:5px;cursor:pointer;font-size:12px;">
+      &#8635; Reset
+    </button>
+  </div>
+
+  <label style="font-size:11px;color:#555;">Speed</label>
+  <input id="speed-slider" type="range" min="1" max="5" value="3"
+      style="width:100%;margin-bottom:8px;" oninput="updateSpeed(this.value)">
+
+  <div id="anim-progress" style="font-size:11px;color:#888;margin-bottom:3px;"></div>
+  <div id="anim-info"
+      style="font-size:12px;color:#374151;background:#f3f4f6;
+             padding:6px 8px;border-radius:5px;min-height:36px;line-height:1.5;">
+    Select a tech and press Play.
+  </div>
+</div>
+
+<script>
+(function(){
+  var ROUTES  = {"2KR": {"color": "#2563EB", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2KR depot (Start)", "stop_num": "D"}, {"lat": 37.6334, "lng": -77.50971, "label": "J0061", "info": "Stop #1: Customer #128866 | regular | $82.0 | 30 min service", "stop_num": 1}, {"lat": 37.65145, "lng": -77.62284, "label": "J0026", "info": "Stop #2: Doug Young | regular | $97.0 | 24 min service", "stop_num": 2}, {"lat": 37.61384, "lng": -77.49623, "label": "J0050", "info": "Stop #3: Customer #77244 | regular | $70.0 | 9 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2KR depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 94.6, "tech_name": "Kyle Robinson"}, "2JZB": {"color": "#16A34A", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2JZB depot (Start)", "stop_num": "D"}, {"lat": 37.62954, "lng": -77.50275, "label": "J0007", "info": "Stop #1: Customer #11761 | regular | $91.0 | 23 min service", "stop_num": 1}, {"lat": 37.62292, "lng": -77.49273, "label": "J0027", "info": "Stop #2: Customer #18329 | regular | $84.0 | 17 min service", "stop_num": 2}, {"lat": 37.61851, "lng": -77.49341, "label": "J0014", "info": "Stop #3: Customer #13253 | regular | $82.0 | 18 min service", "stop_num": 3}, {"lat": 37.61344, "lng": -77.514, "label": "J0041", "info": "Stop #4: Customer #50305 | regular | $24.99 | 16 min service", "stop_num": 4}, {"lat": 37.65523, "lng": -77.61063, "label": "J0052", "info": "Stop #5: Connie Masella | regular | $71.0 | 13 min service", "stop_num": 5}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2JZB depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 131.1, "tech_name": "Julian Brown"}, "2DV": {"color": "#7C3AED", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2DV depot (Start)", "stop_num": "D"}, {"lat": 37.59103, "lng": -77.52945, "label": "J0020", "info": "Stop #1: Barbara Baker | regular | $65.0 | 13 min service", "stop_num": 1}, {"lat": 37.62326, "lng": -77.50959, "label": "J0024", "info": "Stop #2: Customer #16758 | regular | $84.0 | 17 min service", "stop_num": 2}, {"lat": 37.62754, "lng": -77.51417, "label": "J0047", "info": "Stop #3: Customer #66214 | regular | $70.0 | 14 min service", "stop_num": 3}, {"lat": 37.62358, "lng": -77.49487, "label": "J0053", "info": "Stop #4: Customer #95402 | regular | $71.0 | 18 min service", "stop_num": 4}, {"lat": 37.63313, "lng": -77.50675, "label": "J0068", "info": "Stop #5: Customer #870088 | regular | $142.0 | 39 min service", "stop_num": 5}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2DV depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 132.6, "tech_name": "Daniel Vaughan"}, "2ZL": {"color": "#EA580C", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2ZL depot (Start)", "stop_num": "D"}, {"lat": 37.63016, "lng": -77.49906, "label": "J0037", "info": "Stop #1: Customer #31165 | regular | $61.0 | 10 min service", "stop_num": 1}, {"lat": 37.62507, "lng": -77.50836, "label": "J0069", "info": "Stop #2: Customer #880253 | regular | $160.0 | 32 min service", "stop_num": 2}, {"lat": 37.614, "lng": -77.49984, "label": "J0062", "info": "Stop #3: Customer #128866 | regular | $81.0 | 20 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2ZL depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 73.9, "tech_name": "Zane Lundgren"}, "2DHR": {"color": "#DC2626", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2DHR depot (Start)", "stop_num": "D"}, {"lat": 37.63446, "lng": -77.51072, "label": "J0063", "info": "Stop #1: Customer #666439 | regular | $80.0 | 20 min service", "stop_num": 1}, {"lat": 37.63948, "lng": -77.5407, "label": "J0025", "info": "Stop #2: Christine Ku | regular | $70.0 | 15 min service", "stop_num": 2}, {"lat": 37.65694, "lng": -77.62768, "label": "J0021", "info": "Stop #3: Claudia Macaluso | regular | $104.0 | 36 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2DHR depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 104.8, "tech_name": "Durrand Harris"}, "3JS": {"color": "#0891B2", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 3JS depot (Start)", "stop_num": "D"}, {"lat": 37.61919, "lng": -77.50029, "label": "J0029", "info": "Stop #1: Customer #19803 | regular | $92.0 | 22 min service", "stop_num": 1}, {"lat": 37.61715, "lng": -77.50926, "label": "J0067", "info": "Stop #2: Customer #866658 | regular | $24.99 | 18 min service", "stop_num": 2}, {"lat": 37.64503, "lng": -77.54665, "label": "J0044", "info": "Stop #3: Abby Ward | regular | $73.0 | 19 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 3JS depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 78.0, "tech_name": "Jeremey Smith"}, "2PS": {"color": "#CA8A04", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2PS depot (Start)", "stop_num": "D"}, {"lat": 37.64153, "lng": -77.54765, "label": "J0045", "info": "Stop #1: Carmine Ashcraft | regular | $24.99 | 16 min service", "stop_num": 1}, {"lat": 37.63376, "lng": -77.62875, "label": "J0001", "info": "Stop #2: David Cutler | regular | $107.0 | 24 min service", "stop_num": 2}, {"lat": 37.621, "lng": -77.51174, "label": "J0030", "info": "Stop #3: Customer #19803 | regular | $90.0 | 15 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2PS depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 96.0, "tech_name": "Paul Schick"}, "2EWM": {"color": "#BE185D", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2EWM depot (Start)", "stop_num": "D"}, {"lat": 37.61586, "lng": -77.50548, "label": "J0004", "info": "Stop #1: Customer #11473 | regular | $68.0 | 14 min service", "stop_num": 1}, {"lat": 37.62153, "lng": -77.4995, "label": "J0064", "info": "Stop #2: Customer #678637 | regular | $65.0 | 8 min service", "stop_num": 2}, {"lat": 37.60008, "lng": -77.62159, "label": "J0035", "info": "Stop #3: Alexandra Spitzer | regular | $74.0 | 9 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2EWM depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 69.3, "tech_name": "Eric Marshall"}, "2BL": {"color": "#2563EB", "waypoints": [{"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2BL depot (Start)", "stop_num": "D"}, {"lat": 37.64434, "lng": -77.55482, "label": "J0043", "info": "Stop #1: Donald Marencik | regular | $78.0 | 16 min service", "stop_num": 1}, {"lat": 37.60562, "lng": -77.62475, "label": "J0006", "info": "Stop #2: Deirdre Arnowitz | regular | $61.0 | 12 min service", "stop_num": 2}, {"lat": 37.58788, "lng": -77.53098, "label": "J0011", "info": "Stop #3: Bryan & Nicole Fogleman | regular | $69.0 | 9 min service", "stop_num": 3}, {"lat": 37.62403, "lng": -77.50362, "label": "Depot", "info": "Tech 2BL depot (Return to Depot)", "stop_num": "D"}], "total_minutes": 77.5, "tech_name": "Brandon Light"}};
+  var MAP_VAR = "map_1b356260cd30d0a64bb432b9c3938b67";
+  var theMap  = null;
+  var techId  = null;
+  var segIdx  = 0;
+  var stepT   = 0;
+  var isPaused = false;
+  var animTimer = null;
+  var vehMarker = null;
+  var STEPS   = 60;
+  var FRAME_MS = 40;
+  var speedMult = 1;
+
+  function getMap(){
+    if(!theMap) theMap = window[MAP_VAR];
+    return theMap;
+  }
+
+  window.addEventListener('load', function(){
+    var sel = document.getElementById('tech-select');
+    Object.keys(ROUTES).forEach(function(tid){
+      var r = ROUTES[tid];
+      var opt = document.createElement('option');
+      opt.value = tid;
+      opt.textContent = tid+' - '+r.tech_name+' ('+r.total_minutes+' min)';
+      opt.style.color = r.color;
+      sel.appendChild(opt);
+    });
+  });
+
+  function lerp(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
+
+  function makeVehIcon(color){
+    return L.divIcon({
+      html:'<div style="width:18px;height:18px;border-radius:50%;background:'+color
+          +';border:3px solid #fff;box-shadow:0 0 8px rgba(0,0,0,.55);"></div>',
+      iconSize:[18,18], iconAnchor:[9,9], className:''
+    });
+  }
+
+  function setInfo(t){ document.getElementById('anim-info').innerText = t; }
+  function setProgress(c,tot){
+    document.getElementById('anim-progress').innerText = 'Leg '+c+' of '+(tot-1);
+  }
+
+  function animStep(){
+    if(isPaused) return;
+    var wpts = ROUTES[techId].waypoints;
+    if(segIdx >= wpts.length-1){
+      clearInterval(animTimer); animTimer=null;
+      document.getElementById('play-btn').innerHTML='&#9654; Play';
+      setInfo('Route complete! Total: '+ROUTES[techId].total_minutes+' min');
+      setProgress(wpts.length-1, wpts.length);
+      return;
+    }
+    var t   = stepT/STEPS;
+    var pos = lerp([wpts[segIdx].lat,wpts[segIdx].lng],
+                   [wpts[segIdx+1].lat,wpts[segIdx+1].lng], t);
+    if(vehMarker) vehMarker.setLatLng(pos);
+    getMap().panTo(pos,{animate:true,duration:0.05});
+    stepT += speedMult;
+    if(stepT >= STEPS){
+      stepT=0; segIdx++;
+      if(segIdx < wpts.length){
+        setInfo(wpts[segIdx].info);
+        setProgress(segIdx, wpts.length);
+        if(wpts[segIdx].label==='BREAK'){
+          clearInterval(animTimer);
+          setInfo('Lunch Break (30 min)');
+          setTimeout(function(){
+            segIdx++;
+            if(segIdx < wpts.length){
+              setInfo(wpts[segIdx].info);
+              animTimer = setInterval(animStep, FRAME_MS);
+            }
+          }, 1500);
+        }
+      }
+    }
+  }
+
+  window.animPlay = function(){
+    var sel = document.getElementById('tech-select').value;
+    if(!sel){ alert('Please select a technician first.'); return; }
+
+    if(animTimer && sel===techId){
+      isPaused = !isPaused;
+      document.getElementById('play-btn').innerHTML =
+        isPaused ? '&#9654; Resume' : '&#9646;&#9646; Pause';
+      return;
+    }
+
+    techId=sel; segIdx=0; stepT=0; isPaused=false;
+    var wpts  = ROUTES[techId].waypoints;
+    var color = ROUTES[techId].color;
+
+    if(animTimer){ clearInterval(animTimer); animTimer=null; }
+    if(vehMarker){ getMap().removeLayer(vehMarker); vehMarker=null; }
+
+    vehMarker = L.marker([wpts[0].lat,wpts[0].lng],{
+      icon:makeVehIcon(color), zIndexOffset:1000
+    }).addTo(getMap());
+
+    getMap().panTo([wpts[0].lat,wpts[0].lng],{animate:true,duration:0.5});
+    setInfo(wpts[0].info);
+    setProgress(0, wpts.length);
+    document.getElementById('play-btn').innerHTML='&#9646;&#9646; Pause';
+    animTimer = setInterval(animStep, FRAME_MS);
+
+    // Sync filter dropdown
+    var fs = document.getElementById('filter-select');
+    if(fs && fs.value !== sel) fs.value = sel;
+  };
+
+  window.animReset = function(){
+    if(animTimer){ clearInterval(animTimer); animTimer=null; }
+    isPaused=false; segIdx=0; stepT=0;
+    document.getElementById('play-btn').innerHTML='&#9654; Play';
+    setInfo('Select a tech and press Play.');
+    document.getElementById('anim-progress').innerText='';
+    if(vehMarker && techId && ROUTES[techId]){
+      var wpts = ROUTES[techId].waypoints;
+      vehMarker.setLatLng([wpts[0].lat,wpts[0].lng]);
+      getMap().panTo([wpts[0].lat,wpts[0].lng]);
+    }
+  };
+
+  window.updateSpeed = function(val){ speedMult=parseInt(val); };
+})();
+</script>
+    
+            <div class="folium-map" id="map_1b356260cd30d0a64bb432b9c3938b67" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1b356260cd30d0a64bb432b9c3938b67 = L.map(
+                "map_1b356260cd30d0a64bb432b9c3938b67",
+                {
+                    center: [37.5407, -77.436],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 13,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4634b826c59b228b41102253e3d7ad8e = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4634b826c59b228b41102253e3d7ad8e.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var marker_5b19e21b503c565846be5083c5ebf142 = L.marker(
+                [37.5407, -77.436],
+                {
+}
+            ).addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var icon_d91a1fb0620a49d81fb9dc5794b03144 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c68f829e81ba8519f006c11c91f93007 = L.popup({
+  "maxWidth": 200,
+});
+
+        
+            
+                var html_36fad7d0bd0d2e9f58ab2f7182566a69 = $(`<div id="html_36fad7d0bd0d2e9f58ab2f7182566a69" style="width: 100.0%; height: 100.0%;">TouchTurf Depot</div>`)[0];
+                popup_c68f829e81ba8519f006c11c91f93007.setContent(html_36fad7d0bd0d2e9f58ab2f7182566a69);
+            
+        
+
+        marker_5b19e21b503c565846be5083c5ebf142.bindPopup(popup_c68f829e81ba8519f006c11c91f93007)
+        ;
+
+        
+    
+    
+            marker_5b19e21b503c565846be5083c5ebf142.bindTooltip(
+                `<div>
+                     TouchTurf Depot
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5b19e21b503c565846be5083c5ebf142.setIcon(icon_d91a1fb0620a49d81fb9dc5794b03144);
+            
+    
+            var feature_group_a03217a67d0e37909218e725145aee13 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_2f9f088bb65aa55a3456d5218baf01e9 = L.polyline(
+                [[37.62403, -77.50362], [37.6334, -77.50971], [37.65145, -77.62284], [37.61384, -77.49623], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#2563EB", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563EB", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_a03217a67d0e37909218e725145aee13);
+        
+    
+            poly_line_2f9f088bb65aa55a3456d5218baf01e9.bindTooltip(
+                `<div>
+                     Tech 2KR - 94.6 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_e0d6e5a251064c0c192e80af6c6341e0 = L.marker(
+                [37.6334, -77.50971],
+                {
+}
+            ).addTo(feature_group_a03217a67d0e37909218e725145aee13);
+        
+    
+            var div_icon_f61c09566d7da078f8956fc274b68599 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_2a1407bcf9575d4211ae6c6f26579f3e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_abb8f8f58eaf14d1fc628db636df2133 = $(`<div id="html_abb8f8f58eaf14d1fc628db636df2133" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0061<br><b>Customer:</b> Customer #128866<br><b>Type:</b> regular<br><b>Revenue:</b> $82.0<br><b>Duration:</b> 30 min<br><b>Tech:</b> 2KR<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_2a1407bcf9575d4211ae6c6f26579f3e.setContent(html_abb8f8f58eaf14d1fc628db636df2133);
+            
+        
+
+        marker_e0d6e5a251064c0c192e80af6c6341e0.bindPopup(popup_2a1407bcf9575d4211ae6c6f26579f3e)
+        ;
+
+        
+    
+    
+            marker_e0d6e5a251064c0c192e80af6c6341e0.bindTooltip(
+                `<div>
+                     #1 J0061 - Tech 2KR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e0d6e5a251064c0c192e80af6c6341e0.setIcon(div_icon_f61c09566d7da078f8956fc274b68599);
+            
+    
+            var marker_1363d7f07c75a983cb13fea7e2a36b57 = L.marker(
+                [37.65145, -77.62284],
+                {
+}
+            ).addTo(feature_group_a03217a67d0e37909218e725145aee13);
+        
+    
+            var div_icon_964cf0883142ac4202846ab63e8a2787 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_df320063cd3a6035763a0f06017eb346 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d1a8df4ac27f4638141ccae911b9145c = $(`<div id="html_d1a8df4ac27f4638141ccae911b9145c" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0026<br><b>Customer:</b> Doug Young<br><b>Type:</b> regular<br><b>Revenue:</b> $97.0<br><b>Duration:</b> 24 min<br><b>Tech:</b> 2KR<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_df320063cd3a6035763a0f06017eb346.setContent(html_d1a8df4ac27f4638141ccae911b9145c);
+            
+        
+
+        marker_1363d7f07c75a983cb13fea7e2a36b57.bindPopup(popup_df320063cd3a6035763a0f06017eb346)
+        ;
+
+        
+    
+    
+            marker_1363d7f07c75a983cb13fea7e2a36b57.bindTooltip(
+                `<div>
+                     #2 J0026 - Tech 2KR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1363d7f07c75a983cb13fea7e2a36b57.setIcon(div_icon_964cf0883142ac4202846ab63e8a2787);
+            
+    
+            var marker_675fefbad45bf0bc2855b3c134f1a0c1 = L.marker(
+                [37.61384, -77.49623],
+                {
+}
+            ).addTo(feature_group_a03217a67d0e37909218e725145aee13);
+        
+    
+            var div_icon_9d76ef7a22b283edda76a453c7ef51a4 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_30d566e84453983acb616a3ced2bb200 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7924036f63073af464e39d417f6614c0 = $(`<div id="html_7924036f63073af464e39d417f6614c0" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0050<br><b>Customer:</b> Customer #77244<br><b>Type:</b> regular<br><b>Revenue:</b> $70.0<br><b>Duration:</b> 9 min<br><b>Tech:</b> 2KR<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_30d566e84453983acb616a3ced2bb200.setContent(html_7924036f63073af464e39d417f6614c0);
+            
+        
+
+        marker_675fefbad45bf0bc2855b3c134f1a0c1.bindPopup(popup_30d566e84453983acb616a3ced2bb200)
+        ;
+
+        
+    
+    
+            marker_675fefbad45bf0bc2855b3c134f1a0c1.bindTooltip(
+                `<div>
+                     #3 J0050 - Tech 2KR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_675fefbad45bf0bc2855b3c134f1a0c1.setIcon(div_icon_9d76ef7a22b283edda76a453c7ef51a4);
+            
+    
+            feature_group_a03217a67d0e37909218e725145aee13.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_809f32f0998b03e29344f3a7d07f36e7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_d98a23d02936783ef407e5cf4b305508 = L.polyline(
+                [[37.62403, -77.50362], [37.62954, -77.50275], [37.62292, -77.49273], [37.61851, -77.49341], [37.61344, -77.514], [37.65523, -77.61063], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#16A34A", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#16A34A", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            poly_line_d98a23d02936783ef407e5cf4b305508.bindTooltip(
+                `<div>
+                     Tech 2JZB - 131.1 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_653089a1ec081b0bf274e2da29617c0a = L.marker(
+                [37.62954, -77.50275],
+                {
+}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            var div_icon_b9ef92e323ce9cf5b0d23e67bb367610 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#16A34A;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_997b75f3b4306868f98dd7aa9d1ef119 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_52174fb7d55c8e164a5bd7abc9b0ed45 = $(`<div id="html_52174fb7d55c8e164a5bd7abc9b0ed45" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0007<br><b>Customer:</b> Customer #11761<br><b>Type:</b> regular<br><b>Revenue:</b> $91.0<br><b>Duration:</b> 23 min<br><b>Tech:</b> 2JZB<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_997b75f3b4306868f98dd7aa9d1ef119.setContent(html_52174fb7d55c8e164a5bd7abc9b0ed45);
+            
+        
+
+        marker_653089a1ec081b0bf274e2da29617c0a.bindPopup(popup_997b75f3b4306868f98dd7aa9d1ef119)
+        ;
+
+        
+    
+    
+            marker_653089a1ec081b0bf274e2da29617c0a.bindTooltip(
+                `<div>
+                     #1 J0007 - Tech 2JZB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_653089a1ec081b0bf274e2da29617c0a.setIcon(div_icon_b9ef92e323ce9cf5b0d23e67bb367610);
+            
+    
+            var marker_c66a870dd4d950db7984a2d6a9829a26 = L.marker(
+                [37.62292, -77.49273],
+                {
+}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            var div_icon_c375cc5f53d1853e850e804c42b8527b = L.divIcon({
+  "html": "\u003cdiv style=\"background:#16A34A;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_b9ca0ecad656cfe5c3644e469bb86838 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9701371a69442dacbec1af3aab803ca1 = $(`<div id="html_9701371a69442dacbec1af3aab803ca1" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0027<br><b>Customer:</b> Customer #18329<br><b>Type:</b> regular<br><b>Revenue:</b> $84.0<br><b>Duration:</b> 17 min<br><b>Tech:</b> 2JZB<br><b>Pref Tech:</b> 2JFJ</div>`)[0];
+                popup_b9ca0ecad656cfe5c3644e469bb86838.setContent(html_9701371a69442dacbec1af3aab803ca1);
+            
+        
+
+        marker_c66a870dd4d950db7984a2d6a9829a26.bindPopup(popup_b9ca0ecad656cfe5c3644e469bb86838)
+        ;
+
+        
+    
+    
+            marker_c66a870dd4d950db7984a2d6a9829a26.bindTooltip(
+                `<div>
+                     #2 J0027 - Tech 2JZB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c66a870dd4d950db7984a2d6a9829a26.setIcon(div_icon_c375cc5f53d1853e850e804c42b8527b);
+            
+    
+            var marker_23096ba6f651fa360deb4c4bd7db0570 = L.marker(
+                [37.61851, -77.49341],
+                {
+}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            var div_icon_cbd8f484b34f295f09b62eb666d3627f = L.divIcon({
+  "html": "\u003cdiv style=\"background:#16A34A;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_1e9b8e1b75fc272f785bc9f8bd297d14 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_29f25bd8d22790c50983c910a3e3d290 = $(`<div id="html_29f25bd8d22790c50983c910a3e3d290" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0014<br><b>Customer:</b> Customer #13253<br><b>Type:</b> regular<br><b>Revenue:</b> $82.0<br><b>Duration:</b> 18 min<br><b>Tech:</b> 2JZB<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_1e9b8e1b75fc272f785bc9f8bd297d14.setContent(html_29f25bd8d22790c50983c910a3e3d290);
+            
+        
+
+        marker_23096ba6f651fa360deb4c4bd7db0570.bindPopup(popup_1e9b8e1b75fc272f785bc9f8bd297d14)
+        ;
+
+        
+    
+    
+            marker_23096ba6f651fa360deb4c4bd7db0570.bindTooltip(
+                `<div>
+                     #3 J0014 - Tech 2JZB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_23096ba6f651fa360deb4c4bd7db0570.setIcon(div_icon_cbd8f484b34f295f09b62eb666d3627f);
+            
+    
+            var marker_e1b222bbcd7965edc4999cbbe1babac7 = L.marker(
+                [37.61344, -77.514],
+                {
+}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            var div_icon_2123ed7b1664d517512d05202f68e4e0 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#16A34A;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e4\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_b611ac898278392459771938b6a4b5f5 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_369beaf4d061ce7b1b32a64bfcab5785 = $(`<div id="html_369beaf4d061ce7b1b32a64bfcab5785" style="width: 100.0%; height: 100.0%;"><b>Stop #4:</b> J0041<br><b>Customer:</b> Customer #50305<br><b>Type:</b> regular<br><b>Revenue:</b> $24.99<br><b>Duration:</b> 16 min<br><b>Tech:</b> 2JZB<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_b611ac898278392459771938b6a4b5f5.setContent(html_369beaf4d061ce7b1b32a64bfcab5785);
+            
+        
+
+        marker_e1b222bbcd7965edc4999cbbe1babac7.bindPopup(popup_b611ac898278392459771938b6a4b5f5)
+        ;
+
+        
+    
+    
+            marker_e1b222bbcd7965edc4999cbbe1babac7.bindTooltip(
+                `<div>
+                     #4 J0041 - Tech 2JZB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e1b222bbcd7965edc4999cbbe1babac7.setIcon(div_icon_2123ed7b1664d517512d05202f68e4e0);
+            
+    
+            var marker_eb545049c310fd6db1a9565802b3770e = L.marker(
+                [37.65523, -77.61063],
+                {
+}
+            ).addTo(feature_group_809f32f0998b03e29344f3a7d07f36e7);
+        
+    
+            var div_icon_ed455efe33e418dff64f12044004c89e = L.divIcon({
+  "html": "\u003cdiv style=\"background:#16A34A;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e5\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_46107cd4547a749af700676b573783d8 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9d2738b8d1db9dcc83f65d53fa954b20 = $(`<div id="html_9d2738b8d1db9dcc83f65d53fa954b20" style="width: 100.0%; height: 100.0%;"><b>Stop #5:</b> J0052<br><b>Customer:</b> Connie Masella<br><b>Type:</b> regular<br><b>Revenue:</b> $71.0<br><b>Duration:</b> 13 min<br><b>Tech:</b> 2JZB<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_46107cd4547a749af700676b573783d8.setContent(html_9d2738b8d1db9dcc83f65d53fa954b20);
+            
+        
+
+        marker_eb545049c310fd6db1a9565802b3770e.bindPopup(popup_46107cd4547a749af700676b573783d8)
+        ;
+
+        
+    
+    
+            marker_eb545049c310fd6db1a9565802b3770e.bindTooltip(
+                `<div>
+                     #5 J0052 - Tech 2JZB
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_eb545049c310fd6db1a9565802b3770e.setIcon(div_icon_ed455efe33e418dff64f12044004c89e);
+            
+    
+            feature_group_809f32f0998b03e29344f3a7d07f36e7.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_b94ebd66374d6c12bdd49f02e38ef0ae = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_5134a132660bd6c82f4b56d70bd935d7 = L.polyline(
+                [[37.62403, -77.50362], [37.59103, -77.52945], [37.62326, -77.50959], [37.62754, -77.51417], [37.62358, -77.49487], [37.63313, -77.50675], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#7C3AED", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#7C3AED", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            poly_line_5134a132660bd6c82f4b56d70bd935d7.bindTooltip(
+                `<div>
+                     Tech 2DV - 132.6 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_9eba9428f006703e58643cc362ee7935 = L.marker(
+                [37.59103, -77.52945],
+                {
+}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            var div_icon_a45ea552f8b5be091ec8a22e5339efb1 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#7C3AED;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_6eb3526cfc548bed0d2ac7b3a1e10581 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_28b4f32da8b498bb92c79420b938f58a = $(`<div id="html_28b4f32da8b498bb92c79420b938f58a" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0020<br><b>Customer:</b> Barbara Baker<br><b>Type:</b> regular<br><b>Revenue:</b> $65.0<br><b>Duration:</b> 13 min<br><b>Tech:</b> 2DV<br><b>Pref Tech:</b> 2JFJ</div>`)[0];
+                popup_6eb3526cfc548bed0d2ac7b3a1e10581.setContent(html_28b4f32da8b498bb92c79420b938f58a);
+            
+        
+
+        marker_9eba9428f006703e58643cc362ee7935.bindPopup(popup_6eb3526cfc548bed0d2ac7b3a1e10581)
+        ;
+
+        
+    
+    
+            marker_9eba9428f006703e58643cc362ee7935.bindTooltip(
+                `<div>
+                     #1 J0020 - Tech 2DV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9eba9428f006703e58643cc362ee7935.setIcon(div_icon_a45ea552f8b5be091ec8a22e5339efb1);
+            
+    
+            var marker_2fd7ea62bf75425262b22772a160a89b = L.marker(
+                [37.62326, -77.50959],
+                {
+}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            var div_icon_c023f61eea63dfb713b36e63617e161e = L.divIcon({
+  "html": "\u003cdiv style=\"background:#7C3AED;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_af2b272538bb1e134a2300999971fbfd = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_60010f14bc16dd93bef6fb86f02e4336 = $(`<div id="html_60010f14bc16dd93bef6fb86f02e4336" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0024<br><b>Customer:</b> Customer #16758<br><b>Type:</b> regular<br><b>Revenue:</b> $84.0<br><b>Duration:</b> 17 min<br><b>Tech:</b> 2DV<br><b>Pref Tech:</b> 2JFJ</div>`)[0];
+                popup_af2b272538bb1e134a2300999971fbfd.setContent(html_60010f14bc16dd93bef6fb86f02e4336);
+            
+        
+
+        marker_2fd7ea62bf75425262b22772a160a89b.bindPopup(popup_af2b272538bb1e134a2300999971fbfd)
+        ;
+
+        
+    
+    
+            marker_2fd7ea62bf75425262b22772a160a89b.bindTooltip(
+                `<div>
+                     #2 J0024 - Tech 2DV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2fd7ea62bf75425262b22772a160a89b.setIcon(div_icon_c023f61eea63dfb713b36e63617e161e);
+            
+    
+            var marker_ca6ab91bc037dee0194c88cb45cab1a7 = L.marker(
+                [37.62754, -77.51417],
+                {
+}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            var div_icon_8965c3f8a700594e6d94b0040de6dcc0 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#7C3AED;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_f293232f6384affb1f6015637371d765 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2840aa619a7a4d14f03d86535ee52319 = $(`<div id="html_2840aa619a7a4d14f03d86535ee52319" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0047<br><b>Customer:</b> Customer #66214<br><b>Type:</b> regular<br><b>Revenue:</b> $70.0<br><b>Duration:</b> 14 min<br><b>Tech:</b> 2DV<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_f293232f6384affb1f6015637371d765.setContent(html_2840aa619a7a4d14f03d86535ee52319);
+            
+        
+
+        marker_ca6ab91bc037dee0194c88cb45cab1a7.bindPopup(popup_f293232f6384affb1f6015637371d765)
+        ;
+
+        
+    
+    
+            marker_ca6ab91bc037dee0194c88cb45cab1a7.bindTooltip(
+                `<div>
+                     #3 J0047 - Tech 2DV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ca6ab91bc037dee0194c88cb45cab1a7.setIcon(div_icon_8965c3f8a700594e6d94b0040de6dcc0);
+            
+    
+            var marker_a7b71a760dd367ce444244247206bb69 = L.marker(
+                [37.62358, -77.49487],
+                {
+}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            var div_icon_df07a1ffe5b0fc0064d45d3a7d12ff11 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#7C3AED;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e4\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_3839e834b5f3275df6eb12978cfdd26c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_07b03edbe80698c04920a39bea8ee0e6 = $(`<div id="html_07b03edbe80698c04920a39bea8ee0e6" style="width: 100.0%; height: 100.0%;"><b>Stop #4:</b> J0053<br><b>Customer:</b> Customer #95402<br><b>Type:</b> regular<br><b>Revenue:</b> $71.0<br><b>Duration:</b> 18 min<br><b>Tech:</b> 2DV<br><b>Pref Tech:</b> 2JFJ</div>`)[0];
+                popup_3839e834b5f3275df6eb12978cfdd26c.setContent(html_07b03edbe80698c04920a39bea8ee0e6);
+            
+        
+
+        marker_a7b71a760dd367ce444244247206bb69.bindPopup(popup_3839e834b5f3275df6eb12978cfdd26c)
+        ;
+
+        
+    
+    
+            marker_a7b71a760dd367ce444244247206bb69.bindTooltip(
+                `<div>
+                     #4 J0053 - Tech 2DV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a7b71a760dd367ce444244247206bb69.setIcon(div_icon_df07a1ffe5b0fc0064d45d3a7d12ff11);
+            
+    
+            var marker_2c255c2854cc3eb65a28d957d7f4f449 = L.marker(
+                [37.63313, -77.50675],
+                {
+}
+            ).addTo(feature_group_b94ebd66374d6c12bdd49f02e38ef0ae);
+        
+    
+            var div_icon_3ab29b61bf1d7454944eef8056c36c12 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#7C3AED;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e5\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_44f2327b2be379e7b882e806e7fd4b21 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8344c64b958caa36a3d7eb87a144b193 = $(`<div id="html_8344c64b958caa36a3d7eb87a144b193" style="width: 100.0%; height: 100.0%;"><b>Stop #5:</b> J0068<br><b>Customer:</b> Customer #870088<br><b>Type:</b> regular<br><b>Revenue:</b> $142.0<br><b>Duration:</b> 39 min<br><b>Tech:</b> 2DV<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_44f2327b2be379e7b882e806e7fd4b21.setContent(html_8344c64b958caa36a3d7eb87a144b193);
+            
+        
+
+        marker_2c255c2854cc3eb65a28d957d7f4f449.bindPopup(popup_44f2327b2be379e7b882e806e7fd4b21)
+        ;
+
+        
+    
+    
+            marker_2c255c2854cc3eb65a28d957d7f4f449.bindTooltip(
+                `<div>
+                     #5 J0068 - Tech 2DV
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2c255c2854cc3eb65a28d957d7f4f449.setIcon(div_icon_3ab29b61bf1d7454944eef8056c36c12);
+            
+    
+            feature_group_b94ebd66374d6c12bdd49f02e38ef0ae.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_b0c9f139cc84056834f76d77e32d6fcc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_36b2d3a792dafcb77f3ac21c136df771 = L.polyline(
+                [[37.62403, -77.50362], [37.63016, -77.49906], [37.62507, -77.50836], [37.614, -77.49984], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#EA580C", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#EA580C", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_b0c9f139cc84056834f76d77e32d6fcc);
+        
+    
+            poly_line_36b2d3a792dafcb77f3ac21c136df771.bindTooltip(
+                `<div>
+                     Tech 2ZL - 73.9 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_68b79543372929b22d037be17ba66354 = L.marker(
+                [37.63016, -77.49906],
+                {
+}
+            ).addTo(feature_group_b0c9f139cc84056834f76d77e32d6fcc);
+        
+    
+            var div_icon_0be52eac788a3ab9b23ba989c6e8f3b8 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#EA580C;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_e17a201e55dc38b9c3030700334f5162 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_efd50fae06d9dbebd6a4f0406b886381 = $(`<div id="html_efd50fae06d9dbebd6a4f0406b886381" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0037<br><b>Customer:</b> Customer #31165<br><b>Type:</b> regular<br><b>Revenue:</b> $61.0<br><b>Duration:</b> 10 min<br><b>Tech:</b> 2ZL<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_e17a201e55dc38b9c3030700334f5162.setContent(html_efd50fae06d9dbebd6a4f0406b886381);
+            
+        
+
+        marker_68b79543372929b22d037be17ba66354.bindPopup(popup_e17a201e55dc38b9c3030700334f5162)
+        ;
+
+        
+    
+    
+            marker_68b79543372929b22d037be17ba66354.bindTooltip(
+                `<div>
+                     #1 J0037 - Tech 2ZL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_68b79543372929b22d037be17ba66354.setIcon(div_icon_0be52eac788a3ab9b23ba989c6e8f3b8);
+            
+    
+            var marker_a769e1da2ccc12fbe2940dbaa72437fc = L.marker(
+                [37.62507, -77.50836],
+                {
+}
+            ).addTo(feature_group_b0c9f139cc84056834f76d77e32d6fcc);
+        
+    
+            var div_icon_da795c42100c8723d8fba75d20ad4714 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#EA580C;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_39a0ce8afd67870b6abe6adc700a11a9 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6509cb14712b072dd6c70bb254176e87 = $(`<div id="html_6509cb14712b072dd6c70bb254176e87" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0069<br><b>Customer:</b> Customer #880253<br><b>Type:</b> regular<br><b>Revenue:</b> $160.0<br><b>Duration:</b> 32 min<br><b>Tech:</b> 2ZL<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_39a0ce8afd67870b6abe6adc700a11a9.setContent(html_6509cb14712b072dd6c70bb254176e87);
+            
+        
+
+        marker_a769e1da2ccc12fbe2940dbaa72437fc.bindPopup(popup_39a0ce8afd67870b6abe6adc700a11a9)
+        ;
+
+        
+    
+    
+            marker_a769e1da2ccc12fbe2940dbaa72437fc.bindTooltip(
+                `<div>
+                     #2 J0069 - Tech 2ZL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a769e1da2ccc12fbe2940dbaa72437fc.setIcon(div_icon_da795c42100c8723d8fba75d20ad4714);
+            
+    
+            var marker_999355c81a0e1547db528c28066e7cfa = L.marker(
+                [37.614, -77.49984],
+                {
+}
+            ).addTo(feature_group_b0c9f139cc84056834f76d77e32d6fcc);
+        
+    
+            var div_icon_c6b47374b342a851bea3018d52e77c36 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#EA580C;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_cb2dec5206e75a9eff281472894d5e28 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cc9eadeb28b016f117886525763cf47e = $(`<div id="html_cc9eadeb28b016f117886525763cf47e" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0062<br><b>Customer:</b> Customer #128866<br><b>Type:</b> regular<br><b>Revenue:</b> $81.0<br><b>Duration:</b> 20 min<br><b>Tech:</b> 2ZL<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_cb2dec5206e75a9eff281472894d5e28.setContent(html_cc9eadeb28b016f117886525763cf47e);
+            
+        
+
+        marker_999355c81a0e1547db528c28066e7cfa.bindPopup(popup_cb2dec5206e75a9eff281472894d5e28)
+        ;
+
+        
+    
+    
+            marker_999355c81a0e1547db528c28066e7cfa.bindTooltip(
+                `<div>
+                     #3 J0062 - Tech 2ZL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_999355c81a0e1547db528c28066e7cfa.setIcon(div_icon_c6b47374b342a851bea3018d52e77c36);
+            
+    
+            feature_group_b0c9f139cc84056834f76d77e32d6fcc.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_18eaa0f1927dd9aba99aad2dea5ddc16 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_bd8ff84da0a6353ff51e990ed0c61a1f = L.polyline(
+                [[37.62403, -77.50362], [37.63446, -77.51072], [37.63948, -77.5407], [37.65694, -77.62768], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#DC2626", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#DC2626", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_18eaa0f1927dd9aba99aad2dea5ddc16);
+        
+    
+            poly_line_bd8ff84da0a6353ff51e990ed0c61a1f.bindTooltip(
+                `<div>
+                     Tech 2DHR - 104.8 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_66ebd7ffaa2295882fe34d2e64604849 = L.marker(
+                [37.63446, -77.51072],
+                {
+}
+            ).addTo(feature_group_18eaa0f1927dd9aba99aad2dea5ddc16);
+        
+    
+            var div_icon_1c3b43dee5bfa365e26a821d61f58854 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#DC2626;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_40c24a81813d607356486c806ebe23d7 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_74919e52686a203af6300d7cf09461fe = $(`<div id="html_74919e52686a203af6300d7cf09461fe" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0063<br><b>Customer:</b> Customer #666439<br><b>Type:</b> regular<br><b>Revenue:</b> $80.0<br><b>Duration:</b> 20 min<br><b>Tech:</b> 2DHR<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_40c24a81813d607356486c806ebe23d7.setContent(html_74919e52686a203af6300d7cf09461fe);
+            
+        
+
+        marker_66ebd7ffaa2295882fe34d2e64604849.bindPopup(popup_40c24a81813d607356486c806ebe23d7)
+        ;
+
+        
+    
+    
+            marker_66ebd7ffaa2295882fe34d2e64604849.bindTooltip(
+                `<div>
+                     #1 J0063 - Tech 2DHR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_66ebd7ffaa2295882fe34d2e64604849.setIcon(div_icon_1c3b43dee5bfa365e26a821d61f58854);
+            
+    
+            var marker_ed4c477fd1a535986c2e04958781bf7d = L.marker(
+                [37.63948, -77.5407],
+                {
+}
+            ).addTo(feature_group_18eaa0f1927dd9aba99aad2dea5ddc16);
+        
+    
+            var div_icon_9e282b36767156818f729ec8c756beac = L.divIcon({
+  "html": "\u003cdiv style=\"background:#DC2626;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_cf1ef1e9592cec012ba1e225b8bd4331 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_012b93dd5878c34b27f35e2a5ac0b850 = $(`<div id="html_012b93dd5878c34b27f35e2a5ac0b850" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0025<br><b>Customer:</b> Christine Ku<br><b>Type:</b> regular<br><b>Revenue:</b> $70.0<br><b>Duration:</b> 15 min<br><b>Tech:</b> 2DHR<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_cf1ef1e9592cec012ba1e225b8bd4331.setContent(html_012b93dd5878c34b27f35e2a5ac0b850);
+            
+        
+
+        marker_ed4c477fd1a535986c2e04958781bf7d.bindPopup(popup_cf1ef1e9592cec012ba1e225b8bd4331)
+        ;
+
+        
+    
+    
+            marker_ed4c477fd1a535986c2e04958781bf7d.bindTooltip(
+                `<div>
+                     #2 J0025 - Tech 2DHR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ed4c477fd1a535986c2e04958781bf7d.setIcon(div_icon_9e282b36767156818f729ec8c756beac);
+            
+    
+            var marker_0973a2aa62bccd4e63ac815f8054899f = L.marker(
+                [37.65694, -77.62768],
+                {
+}
+            ).addTo(feature_group_18eaa0f1927dd9aba99aad2dea5ddc16);
+        
+    
+            var div_icon_f6ef175e441187894b83ba2a518416f1 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#DC2626;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_f94a19cd2a865bc1a7dad771f4defa27 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_5ecb0aa851204a32bccdc467636338c4 = $(`<div id="html_5ecb0aa851204a32bccdc467636338c4" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0021<br><b>Customer:</b> Claudia Macaluso<br><b>Type:</b> regular<br><b>Revenue:</b> $104.0<br><b>Duration:</b> 36 min<br><b>Tech:</b> 2DHR<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_f94a19cd2a865bc1a7dad771f4defa27.setContent(html_5ecb0aa851204a32bccdc467636338c4);
+            
+        
+
+        marker_0973a2aa62bccd4e63ac815f8054899f.bindPopup(popup_f94a19cd2a865bc1a7dad771f4defa27)
+        ;
+
+        
+    
+    
+            marker_0973a2aa62bccd4e63ac815f8054899f.bindTooltip(
+                `<div>
+                     #3 J0021 - Tech 2DHR
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0973a2aa62bccd4e63ac815f8054899f.setIcon(div_icon_f6ef175e441187894b83ba2a518416f1);
+            
+    
+            feature_group_18eaa0f1927dd9aba99aad2dea5ddc16.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_bbd562d37e718f5e87a90fe314227deb = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_af43b4a27896be568aa9d74e42e63b60 = L.polyline(
+                [[37.62403, -77.50362], [37.61919, -77.50029], [37.61715, -77.50926], [37.64503, -77.54665], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#0891B2", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#0891B2", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_bbd562d37e718f5e87a90fe314227deb);
+        
+    
+            poly_line_af43b4a27896be568aa9d74e42e63b60.bindTooltip(
+                `<div>
+                     Tech 3JS - 78.0 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_dc359e0d553990ce5bb1f067b92eb7a7 = L.marker(
+                [37.61919, -77.50029],
+                {
+}
+            ).addTo(feature_group_bbd562d37e718f5e87a90fe314227deb);
+        
+    
+            var div_icon_a3eb8d437782a0865536a70d2b947cea = L.divIcon({
+  "html": "\u003cdiv style=\"background:#0891B2;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_65f2b1312ab5ae233f40682adc302570 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a0b756df07d702caf3f2cdcba4a0a213 = $(`<div id="html_a0b756df07d702caf3f2cdcba4a0a213" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0029<br><b>Customer:</b> Customer #19803<br><b>Type:</b> regular<br><b>Revenue:</b> $92.0<br><b>Duration:</b> 22 min<br><b>Tech:</b> 3JS<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_65f2b1312ab5ae233f40682adc302570.setContent(html_a0b756df07d702caf3f2cdcba4a0a213);
+            
+        
+
+        marker_dc359e0d553990ce5bb1f067b92eb7a7.bindPopup(popup_65f2b1312ab5ae233f40682adc302570)
+        ;
+
+        
+    
+    
+            marker_dc359e0d553990ce5bb1f067b92eb7a7.bindTooltip(
+                `<div>
+                     #1 J0029 - Tech 3JS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dc359e0d553990ce5bb1f067b92eb7a7.setIcon(div_icon_a3eb8d437782a0865536a70d2b947cea);
+            
+    
+            var marker_3b31fac28e5d35423870887758a7d7ae = L.marker(
+                [37.61715, -77.50926],
+                {
+}
+            ).addTo(feature_group_bbd562d37e718f5e87a90fe314227deb);
+        
+    
+            var div_icon_bd206ec546f0309e03ea78288dfe67db = L.divIcon({
+  "html": "\u003cdiv style=\"background:#0891B2;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_d3f84c0c6e3eb6c2fb4bd4a96e1af844 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0ff60042995db5746ac5ecfcd0ceb5b3 = $(`<div id="html_0ff60042995db5746ac5ecfcd0ceb5b3" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0067<br><b>Customer:</b> Customer #866658<br><b>Type:</b> regular<br><b>Revenue:</b> $24.99<br><b>Duration:</b> 18 min<br><b>Tech:</b> 3JS<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_d3f84c0c6e3eb6c2fb4bd4a96e1af844.setContent(html_0ff60042995db5746ac5ecfcd0ceb5b3);
+            
+        
+
+        marker_3b31fac28e5d35423870887758a7d7ae.bindPopup(popup_d3f84c0c6e3eb6c2fb4bd4a96e1af844)
+        ;
+
+        
+    
+    
+            marker_3b31fac28e5d35423870887758a7d7ae.bindTooltip(
+                `<div>
+                     #2 J0067 - Tech 3JS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3b31fac28e5d35423870887758a7d7ae.setIcon(div_icon_bd206ec546f0309e03ea78288dfe67db);
+            
+    
+            var marker_b4e1de8c8a5146fb3ad81fe8d137ebf8 = L.marker(
+                [37.64503, -77.54665],
+                {
+}
+            ).addTo(feature_group_bbd562d37e718f5e87a90fe314227deb);
+        
+    
+            var div_icon_b73aa38daa6f64f626ba7156b6f4fb2b = L.divIcon({
+  "html": "\u003cdiv style=\"background:#0891B2;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_b05a704a6c21ca1854150a9d60d0da86 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7afc9f999dace8cbd38af951fda8b2c3 = $(`<div id="html_7afc9f999dace8cbd38af951fda8b2c3" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0044<br><b>Customer:</b> Abby Ward<br><b>Type:</b> regular<br><b>Revenue:</b> $73.0<br><b>Duration:</b> 19 min<br><b>Tech:</b> 3JS<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_b05a704a6c21ca1854150a9d60d0da86.setContent(html_7afc9f999dace8cbd38af951fda8b2c3);
+            
+        
+
+        marker_b4e1de8c8a5146fb3ad81fe8d137ebf8.bindPopup(popup_b05a704a6c21ca1854150a9d60d0da86)
+        ;
+
+        
+    
+    
+            marker_b4e1de8c8a5146fb3ad81fe8d137ebf8.bindTooltip(
+                `<div>
+                     #3 J0044 - Tech 3JS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b4e1de8c8a5146fb3ad81fe8d137ebf8.setIcon(div_icon_b73aa38daa6f64f626ba7156b6f4fb2b);
+            
+    
+            feature_group_bbd562d37e718f5e87a90fe314227deb.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_c25a95af76d81d86d557c70e914728f6 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_8d99a2c0901046dd4bef7f20a9132d0a = L.polyline(
+                [[37.62403, -77.50362], [37.64153, -77.54765], [37.63376, -77.62875], [37.621, -77.51174], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#CA8A04", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#CA8A04", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_c25a95af76d81d86d557c70e914728f6);
+        
+    
+            poly_line_8d99a2c0901046dd4bef7f20a9132d0a.bindTooltip(
+                `<div>
+                     Tech 2PS - 96.0 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_b0cbf6f49db01c2d2702b562214cc33c = L.marker(
+                [37.64153, -77.54765],
+                {
+}
+            ).addTo(feature_group_c25a95af76d81d86d557c70e914728f6);
+        
+    
+            var div_icon_70d07baf2ddd6bdfde244df144896135 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#CA8A04;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_3ae99a45de9a7108ae4dc99cbd8e4909 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_004c2cd988afa897a513751bb0c35443 = $(`<div id="html_004c2cd988afa897a513751bb0c35443" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0045<br><b>Customer:</b> Carmine Ashcraft<br><b>Type:</b> regular<br><b>Revenue:</b> $24.99<br><b>Duration:</b> 16 min<br><b>Tech:</b> 2PS<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_3ae99a45de9a7108ae4dc99cbd8e4909.setContent(html_004c2cd988afa897a513751bb0c35443);
+            
+        
+
+        marker_b0cbf6f49db01c2d2702b562214cc33c.bindPopup(popup_3ae99a45de9a7108ae4dc99cbd8e4909)
+        ;
+
+        
+    
+    
+            marker_b0cbf6f49db01c2d2702b562214cc33c.bindTooltip(
+                `<div>
+                     #1 J0045 - Tech 2PS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b0cbf6f49db01c2d2702b562214cc33c.setIcon(div_icon_70d07baf2ddd6bdfde244df144896135);
+            
+    
+            var marker_06fb14ffbb49aec0b744f801803f2691 = L.marker(
+                [37.63376, -77.62875],
+                {
+}
+            ).addTo(feature_group_c25a95af76d81d86d557c70e914728f6);
+        
+    
+            var div_icon_26d9954cbf0e96eae07640cba1ecad55 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#CA8A04;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_7c4330b861887d5455fc6fbfa888fa65 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_02d95824683caf31506fbb82ea987ccb = $(`<div id="html_02d95824683caf31506fbb82ea987ccb" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0001<br><b>Customer:</b> David Cutler<br><b>Type:</b> regular<br><b>Revenue:</b> $107.0<br><b>Duration:</b> 24 min<br><b>Tech:</b> 2PS<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_7c4330b861887d5455fc6fbfa888fa65.setContent(html_02d95824683caf31506fbb82ea987ccb);
+            
+        
+
+        marker_06fb14ffbb49aec0b744f801803f2691.bindPopup(popup_7c4330b861887d5455fc6fbfa888fa65)
+        ;
+
+        
+    
+    
+            marker_06fb14ffbb49aec0b744f801803f2691.bindTooltip(
+                `<div>
+                     #2 J0001 - Tech 2PS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_06fb14ffbb49aec0b744f801803f2691.setIcon(div_icon_26d9954cbf0e96eae07640cba1ecad55);
+            
+    
+            var marker_3d8875b906ed6db424826eddd71e6134 = L.marker(
+                [37.621, -77.51174],
+                {
+}
+            ).addTo(feature_group_c25a95af76d81d86d557c70e914728f6);
+        
+    
+            var div_icon_321acb9dd3cf7046bcaf8c42f2ada7c2 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#CA8A04;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_473824913501af6f446f09f543072d48 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_e3ec0718ae3652047fdf26acb4f125fe = $(`<div id="html_e3ec0718ae3652047fdf26acb4f125fe" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0030<br><b>Customer:</b> Customer #19803<br><b>Type:</b> regular<br><b>Revenue:</b> $90.0<br><b>Duration:</b> 15 min<br><b>Tech:</b> 2PS<br><b>Pref Tech:</b> 2KR</div>`)[0];
+                popup_473824913501af6f446f09f543072d48.setContent(html_e3ec0718ae3652047fdf26acb4f125fe);
+            
+        
+
+        marker_3d8875b906ed6db424826eddd71e6134.bindPopup(popup_473824913501af6f446f09f543072d48)
+        ;
+
+        
+    
+    
+            marker_3d8875b906ed6db424826eddd71e6134.bindTooltip(
+                `<div>
+                     #3 J0030 - Tech 2PS
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3d8875b906ed6db424826eddd71e6134.setIcon(div_icon_321acb9dd3cf7046bcaf8c42f2ada7c2);
+            
+    
+            feature_group_c25a95af76d81d86d557c70e914728f6.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_9ea39d33f709770294d045f202844b85 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_98af1feb8afd47c1fca0764d9e373ae0 = L.polyline(
+                [[37.62403, -77.50362], [37.61586, -77.50548], [37.62153, -77.4995], [37.60008, -77.62159], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#BE185D", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#BE185D", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_9ea39d33f709770294d045f202844b85);
+        
+    
+            poly_line_98af1feb8afd47c1fca0764d9e373ae0.bindTooltip(
+                `<div>
+                     Tech 2EWM - 69.3 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_8fa6a1c49f78ef7c265c1590ab79b7f2 = L.marker(
+                [37.61586, -77.50548],
+                {
+}
+            ).addTo(feature_group_9ea39d33f709770294d045f202844b85);
+        
+    
+            var div_icon_5475c905e3f60ce2b14984727bf6ded4 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#BE185D;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_cb5186db6160c6d9aabe793d7dbe4a56 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2f432b3071de1c1aecc04c0e52277b51 = $(`<div id="html_2f432b3071de1c1aecc04c0e52277b51" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0004<br><b>Customer:</b> Customer #11473<br><b>Type:</b> regular<br><b>Revenue:</b> $68.0<br><b>Duration:</b> 14 min<br><b>Tech:</b> 2EWM<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_cb5186db6160c6d9aabe793d7dbe4a56.setContent(html_2f432b3071de1c1aecc04c0e52277b51);
+            
+        
+
+        marker_8fa6a1c49f78ef7c265c1590ab79b7f2.bindPopup(popup_cb5186db6160c6d9aabe793d7dbe4a56)
+        ;
+
+        
+    
+    
+            marker_8fa6a1c49f78ef7c265c1590ab79b7f2.bindTooltip(
+                `<div>
+                     #1 J0004 - Tech 2EWM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8fa6a1c49f78ef7c265c1590ab79b7f2.setIcon(div_icon_5475c905e3f60ce2b14984727bf6ded4);
+            
+    
+            var marker_e5494535ead84164424d9e45e7bcd4e0 = L.marker(
+                [37.62153, -77.4995],
+                {
+}
+            ).addTo(feature_group_9ea39d33f709770294d045f202844b85);
+        
+    
+            var div_icon_8e2fb0f905000558d3defffcbecb58e1 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#BE185D;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_b906726863f7e194e750dfa46539e29a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cadd6f2f0260c09d3999b0c225beabac = $(`<div id="html_cadd6f2f0260c09d3999b0c225beabac" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0064<br><b>Customer:</b> Customer #678637<br><b>Type:</b> regular<br><b>Revenue:</b> $65.0<br><b>Duration:</b> 8 min<br><b>Tech:</b> 2EWM<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_b906726863f7e194e750dfa46539e29a.setContent(html_cadd6f2f0260c09d3999b0c225beabac);
+            
+        
+
+        marker_e5494535ead84164424d9e45e7bcd4e0.bindPopup(popup_b906726863f7e194e750dfa46539e29a)
+        ;
+
+        
+    
+    
+            marker_e5494535ead84164424d9e45e7bcd4e0.bindTooltip(
+                `<div>
+                     #2 J0064 - Tech 2EWM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e5494535ead84164424d9e45e7bcd4e0.setIcon(div_icon_8e2fb0f905000558d3defffcbecb58e1);
+            
+    
+            var marker_2640a1dd62ca3033f74ced8bfb237354 = L.marker(
+                [37.60008, -77.62159],
+                {
+}
+            ).addTo(feature_group_9ea39d33f709770294d045f202844b85);
+        
+    
+            var div_icon_9f3a9060b28c2126be38f56bc1397dc7 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#BE185D;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_e48a7d7ae0c80b83c342b33036a105ec = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_13a52cbc9b9b591c0a6a59f7fc27a5df = $(`<div id="html_13a52cbc9b9b591c0a6a59f7fc27a5df" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0035<br><b>Customer:</b> Alexandra Spitzer<br><b>Type:</b> regular<br><b>Revenue:</b> $74.0<br><b>Duration:</b> 9 min<br><b>Tech:</b> 2EWM<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_e48a7d7ae0c80b83c342b33036a105ec.setContent(html_13a52cbc9b9b591c0a6a59f7fc27a5df);
+            
+        
+
+        marker_2640a1dd62ca3033f74ced8bfb237354.bindPopup(popup_e48a7d7ae0c80b83c342b33036a105ec)
+        ;
+
+        
+    
+    
+            marker_2640a1dd62ca3033f74ced8bfb237354.bindTooltip(
+                `<div>
+                     #3 J0035 - Tech 2EWM
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2640a1dd62ca3033f74ced8bfb237354.setIcon(div_icon_9f3a9060b28c2126be38f56bc1397dc7);
+            
+    
+            feature_group_9ea39d33f709770294d045f202844b85.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+    
+            var feature_group_22bbd62c023c326aa4f2d4754fd51e73 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var poly_line_c713555a90d557e4465d71385e631f91 = L.polyline(
+                [[37.62403, -77.50362], [37.64434, -77.55482], [37.60562, -77.62475], [37.58788, -77.53098], [37.62403, -77.50362]],
+                {"bubblingMouseEvents": true, "color": "#2563EB", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "#2563EB", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.75, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(feature_group_22bbd62c023c326aa4f2d4754fd51e73);
+        
+    
+            poly_line_c713555a90d557e4465d71385e631f91.bindTooltip(
+                `<div>
+                     Tech 2BL - 77.5 min
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_4191cecd05d236557a1728740d402080 = L.marker(
+                [37.64434, -77.55482],
+                {
+}
+            ).addTo(feature_group_22bbd62c023c326aa4f2d4754fd51e73);
+        
+    
+            var div_icon_f70d1aef91dbb4fb29c447cfac66a353 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e1\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_4c7cd611e31c393110afc1e92405ba73 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_34911160c7d9797612865c7bb6f685df = $(`<div id="html_34911160c7d9797612865c7bb6f685df" style="width: 100.0%; height: 100.0%;"><b>Stop #1:</b> J0043<br><b>Customer:</b> Donald Marencik<br><b>Type:</b> regular<br><b>Revenue:</b> $78.0<br><b>Duration:</b> 16 min<br><b>Tech:</b> 2BL<br><b>Pref Tech:</b> 3JS</div>`)[0];
+                popup_4c7cd611e31c393110afc1e92405ba73.setContent(html_34911160c7d9797612865c7bb6f685df);
+            
+        
+
+        marker_4191cecd05d236557a1728740d402080.bindPopup(popup_4c7cd611e31c393110afc1e92405ba73)
+        ;
+
+        
+    
+    
+            marker_4191cecd05d236557a1728740d402080.bindTooltip(
+                `<div>
+                     #1 J0043 - Tech 2BL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4191cecd05d236557a1728740d402080.setIcon(div_icon_f70d1aef91dbb4fb29c447cfac66a353);
+            
+    
+            var marker_947524e5481515429e7f3619952eb8b1 = L.marker(
+                [37.60562, -77.62475],
+                {
+}
+            ).addTo(feature_group_22bbd62c023c326aa4f2d4754fd51e73);
+        
+    
+            var div_icon_c341858b97a8a561929054138a9d11c6 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e2\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_9698454eee7543a769980849f3af583b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9b46b9c5f77f7d0a6faf8ef57b6ff479 = $(`<div id="html_9b46b9c5f77f7d0a6faf8ef57b6ff479" style="width: 100.0%; height: 100.0%;"><b>Stop #2:</b> J0006<br><b>Customer:</b> Deirdre Arnowitz<br><b>Type:</b> regular<br><b>Revenue:</b> $61.0<br><b>Duration:</b> 12 min<br><b>Tech:</b> 2BL<br><b>Pref Tech:</b> 2JFJ</div>`)[0];
+                popup_9698454eee7543a769980849f3af583b.setContent(html_9b46b9c5f77f7d0a6faf8ef57b6ff479);
+            
+        
+
+        marker_947524e5481515429e7f3619952eb8b1.bindPopup(popup_9698454eee7543a769980849f3af583b)
+        ;
+
+        
+    
+    
+            marker_947524e5481515429e7f3619952eb8b1.bindTooltip(
+                `<div>
+                     #2 J0006 - Tech 2BL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_947524e5481515429e7f3619952eb8b1.setIcon(div_icon_c341858b97a8a561929054138a9d11c6);
+            
+    
+            var marker_07fa1a6330eba6b070d9407ab4910789 = L.marker(
+                [37.58788, -77.53098],
+                {
+}
+            ).addTo(feature_group_22bbd62c023c326aa4f2d4754fd51e73);
+        
+    
+            var div_icon_5563249908adc5ad22f063f122e3a406 = L.divIcon({
+  "html": "\u003cdiv style=\"background:#2563EB;color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4);\"\u003e3\u003c/div\u003e",
+  "iconSize": [26, 26],
+  "iconAnchor": [13, 13],
+  "className": "empty",
+});
+        
+    
+        var popup_451d0c87dc36c874a554a0271fe1299b = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_bf49a09bae0eb307e1f0448839dca5fd = $(`<div id="html_bf49a09bae0eb307e1f0448839dca5fd" style="width: 100.0%; height: 100.0%;"><b>Stop #3:</b> J0011<br><b>Customer:</b> Bryan & Nicole Fogleman<br><b>Type:</b> regular<br><b>Revenue:</b> $69.0<br><b>Duration:</b> 9 min<br><b>Tech:</b> 2BL<br><b>Pref Tech:</b> 2ZL</div>`)[0];
+                popup_451d0c87dc36c874a554a0271fe1299b.setContent(html_bf49a09bae0eb307e1f0448839dca5fd);
+            
+        
+
+        marker_07fa1a6330eba6b070d9407ab4910789.bindPopup(popup_451d0c87dc36c874a554a0271fe1299b)
+        ;
+
+        
+    
+    
+            marker_07fa1a6330eba6b070d9407ab4910789.bindTooltip(
+                `<div>
+                     #3 J0011 - Tech 2BL
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_07fa1a6330eba6b070d9407ab4910789.setIcon(div_icon_5563249908adc5ad22f063f122e3a406);
+            
+    
+            feature_group_22bbd62c023c326aa4f2d4754fd51e73.addTo(map_1b356260cd30d0a64bb432b9c3938b67);
+        
+</script>
+</html>

@@ -1,0 +1,17 @@
+tech_id,name,start_lat,start_lng,max_hours,skills,licenses,available_days,shift_start,shift_end
+2KR,Kyle Robinson,37.62403,-77.50362,8,"Aeration,Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:00,15:00
+2JZB,Julian Brown,37.62403,-77.50362,8,"Aeration,Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",07:30,15:30
+2DO,Dontre Owens,37.62403,-77.50362,8,"Aeration,Disease Control,Fertilizer,General",Pesticide,"Mon,Tue,Wed,Thu,Fri",08:00,16:00
+2DV,Daniel Vaughan,37.62403,-77.50362,8,"Disease Control,Fertilizer,General",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:00,15:00
+2ZL,Zane Lundgren,37.62403,-77.50362,8,"Disease Control,Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:30,15:30
+2DHR,Durrand Harris,37.62403,-77.50362,8,"Aeration,Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",08:00,16:00
+3JS,Jeremey Smith,37.62403,-77.50362,8,"Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",07:00,15:00
+2PS,Paul Schick,37.62403,-77.50362,8,"Aeration,Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",07:30,15:30
+2JFJ,Jason Franklin Jr,37.62403,-77.50362,8,"Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",08:00,16:00
+2WBR,Bragg Russell,37.62403,-77.50362,8,"Aeration,Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",07:00,15:00
+DB2,Derrick Byrd,37.62403,-77.50362,8,"Disease Control,Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:30,15:30
+2EWM,Eric Marshall,37.62403,-77.50362,8,"Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",08:00,16:00
+2BL,Brandon Light,37.62403,-77.50362,8,"Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:00,15:00
+1RH,Robin Harris,37.62403,-77.50362,8,"Aeration,Disease Control,Fertilizer,General,Mosquito",Pesticide,"Mon,Tue,Wed,Thu,Fri",07:30,15:30
+3JL,Jacob Leffler,37.62403,-77.50362,8,"Aeration,Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",08:00,16:00
+2BSS,Brandon Smietanski,37.62403,-77.50362,8,"Fertilizer,General",,"Mon,Tue,Wed,Thu,Fri",07:00,15:00

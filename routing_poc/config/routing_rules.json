@@ -1,0 +1,49 @@
+{
+  "priority_weights": {
+    "new_customer":      1000,
+    "asap":               100,
+    "last_service_days":    1
+  },
+
+  "objective_weights": {
+    "maximize_revenue":          2.0,
+    "minimize_drive_time":       1.0,
+    "meet_customer_preference":  1.0,
+    "maximize_tech_utilization": 1.0
+  },
+
+  "utilization": {
+    "target_pct":                   90,
+    "band_low_pct":                 15,
+    "band_high_pct":                95,
+    "underutil_penalty_per_minute": 100,
+    "use_shift_calendar":          true,
+    "minimize_variance":           true,
+    "variance_span_coefficient":    0
+  },
+
+  "operational_constraints": {
+    "max_hours_per_tech":          8,
+    "lunch_after_minutes":       240,
+    "lunch_break_minutes":        30,
+    "location_threshold_minutes": 60,
+    "route_date":          "2026-06-12",
+    "solver_time_limit":          60
+  },
+
+  "constraint_flags": {
+    "enable_work_hours":         true,
+    "enable_capacity":           true,
+    "enable_location_threshold": true,
+    "enable_lunch_break":        true,
+    "enable_skill_check":        true,
+    "enable_license_check":      true,
+    "enable_equipment_check":    true,
+    "enable_availability_check": true
+  },
+
+  "llm": {
+    "provider": "groq",
+    "enabled":  true
+  }
+}

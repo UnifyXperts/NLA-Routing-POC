@@ -1,0 +1,17 @@
+truck_id,tech_id,capacity,equipment
+TR01,2KR,1300,"Aerator,Seeder,Sprayer,Spreader"
+TR02,2JZB,800,"Aerator,Seeder,Spreader"
+TR03,2DO,800,"Aerator,Seeder,Sprayer,Spreader"
+TR04,2DV,1300,"Sprayer,Spreader"
+TR05,2ZL,1000,"Sprayer,Spreader"
+TR06,2DHR,900,"Aerator,Seeder,Spreader"
+TR07,3JS,900,Spreader
+TR08,2PS,900,"Aerator,Seeder,Spreader"
+TR09,2JFJ,1300,Spreader
+TR10,2WBR,800,"Aerator,Seeder,Spreader"
+TR11,DB2,1300,"Sprayer,Spreader"
+TR12,2EWM,1300,"Sprayer,Spreader"
+TR13,2BL,1200,"Sprayer,Spreader"
+TR14,1RH,800,"Aerator,Seeder,Sprayer,Spreader"
+TR15,3JL,1200,"Aerator,Seeder,Spreader"
+TR16,2BSS,1100,Spreader
