@@ -474,7 +474,7 @@ if "results" in st.session_state:
         c2.metric("Assigned",       kpi.get("Assigned Jobs", "—"))
         c3.metric("Unassigned",     kpi.get("Unassigned Jobs", "—"))
         c4.metric("Avg Util %",     kpi.get("Avg Utilization (%)", "—"))
-        c5.metric("Distance",       f"{kpi.get('Total Distance (km)', '—')} km")
+        c5.metric("Distance",       f"{kpi.get('Total Distance (mi)', '—')} mi")
         c6.metric("Avg Stops/Tech", kpi.get("Avg Stops / Technician", "—"))
         st.divider()
 
