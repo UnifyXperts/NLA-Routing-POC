@@ -70,6 +70,7 @@ def optimize_batched(
     cfg: dict,
     batch_size: int = 45,
     status_cb=None,
+    job_cluster_map: dict = None,
 ) -> tuple:
     """
     Optimise jobs in priority-ordered batches of `batch_size`.
@@ -150,6 +151,7 @@ def optimize_batched(
         routes_b, unassigned_b = _optimize(
             sub_dist, batch_jobs, technicians, trucks,
             programs, batch_elig, batch_cfg,
+            job_cluster_map=job_cluster_map,
         )
 
         all_unassigned.extend(unassigned_b)

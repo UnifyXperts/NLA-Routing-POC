@@ -7,6 +7,30 @@ import pandas as pd
 from datetime import date
 from dotenv import load_dotenv
 
+# ── Authentication gate ───────────────────────────────────────────────────────
+_AUTH_USERNAME = "Administrator"
+_AUTH_PASSWORD = "%fP985t3,2jS"
+
+def _login_screen():
+    st.set_page_config(page_title="TouchTurf — Login", layout="centered")
+    st.title("TouchTurf Routing Engine")
+    st.subheader("Sign in to continue")
+    with st.form("login_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Sign In")
+    if submitted:
+        if username == _AUTH_USERNAME and password == _AUTH_PASSWORD:
+            st.session_state["authenticated"] = True
+            st.rerun()
+        else:
+            st.error("Invalid username or password.")
+
+if not st.session_state.get("authenticated"):
+    _login_screen()
+    st.stop()
+# ─────────────────────────────────────────────────────────────────────────────
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
 SRC_DIR  = os.path.join(BASE_DIR, "src")
@@ -51,6 +75,11 @@ st.caption("POC · Richmond VA · OR-Tools + OSRM")
 
 # ── Sidebar ──────────────────────────────────────────────────────────────────
 with st.sidebar:
+    st.caption(f"Signed in as **{_AUTH_USERNAME}**")
+    if st.button("Sign Out"):
+        st.session_state["authenticated"] = False
+        st.rerun()
+    st.divider()
     st.header("Configuration")
 
     # ── Data Files ────────────────────────────────────────────────────────────
@@ -382,6 +411,7 @@ if run_btn:
                 data["trucks"], data["programs"], eligibility_df, cfg,
                 batch_size=int(batch_size),
                 status_cb=lambda msg: st.write(msg),
+                job_cluster_map=job_cluster_map,
             )
 
             st.write("Building Folium route map…")

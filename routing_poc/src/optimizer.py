@@ -65,7 +65,8 @@ def _insert_lunch_break(stops: list, total_min: float,
 
 def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
              trucks: pd.DataFrame, programs: pd.DataFrame,
-             eligibility_df: pd.DataFrame, cfg: dict):
+             eligibility_df: pd.DataFrame, cfg: dict,
+             job_cluster_map: dict = None):
     """
     Build and solve the VRP.
 
@@ -262,6 +263,13 @@ def optimize(dist_data: dict, jobs: pd.DataFrame, technicians: pd.DataFrame,
         penalty           = max(base_penalty, min_disjunction_penalty)
         eligible_tids = elig_map.get(job_id, [])
         allowed_v     = [tech_id_to_vidx[t] for t in eligible_tids if t in tech_id_to_vidx]
+
+        # Enforce k-means cluster: restrict to the cluster-assigned tech if they are eligible
+        if job_cluster_map and job_id in job_cluster_map:
+            cluster_tid  = job_cluster_map[job_id]
+            cluster_vidx = tech_id_to_vidx.get(cluster_tid)
+            if cluster_vidx is not None and cluster_vidx in allowed_v:
+                allowed_v = [cluster_vidx]
 
         if not allowed_v:
             routing.AddDisjunction([index], 0)
